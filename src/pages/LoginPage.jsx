@@ -16,9 +16,9 @@ export default function LoginPage() {
   const handleSubmit = (data) => {
     console.log(data);
   };
-
   return (
     <Grid
+      sx={{ height: '100vh' }}
       container
       component="main"
       backgroundColor="softwhite"

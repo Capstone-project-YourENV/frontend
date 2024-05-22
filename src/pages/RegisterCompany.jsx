@@ -18,7 +18,12 @@ function RegisterCompany() {
   };
 
   return (
-    <Grid container component="main" backgroundColor="softwhite">
+    <Grid
+      container
+      component="main"
+      sx={{ height: '110vh' }}
+      backgroundColor="softwhite"
+    >
       <Grid
         item
         xs={12}

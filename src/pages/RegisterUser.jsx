@@ -19,6 +19,7 @@ function RegisterUser() {
 
   return (
     <Grid
+      sx={{ height: '110vh' }}
       container
       component="main"
       backgroundColor="softwhite"
