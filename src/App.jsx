@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import LoginPage from './pages/LoginPage';
 import RegisterUser from './pages/RegisterUser';
 import RegisterCompany from './pages/RegisterCompany';
+import HomePage from './pages/HomePage';
 
 function App() {
   const authUser = null;
@@ -13,6 +14,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register/user" element={<RegisterUser />} />
         <Route path="/register/company" element={<RegisterCompany />} />
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     );
   }
