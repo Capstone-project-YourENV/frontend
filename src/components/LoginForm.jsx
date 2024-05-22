@@ -20,7 +20,7 @@ function LoginForm({ login }) {
       component="form"
       width="100%"
       noValidate
-      onSubmit={(e) => login(e, { email, password })}
+      onSubmit={() => login({ email, password })}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
@@ -45,6 +45,7 @@ function LoginForm({ login }) {
         label="Email Address"
         name="email"
         autoComplete="email"
+        placeholder="Email Address"
         value={email}
         onChange={onEmailChange}
         autoFocus
@@ -55,6 +56,7 @@ function LoginForm({ login }) {
         fullWidth
         InputProps={{ sx: { borderRadius: 15 } }}
         name="password"
+        placeholder="Password"
         label="Password"
         type="password"
         id="password"
@@ -83,7 +85,7 @@ function LoginForm({ login }) {
             color="softwhite"
             fontWeight="600"
           >
-            Doesn’t have a account? Sign Up
+            Doesn’t have an account? Sign Up
           </Link>
         </Grid>
       </Grid>

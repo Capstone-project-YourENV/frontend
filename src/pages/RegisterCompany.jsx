@@ -13,8 +13,7 @@ import RegisterForm from '../components/RegisterForm';
 function RegisterCompany() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const handleSubmit = (event, data) => {
-    event.preventDefault();
+  const handleSubmit = (data) => {
     console.log(data);
   };
 
