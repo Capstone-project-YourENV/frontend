@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import LoginPage from './pages/LoginPage';
 
 function App() {
-  // const [count, setCount] = useState(0);
-
-  return <p>test</p>;
+  return <LoginPage />;
 }
 
 export default App;
