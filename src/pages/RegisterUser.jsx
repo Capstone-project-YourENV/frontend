@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import {
-  useMediaQuery,
   Box,
   Grid,
+  Paper,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
-import Copyright from '../components/Copyright';
-import LoginForm from '../components/LoginForm';
+import React from 'react';
 import AuthenticationHeader from '../components/AuthenticationHeader';
+import Copyright from '../components/Copyright';
+import RegisterForm from '../components/RegisterForm';
 
-export default function LoginPage() {
+function RegisterUser() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const handleSubmit = (event, data) => {
@@ -24,16 +24,6 @@ export default function LoginPage() {
       component="main"
       backgroundColor="softwhite"
     >
-      {!isMobile && (
-        <Grid item xs={false} sm={4} md={7} alignContent="center">
-          <Box
-            component="img"
-            style={{ width: '512px', height: '512px', margin: 'auto' }}
-            alt="Login picture."
-            src="./src/assets/login-picture.png"
-          />
-        </Grid>
-      )}
       <Grid
         item
         xs={12}
@@ -55,13 +45,25 @@ export default function LoginPage() {
         >
           <AuthenticationHeader
             title="Comment"
-            subtitle="Volunteer Initiatives for a Cleaner Earth."
-            textAlign={isMobile ? 'center' : 'right'}
+            subtitle="Start your Volunteer Journey With us."
+            textAlign={isMobile ? 'center' : 'left'}
           />
-          <LoginForm login={handleSubmit} />
+          <RegisterForm register={handleSubmit} />
           <Copyright sx={{ mt: 5 }} color="softwhite" />
         </Box>
       </Grid>
+      {!isMobile && (
+        <Grid item xs={false} sm={4} md={7} alignContent="center">
+          <Box
+            component="img"
+            style={{ width: '512px', height: '512px', margin: 'auto' }}
+            alt="Login picture."
+            src="/src/assets/register-picture.png"
+          />
+        </Grid>
+      )}
     </Grid>
   );
 }
+
+export default RegisterUser;

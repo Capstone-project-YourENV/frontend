@@ -1,24 +1,22 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function AuthenticationHeader({ title, subtitle }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+export default function AuthenticationHeader({
+  title,
+  subtitle,
+  textAlign,
+  color,
+}) {
   return (
-    <Box width="100%" textAlign={isMobile ? 'center' : 'right'}>
-      <Typography component="h2" variant="h4" color="softwhite" fontWeight="bold">
+    <Box width="100%" textAlign={textAlign}>
+      <Typography component="h2" variant="h4" color={color} fontWeight="bold">
         {title}
       </Typography>
       <Typography
         component="h3"
         variant="h5"
-        color="softwhite"
+        color={color}
         fontWeight="regular"
       >
         {subtitle}
@@ -30,4 +28,11 @@ export default function AuthenticationHeader({ title, subtitle }) {
 AuthenticationHeader.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
+  textAlign: PropTypes.string,
+  color: PropTypes.string,
+};
+
+AuthenticationHeader.defaultProps = {
+  textAlign: 'center',
+  color: 'softwhite',
 };
