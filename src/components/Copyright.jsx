@@ -7,14 +7,15 @@ export default function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
-      {...props}>
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Comment
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+        {' '}
+      </Link>
+      2024
     </Typography>
   );
 }
-
