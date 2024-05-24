@@ -5,9 +5,23 @@ import {
   faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, CardContent, CardMedia, Box, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Box,
+  Typography,
+} from '@mui/material';
+import PropTypes from 'prop-types';
 
-function VolunteerItem({ image, title, organization, distance, time }) {
+function VolunteerItem(props) {
+  const {
+    image,
+    title,
+    organization,
+    distance,
+    time,
+  } = props;
   return (
     <Card
       sx={{
@@ -19,7 +33,8 @@ function VolunteerItem({ image, title, organization, distance, time }) {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-      }}>
+      }}
+    >
       <CardMedia
         component="img"
         src={image}
@@ -35,7 +50,8 @@ function VolunteerItem({ image, title, organization, distance, time }) {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
             fontWeight: 'bold',
-          }}>
+          }}
+        >
           {title}
         </Typography>
         <Box
@@ -44,7 +60,8 @@ function VolunteerItem({ image, title, organization, distance, time }) {
             alignItems: 'center',
             color: 'text.secondary',
             mb: 1,
-          }}>
+          }}
+        >
           <Typography variant="body2">{organization}</Typography>
           <FontAwesomeIcon
             icon={faCheckCircle}
@@ -57,7 +74,8 @@ function VolunteerItem({ image, title, organization, distance, time }) {
               display: 'flex',
               alignItems: 'center',
               color: 'text.secondary',
-            }}>
+            }}
+          >
             <FontAwesomeIcon icon={faMapMarkerAlt} style={{ color: 'gray' }} />
             <Typography variant="body2" sx={{ ml: 1 }}>
               {distance}
@@ -68,7 +86,8 @@ function VolunteerItem({ image, title, organization, distance, time }) {
               display: 'flex',
               alignItems: 'center',
               color: 'text.secondary',
-            }}>
+            }}
+          >
             <FontAwesomeIcon icon={faCalendarAlt} style={{ color: 'gray' }} />
             <Typography variant="body2" sx={{ ml: 1 }}>
               {time}
@@ -79,5 +98,13 @@ function VolunteerItem({ image, title, organization, distance, time }) {
     </Card>
   );
 }
+
+VolunteerItem.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  organization: PropTypes.string.isRequired,
+  distance: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+};
 
 export default VolunteerItem;

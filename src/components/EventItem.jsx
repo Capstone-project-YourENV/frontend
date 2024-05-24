@@ -1,10 +1,23 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function EventItem({ image, title, organization, target, percentage }) {
+function EventItem(props) {
+  const {
+    image,
+    title,
+    organization,
+    target,
+    percentage,
+  } = props;
   return (
     <Card
       sx={{
@@ -31,7 +44,8 @@ function EventItem({ image, title, organization, target, percentage }) {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
             fontWeight: 'bold',
-          }}>
+          }}
+        >
           {title}
         </Typography>
         <Box
@@ -40,7 +54,8 @@ function EventItem({ image, title, organization, target, percentage }) {
             alignItems: 'center',
             color: 'text.secondary',
             mb: 2,
-          }}>
+          }}
+        >
           <Typography variant="body2">{organization}</Typography>
           <FontAwesomeIcon
             icon={faCheckCircle}
@@ -61,7 +76,8 @@ function EventItem({ image, title, organization, target, percentage }) {
           variant="body2"
           color="text.secondary"
           mb={1}
-          textAlign="right">
+          textAlign="right"
+        >
           {percentage}
         </Typography>
       </CardContent>

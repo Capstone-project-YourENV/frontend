@@ -1,4 +1,5 @@
 import React from 'react';
+import 'swiper/swiper.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   Box,
