@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import {
   useMediaQuery,
   Box,
@@ -9,17 +8,17 @@ import {
 import Copyright from '../components/Copyright';
 import LoginForm from '../components/LoginForm';
 import AuthenticationHeader from '../components/AuthenticationHeader';
+import LayoutAuthentication from '../layouts/LayoutAuthentication';
 
 export default function LoginPage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const handleSubmit = (event, data) => {
-    event.preventDefault();
+  const handleSubmit = (data) => {
     console.log(data);
   };
-
   return (
     <Grid
+      sx={{ height: '100vh' }}
       container
       component="main"
       backgroundColor="softwhite"
@@ -34,34 +33,15 @@ export default function LoginPage() {
           />
         </Grid>
       )}
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        component={Paper}
-        square
-        backgroundColor="#75A47F"
-        alignContent="center"
-      >
-        <Box
-          sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <AuthenticationHeader
-            title="Comment"
-            subtitle="Volunteer Initiatives for a Cleaner Earth."
-            textAlign={isMobile ? 'center' : 'right'}
-          />
-          <LoginForm login={handleSubmit} />
-          <Copyright sx={{ mt: 5 }} color="softwhite" />
-        </Box>
-      </Grid>
+      <LayoutAuthentication>
+        <AuthenticationHeader
+          title="Comment"
+          subtitle="Volunteer Initiatives for a Cleaner Earth."
+          textAlign={isMobile ? 'center' : 'right'}
+        />
+        <LoginForm login={handleSubmit} />
+        <Copyright sx={{ mt: 5 }} color="softwhite" />
+      </LayoutAuthentication>
     </Grid>
   );
 }

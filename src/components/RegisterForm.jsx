@@ -21,7 +21,7 @@ function RegisterForm({ register, color }) {
       component="form"
       width="100%"
       noValidate
-      onSubmit={(e) => register(e, { username, email, password })}
+      onSubmit={() => register({ username, email, password })}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
@@ -45,6 +45,7 @@ function RegisterForm({ register, color }) {
         id="email"
         label="Username"
         name="username"
+        placeholder="Enter your username"
         autoComplete="username"
         value={username}
         onChange={onUsernameChange}
@@ -58,6 +59,7 @@ function RegisterForm({ register, color }) {
         id="email"
         label="Email Address"
         name="email"
+        placeholder="Enter your email"
         autoComplete="email"
         value={email}
         onChange={onEmailChange}
@@ -69,6 +71,7 @@ function RegisterForm({ register, color }) {
         fullWidth
         InputProps={{ sx: { borderRadius: 15 } }}
         name="password"
+        placeholder="Enter your password"
         label="Password"
         type="password"
         id="password"
@@ -87,12 +90,12 @@ function RegisterForm({ register, color }) {
         variant="contained"
         style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
       >
-        Login
+        Register
       </Button>
       <Grid container>
         <Grid item>
           <Link href="/register" variant="body2" color={color} fontWeight="600">
-            Doesn’t have a account? Sign Up
+            Have an account? Sign In
           </Link>
         </Grid>
       </Grid>
