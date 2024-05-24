@@ -11,10 +11,10 @@ function App() {
   if (authUser == null) {
     return (
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register/user" element={<RegisterUser />} />
         <Route path="/register/company" element={<RegisterCompany />} />
-        <Route path="/home" element={<HomePage />} />
       </Routes>
     );
   }

@@ -23,7 +23,7 @@ function RegisterCompany() {
       sx={{ height: '110vh' }}
       backgroundColor="softwhite"
     >
-      <LayoutAuthentication>
+      <LayoutAuthentication backgroundColor="softwhite">
         <AuthenticationHeader
           title="Comment"
           subtitle="Open your Journey and Start With us."
