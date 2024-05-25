@@ -40,23 +40,30 @@ function LoginForm({ login }) {
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15, borderColor: '#F6F8FD' } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
+          color: 'success',
+        }}
         id="email"
         label="Email Address"
         name="email"
+        color="success"
+        placeholder="Enter your email"
         autoComplete="email"
-        placeholder="Email Address"
         value={email}
         onChange={onEmailChange}
-        autoFocus
       />
       <TextField
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15 } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
+          color: 'success',
+        }}
         name="password"
-        placeholder="Password"
+        placeholder="Enter your password"
+        color="success"
         label="Password"
         type="password"
         id="password"
@@ -65,7 +72,7 @@ function LoginForm({ login }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox value="remember" color="success" />}
         label="Remember Password"
         sx={{ color: 'softwhite' }}
       />
@@ -80,7 +87,7 @@ function LoginForm({ login }) {
       <Grid container>
         <Grid item>
           <Link
-            href="/register"
+            href="/register/user"
             variant="body2"
             color="softwhite"
             fontWeight="600"

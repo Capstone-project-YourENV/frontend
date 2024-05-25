@@ -14,6 +14,7 @@ import ListHomepage from '../components/ListHomepage';
 import VolunteerItem from '../components/VolunteerItem';
 import EventItem from '../components/EventItem';
 import NewsItem from '../components/NewsItem';
+import Navbar from '../components/Navbar';
 
 function HomePage() {
   const theme = useTheme();
@@ -199,120 +200,123 @@ function HomePage() {
   ];
 
   return (
-    <LayoutHomepage>
-      <Grid
-        sx={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <Box
-          component="img"
-          src={homeImage}
-          alt="Background"
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
+    <div>
+      <Navbar />
+      <LayoutHomepage>
         <Grid
           sx={{
-            position: 'absolute',
-            top: 0,
-            width: '70%',
+            position: 'relative',
+            width: '100%',
             height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            color: 'white',
-            px: 2, // Responsive padding
-            gap: '5px',
-            [theme.breakpoints.up('sm')]: {
-              px: 10, // Padding for larger screens
-              gap: '20px',
-            },
           }}
         >
-          <Typography
+          <Box
+            component="img"
+            src={homeImage}
+            alt="Background"
             sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          <Grid
+            sx={{
+              position: 'absolute',
+              top: 0,
+              width: '70%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
               color: 'white',
-              fontSize: {
-                xs: 20, // font size for extra small screens
-                sm: 32, // font size for extra small screens
-                lg: 48, // font size for larg screens and up
+              px: 2, // Responsive padding
+              gap: '5px',
+              [theme.breakpoints.up('sm')]: {
+                px: 10, // Padding for larger screens
+                gap: '20px',
               },
-              fontWeight: 700,
-              wordWrap: 'break-word',
             }}
           >
-            Program Volunteer
-          </Typography>
-          <Typography
-            sx={{
-              color: 'white',
-              fontSize: {
-                xs: 16, // font size for extra small screens
-                sm: 20, // font size for small screens and up
-                lg: 36, // font size for large screens and up
-              },
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: 600,
-              wordWrap: 'break-word',
-            }}
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dol
-          </Typography>
+            <Typography
+              sx={{
+                color: 'white',
+                fontSize: {
+                  xs: 20, // font size for extra small screens
+                  sm: 32, // font size for extra small screens
+                  lg: 48, // font size for larg screens and up
+                },
+                fontWeight: 700,
+                wordWrap: 'break-word',
+              }}
+            >
+              Program Volunteer
+            </Typography>
+            <Typography
+              sx={{
+                color: 'white',
+                fontSize: {
+                  xs: 16, // font size for extra small screens
+                  sm: 20, // font size for small screens and up
+                  lg: 36, // font size for large screens and up
+                },
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: 600,
+                wordWrap: 'break-word',
+              }}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dol
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <ListHomepage title="Volunteer">
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={slidesPerView}
-          pagination={{ clickable: true }}
-          navigation
-          className="rounded-lg"
-        >
-          {volunteerSlides.map((volunteer) => (
-            <SwiperSlide key={volunteer.id}>
-              <VolunteerItem {...volunteer} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </ListHomepage>
-      <ListHomepage title="Event">
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={slidesPerView}
-          pagination={{ clickable: true }}
-          navigation
-          className="rounded-lg"
-        >
-          {donationSlides.map((slide) => (
-            <SwiperSlide key={slide.id}>
-              <EventItem {...slide} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </ListHomepage>
-      <ListHomepage title="News">
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={slidesPerView}
-          pagination={{ clickable: true }}
-          navigation
-          className="rounded-lg"
-        >
-          {newsSlides.map((slide) => (
-            <SwiperSlide className="w-full" key={slide.id}>
-              <NewsItem {...slide} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </ListHomepage>
-    </LayoutHomepage>
+        <ListHomepage title="Volunteer">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={slidesPerView}
+            pagination={{ clickable: true }}
+            navigation
+            className="rounded-lg"
+          >
+            {volunteerSlides.map((volunteer) => (
+              <SwiperSlide key={volunteer.id}>
+                <VolunteerItem {...volunteer} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </ListHomepage>
+        <ListHomepage title="Event">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={slidesPerView}
+            pagination={{ clickable: true }}
+            navigation
+            className="rounded-lg"
+          >
+            {donationSlides.map((slide) => (
+              <SwiperSlide key={slide.id}>
+                <EventItem {...slide} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </ListHomepage>
+        <ListHomepage title="News">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={slidesPerView}
+            pagination={{ clickable: true }}
+            navigation
+            className="rounded-lg"
+          >
+            {newsSlides.map((slide) => (
+              <SwiperSlide className="w-full" key={slide.id}>
+                <NewsItem {...slide} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </ListHomepage>
+      </LayoutHomepage>
+    </div>
   );
 }
 

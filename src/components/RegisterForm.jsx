@@ -41,10 +41,14 @@ function RegisterForm({ register, color }) {
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15, borderColor: '#F6F8FD' } }}
-        id="email"
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
+          color: 'success',
+        }}
+        id="username"
         label="Username"
         name="username"
+        color="success"
         placeholder="Enter your username"
         autoComplete="username"
         value={username}
@@ -55,23 +59,30 @@ function RegisterForm({ register, color }) {
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15, borderColor: '#F6F8FD' } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
+          color: 'success',
+        }}
         id="email"
         label="Email Address"
         name="email"
+        color="success"
         placeholder="Enter your email"
         autoComplete="email"
         value={email}
         onChange={onEmailChange}
-        autoFocus
       />
       <TextField
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15 } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
+          color: 'success',
+        }}
         name="password"
         placeholder="Enter your password"
+        color="success"
         label="Password"
         type="password"
         id="password"
@@ -80,9 +91,9 @@ function RegisterForm({ register, color }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox value="remember" color="success" />}
         label="Remember Password"
-        sx={{ color }}
+        sx={{ color: { color } }}
       />
       <Button
         type="submit"
@@ -94,8 +105,8 @@ function RegisterForm({ register, color }) {
       </Button>
       <Grid container>
         <Grid item>
-          <Link href="/register" variant="body2" color={color} fontWeight="600">
-            Have an account? Sign In
+          <Link href="/login" variant="body2" sx={{ color: { color } }} fontWeight="600">
+            Have an account? Login
           </Link>
         </Grid>
       </Grid>
@@ -109,7 +120,7 @@ RegisterForm.propTypes = {
 };
 
 RegisterForm.defaultProps = {
-  color: 'softwhite',
+  color: 'white',
 };
 
 export default RegisterForm;
