@@ -1,13 +1,8 @@
-import {
-  Box,
-  Grid,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
-import AuthenticationHeader from '../components/AuthenticationHeader';
+import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import Copyright from '../components/Copyright';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 
 function RegisterUser() {
@@ -22,8 +17,7 @@ function RegisterUser() {
       sx={{ height: '110vh' }}
       container
       component="main"
-      backgroundColor="softwhite"
-    >
+      backgroundColor="softwhite">
       <LayoutAuthentication>
         <AuthenticationHeader
           title="Comment"
@@ -38,6 +32,7 @@ function RegisterUser() {
         <Grid item xs={false} sm={4} md={7} alignContent="center">
           <Box
             component="img"
+            loading="lazy"
             style={{ width: '512px', height: '512px', margin: 'auto' }}
             alt="Login picture."
             src="/src/assets/register-picture.png"

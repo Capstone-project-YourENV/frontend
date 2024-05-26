@@ -10,10 +10,10 @@ import {
 import { useTheme } from '@emotion/react';
 import homeImage from '../assets/home.png';
 import LayoutHomepage from '../layouts/LayoutHomepage';
-import ListHomepage from '../components/ListHomepage';
-import VolunteerItem from '../components/VolunteerItem';
-import EventItem from '../components/EventItem';
-import NewsItem from '../components/NewsItem';
+import ListHomepage from '../components/homepage/ListHomepage';
+import VolunteerItem from '../components/homepage/VolunteerItem';
+import EventItem from '../components/homepage/EventItem';
+import NewsItem from '../components/homepage/NewsItem';
 import Navbar from '../components/Navbar';
 
 function HomePage() {
@@ -212,6 +212,7 @@ function HomePage() {
         >
           <Box
             component="img"
+            loading="lazy"
             src={homeImage}
             alt="Background"
             sx={{

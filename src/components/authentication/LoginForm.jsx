@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import useInput from '../hooks/useInput';
+import useInput from '../../hooks/useInput';
 
 function LoginForm({ login }) {
   const [email, onEmailChange] = useInput('');
@@ -24,16 +24,14 @@ function LoginForm({ login }) {
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
-      gap="10px"
-    >
+      gap="10px">
       <Typography
         component="h3"
         variant="h5"
         textAlign="right"
         color="softwhite"
         fontSize="18px"
-        fontWeight="semibold"
-      >
+        fontWeight="semibold">
         Login to Join Our Community.
       </Typography>
       <TextField
@@ -80,8 +78,7 @@ function LoginForm({ login }) {
         type="submit"
         fullWidth
         variant="contained"
-        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
-      >
+        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
         Login
       </Button>
       <Grid container>
@@ -90,8 +87,7 @@ function LoginForm({ login }) {
             href="/register/user"
             variant="body2"
             color="softwhite"
-            fontWeight="600"
-          >
+            fontWeight="600">
             Doesn’t have an account? Sign Up
           </Link>
         </Grid>

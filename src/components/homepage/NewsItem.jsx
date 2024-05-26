@@ -24,6 +24,7 @@ function NewsItem({ image, title, date }) {
     >
       <CardMedia
         component="img"
+        loading="lazy"
         image={image}
         alt={title}
         sx={{

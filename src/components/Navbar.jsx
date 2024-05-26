@@ -14,7 +14,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import ButtonAuthentication from './ButtonAuthentication';
+import ButtonAuthentication from './authentication/ButtonAuthentication';
 
 const navItems = [
   { text: 'Beranda', isActive: true, link: '/' },
@@ -110,8 +110,7 @@ export default function Navbar() {
             <ListItem
               components={Typography}
               sx={{ color: 'green', fontWeight: 'bold' }}
-              className="text-2xl"
-            >
+              className="text-2xl">
               Comment
             </ListItem>
             {navItems.map((item, index) => (

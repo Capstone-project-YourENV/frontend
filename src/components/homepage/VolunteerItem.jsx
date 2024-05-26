@@ -37,6 +37,7 @@ function VolunteerItem(props) {
     >
       <CardMedia
         component="img"
+        loading="lazy"
         src={image}
         alt={title}
         sx={{ objectFit: 'cover', height: 200 }}

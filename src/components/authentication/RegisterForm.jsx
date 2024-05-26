@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import useInput from '../hooks/useInput';
+import useInput from '../../hooks/useInput';
 
 function RegisterForm({ register, color }) {
   const [username, onUsernameChange] = useInput('');
@@ -25,16 +25,14 @@ function RegisterForm({ register, color }) {
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
-      gap="10px"
-    >
+      gap="10px">
       <Typography
         component="h3"
         variant="h5"
         textAlign="left"
         color={color}
         fontSize="18px"
-        fontWeight="semibold"
-      >
+        fontWeight="semibold">
         Register Your Self.
       </Typography>
       <TextField
@@ -99,13 +97,16 @@ function RegisterForm({ register, color }) {
         type="submit"
         fullWidth
         variant="contained"
-        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
-      >
+        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
         Register
       </Button>
       <Grid container>
         <Grid item>
-          <Link href="/login" variant="body2" sx={{ color: { color } }} fontWeight="600">
+          <Link
+            href="/login"
+            variant="body2"
+            sx={{ color: { color } }}
+            fontWeight="600">
             Have an account? Login
           </Link>
         </Grid>
