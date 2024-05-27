@@ -89,63 +89,6 @@ function DetailPost(props) {
           </Grid>
         )}
       </Box>
-
-      {/* <Typography variant="h4" color="textPrimary" mt={4}>
-        Participant
-      </Typography>
-      <Box
-        mt={4}
-        display="flex"
-        flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-        gap={4}>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          p={6}
-          bgcolor="white"
-          borderRadius={2}
-          flex={1}>
-          <Box display="flex" gap={4}>
-            <Avatar
-              alt="Wade Warren"
-              sx={{ width: 48, height: 48 }}
-            />
-            <Box display="flex" flexDirection="column" justifyContent="center">
-              <Typography variant="body1" fontWeight="bold" color="textPrimary">
-                Wade Warren
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                iOS Developer
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          p={6}
-          bgcolor="white"
-          borderRadius={2}
-          flex={1}>
-          <Box display="flex" gap={4}>
-            <Avatar
-              alt="Wade Warren"
-              sx={{ width: 48, height: 48 }}
-            />
-            <Box display="flex" flexDirection="column" justifyContent="center">
-              <Typography variant="body1" fontWeight="bold" color="textPrimary">
-                Wade Warren
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                iOS Developer
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      </Box> */}
     </Grid>
   );
 }
