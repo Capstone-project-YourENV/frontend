@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutPage';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
+import DetailForumPage from './pages/DetailForumPage';
 
 function App() {
   // const authUser = null;
@@ -35,6 +36,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ForumPage />} />
+      <Route path="/:eventId" element={<DetailForumPage />} />
     </Routes>
   );
 }
