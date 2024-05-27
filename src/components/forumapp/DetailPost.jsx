@@ -108,7 +108,6 @@ function DetailPost(props) {
           flex={1}>
           <Box display="flex" gap={4}>
             <Avatar
-              srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/816a2cb06ba21a0029ef69499db78cafa1228517c974dd961b11fcffa651e6fc?apiKey=9c369d6348cd4976857d696a1bdb516d&width=2000 2000w"
               alt="Wade Warren"
               sx={{ width: 48, height: 48 }}
             />
@@ -133,7 +132,6 @@ function DetailPost(props) {
           flex={1}>
           <Box display="flex" gap={4}>
             <Avatar
-              srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/3162cfb9e5b51af2e6c09104e5b928ff4fe517b1e9bc61b72dc5c3be5998a4da?apiKey=9c369d6348cd4976857d696a1bdb516d&width=2000 2000w"
               alt="Wade Warren"
               sx={{ width: 48, height: 48 }}
             />
