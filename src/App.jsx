@@ -5,6 +5,7 @@ import RegisterUser from './pages/RegisterUser';
 import RegisterCompany from './pages/RegisterCompany';
 import HomePage from './pages/HomePage';
 import ForumPage from './pages/ForumPage';
+import DetailForumPage from './pages/DetailForumPage';
 
 function App() {
   // const authUser = null;
@@ -29,6 +30,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ForumPage />} />
+      <Route path="/:eventId" element={<DetailForumPage />} />
     </Routes>
   );
 }
