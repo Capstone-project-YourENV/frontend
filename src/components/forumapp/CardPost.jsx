@@ -35,7 +35,8 @@ function Info({ participant }) {
       pr={{ xs: 5, md: 20 }}
       mt={2}
       flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-      color="textSecondary">
+      color="textSecondary"
+    >
       {participant && (
         <Box display="flex" gap={2} alignItems="center">
           <FaUserPlus />
@@ -78,7 +79,8 @@ function CardPost(props) {
             variant="h5"
             fontWeight="bold"
             color="textPrimary"
-            alignSelf="start">
+            alignSelf="start"
+          >
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary">
@@ -90,8 +92,11 @@ function CardPost(props) {
           variant="body2"
           color="textSecondary"
           mt={1.5}
-          alignSelf="start">
-          {startDate}-{endDate}
+          alignSelf="start"
+        >
+          {startDate}
+          -
+          {endDate}
         </Typography>
         <ProfileOwner
           name={owner.name}

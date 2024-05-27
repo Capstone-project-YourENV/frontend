@@ -9,7 +9,8 @@ function ProfileOwner({ name, headline, avatar }) {
       gap={2.5}
       mt={2}
       flexDirection={{ xs: 'column', md: 'row' }}
-      flexWrap={{ xs: 'wrap', md: 'nowrap' }}>
+      flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+    >
       <Avatar
         src={avatar}
         alt={`${name}'s profile`}
@@ -20,7 +21,8 @@ function ProfileOwner({ name, headline, avatar }) {
         flexDirection="column"
         flex="1"
         justifyContent="center"
-        py={1}>
+        py={1}
+      >
         <Typography variant="h6" color="textPrimary">
           {name}
         </Typography>

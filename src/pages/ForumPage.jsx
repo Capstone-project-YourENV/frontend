@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CircularProgress } from '@mui/material';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import SidebarForum from '../layouts/SidebarForum';
 import MainbarForum from '../layouts/MainbarForum';
@@ -18,27 +20,68 @@ const events = [
   },
 ];
 
-const owner = {
-  name: 'Ervalsa Dwi Nanda',
-  avatar: 'https://i.pravatar.cc/300',
-  headline: 'Software Engineer',
-};
-
-const dummyData = Array.from({ length: 10 }, (_, index) => ({
+const dummyData = Array.from({ length: 20 }, (_, index) => ({
   title: `Title ${index + 1}`,
-  content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   owner: {
     name: `Owner ${index + 1}`,
     avatar: `https://i.pravatar.cc/300?u=${index}`,
     headline: `Software Engineer ${index + 1}`,
   },
-  startDate: `12 Agustus 2023`,
-  endDate: `15 Agustus 20223`,
-  createdAt: `12 Agustus 2023`,
-  participant: `21 / 30`,
+  startDate: '12 Agustus 2023',
+  endDate: '15 Agustus 20223',
+  createdAt: '12 Agustus 2023',
+  participant: '21 / 30',
 }));
 
 function ForumPage() {
+  const [data, setData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  // fetch with API
+  // const fetchData = async () => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const response = await fetch(dummyData);
+  //     const newData = await response.json();
+
+  //     setData([...data, ...newData]);
+  //     setHasMore(newData.length === 10);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+
+  //   setIsLoading(false);
+  // };
+
+  // fetch with data dummy
+  const fetchData = async () => {
+    setIsLoading(true);
+
+    try {
+      // Simulasikan penundaan seperti dalam permintaan jaringan
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Ambil 10 data pertama dari dummyData
+      const newData = dummyData.slice(0, 10);
+
+      setData([...data, ...newData]);
+      setHasMore(newData.length === 10);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsLoading(false);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchMoreData = () => {
+    fetchData();
+  };
   return (
     <LayoutForumApp>
       <SidebarForum>
@@ -51,27 +94,35 @@ function ForumPage() {
       </SidebarForum>
       <MainbarForum>
         <CreatePost />
-        {dummyData.map((data, index) => (
-          <CardPost
-            key={index}
-            title={data.title}
-            content={data.content}
-            owner={owner}
-            startDate={data.startDate}
-            endDate={data.endDate}
-            createdAt={data.createdAt}
-            participant={data.participant}
-          />
-        ))}
-        {/* <CardPost
-          title="Comptabilité - Problème Baisse de Charges"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          owner={owner}
-          startDate="12 Agustus 2023"
-          endDate="15 Agustus 20223"
-          createdAt="12 Agustus 2023"
-          participant="21 / 30"
-        /> */}
+        <InfiniteScroll
+          style={{ display: 'flex', gap: '20px', flexDirection: 'column' }}
+          dataLength={data.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={(
+            <CircularProgress
+              sx={{ display: 'block', margin: 'auto', marginY: 2 }}
+            />
+          )}
+          endMessage={(
+            <p style={{ textAlign: 'center' }}>
+              {isLoading ? 'Loading...' : 'No more data'}
+            </p>
+          )}
+        >
+          {data.map((post, index) => (
+            <CardPost
+              key={index}
+              title={post.title}
+              content={post.content}
+              owner={post.owner}
+              startDate={post.startDate}
+              endDate={post.endDate}
+              createdAt={post.createdAt}
+              participant={post.participant}
+            />
+          ))}
+        </InfiniteScroll>
       </MainbarForum>
     </LayoutForumApp>
   );

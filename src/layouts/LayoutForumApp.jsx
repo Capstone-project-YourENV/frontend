@@ -8,8 +8,11 @@ function LayoutForumApp({ children }) {
       container
       spacing={3}
       paddingY="60px"
+      marginLeft={0}
+      marginTop={0}
       paddingX={5}
-      sx={{ backgroundColor: 'softwhite' }}>
+      sx={{ backgroundColor: 'softwhite' }}
+    >
       {children}
     </Grid>
   );
