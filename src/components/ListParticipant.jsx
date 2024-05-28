@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 function ListParticipant({ children }) {
   return (
-    <Grid width="100%" container gap="20px">
+    <Grid width="100%" container gap="15px">
       <Grid
         width="100%"
         flexDirection="row"

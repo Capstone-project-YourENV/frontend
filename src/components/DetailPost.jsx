@@ -12,7 +12,7 @@ function DetailPost(props) {
   };
   const [isExpanded, handleExpand] = useExpand(false);
   return (
-    <Grid p={2.5} gap={2} display="flex" flexDirection="column">
+    <Grid gap={2} display="flex" flexDirection="column">
       <Typography
         fontWeight="bold"
         color="softbrown"

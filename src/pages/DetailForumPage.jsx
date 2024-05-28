@@ -8,7 +8,7 @@ import MainbarForum from '../layouts/MainbarForum';
 import DetailPost from '../components/DetailPost';
 import ListParticipant from '../components/ListParticipant';
 import ParticipantItem from '../components/ParticipantItem';
-import { Grid, useTheme } from '@mui/material';
+import CreateComment from '../components/forumapp/CreateComment';
 
 const events = [
   {
@@ -41,8 +41,6 @@ const participant = Array.from({ length: 20 }, (_, index) => ({
 }));
 
 function DetailForumPage() {
-  const theme = useTheme();
-  const isMobile = theme.breakpoints.down('sm');
   const groupParticipants = (participants, itemsPerGroup) => {
     const groups = [];
     for (let i = 0; i < participants.length; i += itemsPerGroup) {
@@ -88,6 +86,7 @@ function DetailForumPage() {
             ))}
           </Swiper>
         </ListParticipant>
+        <CreateComment />
       </MainbarForum>
     </LayoutForumApp>
   );
