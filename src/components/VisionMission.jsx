@@ -16,9 +16,9 @@ const VisionMission = () => {
           <img src={logovs} alt="Vision" className="w-full h-auto" />
         </div>
       </div>
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center mt-8">
+      <div className="max-w-4xl mx-auto flex flex-col-reverse sm:flex-row items-center mt-8">
         <div className="sm:w-1/3 mb-8 sm:mb-0">
-          {/* <img src={logov} alt="Mission" className="w-full h-auto sm:mr-8" /> */}
+          <img src={logov} alt="Mission" className="w-full h-auto sm:mr-8" />
         </div>
         <div className="sm:w-2/3 sm:text-right">
         <h3 className="text-xl font-semibold" style={{ color: 'white', fontSize: 32, fontFamily: 'Plus Jakarta Sans', fontWeight: '700', wordWrap: 'break-word' }}>Misi</h3>

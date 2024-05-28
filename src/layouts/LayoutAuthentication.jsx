@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Grid, Paper } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function LayoutAuthentication({ children }) {
+export default function LayoutAuthentication({ backgroundColor, children }) {
   return (
     <Grid
       item
@@ -11,7 +11,7 @@ export default function LayoutAuthentication({ children }) {
       md={5}
       component={Paper}
       square
-      backgroundColor="#75A47F"
+      backgroundColor={backgroundColor}
       alignContent="center"
     >
       <Box
@@ -31,4 +31,9 @@ export default function LayoutAuthentication({ children }) {
 
 LayoutAuthentication.propTypes = {
   children: PropTypes.node.isRequired,
+  backgroundColor: PropTypes.string,
+};
+
+LayoutAuthentication.defaultProps = {
+  backgroundColor: '#75A47F',
 };

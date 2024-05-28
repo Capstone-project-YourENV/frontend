@@ -1,18 +1,12 @@
 import React from 'react';
 import matchers from '@testing-library/jest-dom/matchers';
 import { cleanup, render, screen } from '@testing-library/react';
-import {
-  afterEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter as Router } from 'react-router';
 import { ThemeProvider } from '@mui/material';
 import userEvent from '@testing-library/user-event';
 import LoginForm from './LoginForm';
-import theme from '../styles/ConfigurationMUI';
+import theme from '../../styles/ConfigurationMUI';
 
 /**
  * skenario testing

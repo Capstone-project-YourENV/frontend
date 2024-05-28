@@ -1,12 +1,8 @@
-import {
-  Grid,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
-import AuthenticationHeader from '../components/AuthenticationHeader';
+import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import Copyright from '../components/Copyright';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 
 function RegisterCompany() {
@@ -21,9 +17,8 @@ function RegisterCompany() {
       container
       component="main"
       sx={{ height: '110vh' }}
-      backgroundColor="softwhite"
-    >
-      <LayoutAuthentication>
+      backgroundColor="softwhite">
+      <LayoutAuthentication backgroundColor="softwhite">
         <AuthenticationHeader
           title="Comment"
           subtitle="Open your Journey and Start With us."

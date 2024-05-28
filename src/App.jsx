@@ -6,9 +6,17 @@ import RegisterCompany from './pages/RegisterCompany';
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutPage';
 import Footer from './components/Footer';
+import ForumPage from './pages/ForumPage';
 
 function App() {
   const authUser = null;
+  // const authUser = {
+  //   id: 1,
+  //   name: 'John Doe',
+  //   email: 'VJk0G@example.com',
+  //   profession: 'Software Engineer',
+  //   avatar: 'https://i.pravatar.cc/300',
+  // };
 
   if (authUser == null) {
     return (
@@ -25,7 +33,11 @@ function App() {
     );
   }
 
-  return null;
+  return (
+    <Routes>
+      <Route path="/" element={<ForumPage />} />
+    </Routes>
+  );
 }
 
 export default App;

@@ -10,10 +10,9 @@ import {
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import useInput from '../hooks/useInput';
+import useInput from '../../hooks/useInput';
 
-function RegisterForm({ register, color }) {
-  const [username, onUsernameChange] = useInput('');
+function LoginForm({ login }) {
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
   return (
@@ -21,57 +20,48 @@ function RegisterForm({ register, color }) {
       component="form"
       width="100%"
       noValidate
-      onSubmit={() => register({ username, email, password })}
+      onSubmit={() => login({ email, password })}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
-      gap="10px"
-    >
+      gap="10px">
       <Typography
         component="h3"
         variant="h5"
-        textAlign="left"
-        color={color}
+        textAlign="right"
+        color="softwhite"
         fontSize="18px"
-        fontWeight="semibold"
-      >
-        Register Your Self.
+        fontWeight="semibold">
+        Login to Join Our Community.
       </Typography>
       <TextField
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15, borderColor: '#F6F8FD' } }}
-        id="email"
-        label="Username"
-        name="username"
-        placeholder="Enter your username"
-        autoComplete="username"
-        value={username}
-        onChange={onUsernameChange}
-        autoFocus
-      />
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        InputProps={{ sx: { borderRadius: 15, borderColor: '#F6F8FD' } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
+          color: 'success',
+        }}
         id="email"
         label="Email Address"
         name="email"
+        color="success"
         placeholder="Enter your email"
         autoComplete="email"
         value={email}
         onChange={onEmailChange}
-        autoFocus
       />
       <TextField
         margin="normal"
         required
         fullWidth
-        InputProps={{ sx: { borderRadius: 15 } }}
+        InputProps={{
+          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
+          color: 'success',
+        }}
         name="password"
         placeholder="Enter your password"
+        color="success"
         label="Password"
         type="password"
         id="password"
@@ -80,22 +70,25 @@ function RegisterForm({ register, color }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox value="remember" color="success" />}
         label="Remember Password"
-        sx={{ color }}
+        sx={{ color: 'softwhite' }}
       />
       <Button
         type="submit"
         fullWidth
         variant="contained"
-        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
-      >
-        Register
+        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
+        Login
       </Button>
       <Grid container>
         <Grid item>
-          <Link href="/register" variant="body2" color={color} fontWeight="600">
-            Have an account? Sign In
+          <Link
+            href="/register/user"
+            variant="body2"
+            color="softwhite"
+            fontWeight="600">
+            Doesn’t have an account? Sign Up
           </Link>
         </Grid>
       </Grid>
@@ -103,13 +96,8 @@ function RegisterForm({ register, color }) {
   );
 }
 
-RegisterForm.propTypes = {
-  register: PropTypes.func.isRequired,
-  color: PropTypes.string,
+LoginForm.propTypes = {
+  login: PropTypes.func.isRequired,
 };
 
-RegisterForm.defaultProps = {
-  color: 'softwhite',
-};
-
-export default RegisterForm;
+export default LoginForm;

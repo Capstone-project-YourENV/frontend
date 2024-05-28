@@ -1,16 +1,11 @@
 import React from 'react';
 import matchers from '@testing-library/jest-dom/matchers';
-import {
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import { MemoryRouter as Router } from 'react-router';
 import userEvent from '@testing-library/user-event';
-import theme from '../styles/ConfigurationMUI';
+import theme from '../../styles/ConfigurationMUI';
 import RegisterForm from './RegisterForm';
 
 /**
@@ -35,9 +30,13 @@ describe('RegisterForm', () => {
         </Router>
       </ThemeProvider>,
     );
-    const usernameInput = await screen.getByPlaceholderText('Enter your username');
+    const usernameInput = await screen.getByPlaceholderText(
+      'Enter your username',
+    );
     const emailInput = await screen.getByPlaceholderText('Enter your email');
-    const passwordInput = await screen.getByPlaceholderText('Enter your password');
+    const passwordInput = await screen.getByPlaceholderText(
+      'Enter your password',
+    );
     const registerButton = await screen.getByRole('button', {
       name: 'Register',
     });
@@ -56,7 +55,9 @@ describe('RegisterForm', () => {
         </Router>
       </ThemeProvider>,
     );
-    const usernameInput = await screen.getByPlaceholderText('Enter your username');
+    const usernameInput = await screen.getByPlaceholderText(
+      'Enter your username',
+    );
     // action
     await userEvent.type(usernameInput, 'test');
     // assert
@@ -86,7 +87,9 @@ describe('RegisterForm', () => {
         </Router>
       </ThemeProvider>,
     );
-    const passwordInput = await screen.getByPlaceholderText('Enter your password');
+    const passwordInput = await screen.getByPlaceholderText(
+      'Enter your password',
+    );
     // action
     await userEvent.type(passwordInput, 'test');
     // assert
@@ -102,9 +105,13 @@ describe('RegisterForm', () => {
         </Router>
       </ThemeProvider>,
     );
-    const usernameInput = await screen.getByPlaceholderText('Enter your username');
+    const usernameInput = await screen.getByPlaceholderText(
+      'Enter your username',
+    );
     const emailInput = await screen.getByPlaceholderText('Enter your email');
-    const passwordInput = await screen.getByPlaceholderText('Enter your password');
+    const passwordInput = await screen.getByPlaceholderText(
+      'Enter your password',
+    );
     const registerButton = await screen.getByRole('button', {
       name: 'Register',
     });
