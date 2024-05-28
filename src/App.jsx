@@ -7,16 +7,18 @@ import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutPage';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
+import DetailForumPage from './pages/DetailForumPage';
+import BookmarkPage from './pages/BookMarkPages';
 
 function App() {
-  const authUser = null;
-  // const authUser = {
-  //   id: 1,
-  //   name: 'John Doe',
-  //   email: 'VJk0G@example.com',
-  //   profession: 'Software Engineer',
-  //   avatar: 'https://i.pravatar.cc/300',
-  // };
+  // const authUser = null;
+  const authUser = {
+    id: 1,
+    name: 'John Doe',
+    email: 'VJk0G@example.com',
+    profession: 'Software Engineer',
+    avatar: 'https://i.pravatar.cc/300',
+  };
 
   if (authUser == null) {
     return (
@@ -32,10 +34,11 @@ function App() {
       </div>
     );
   }
-
   return (
     <Routes>
       <Route path="/" element={<ForumPage />} />
+      <Route path="/:eventId" element={<DetailForumPage />} />
+      <Route path="/bookmark" element={<BookmarkPage />} />
     </Routes>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import logovs from '../assets/logovm.png';
-import logov from '../assets/visi.png';
+import logovs from '../../assets/logovm.png';
+import logov from '../../assets/visi.png';
 
 const VisionMission = () => {
   return (
