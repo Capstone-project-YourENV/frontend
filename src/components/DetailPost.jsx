@@ -1,9 +1,16 @@
 import React from 'react';
 import { Box, Typography, Avatar, Button, Grid } from '@mui/material';
-import { BookmarkAddOutlined, BookmarkOutlined, Diversity2 } from '@mui/icons-material';
+import { BookmarkAddOutlined } from '@mui/icons-material';
 import { FaUserPlus } from 'react-icons/fa6';
+import PropTypes from 'prop-types';
+import useExpand from '../hooks/useExpand';
+
 function DetailPost(props) {
   const { category, title, owner, createdAt, content } = props;
+  const authUser = {
+    id: '1',
+  };
+  const [isExpanded, handleExpand] = useExpand(false);
   return (
     <Grid p={2.5} gap={2} display="flex" flexDirection="column">
       <Typography
@@ -21,21 +28,26 @@ function DetailPost(props) {
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
-        <Button
-          sx={{
-            alignItems: 'center',
-            textAlign: 'center',
-            display: 'flex',
-            gap: 1,
-            color: 'black',
-          }}
-        >
-          <BookmarkAddOutlined />
-          <Typography variant="body1">Bookmark</Typography>
-        </Button>
+        {authUser && (
+          <Button
+            sx={{
+              alignItems: 'center',
+              textAlign: 'center',
+              display: 'flex',
+              gap: 1,
+              color: 'black',
+            }}>
+            <BookmarkAddOutlined />
+            <Typography variant="body1">Bookmark</Typography>
+          </Button>
+        )}
       </Box>
 
-      <Box display="flex" flexWrap={{ xs: 'wrap', md: 'nowrap' }} gap={2.5}>
+      <Box
+        display="flex"
+        flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+        flexDirection={{ xs: 'column', md: 'row' }}
+        gap={2.5}>
         <Avatar
           srcSet={owner.avatar}
           alt={owner.name}
@@ -63,16 +75,19 @@ function DetailPost(props) {
       </Box>
 
       <Box
-        p={5}
+        p={3}
         bgcolor="white"
         borderRadius={2}
         boxShadow={1}
         flexDirection="column">
         <Typography variant="body1" color="textSecondary">
-          {content}
+          {isExpanded ? content : `${content.substring(0, 100)}...`}
+          <Button onClick={handleExpand} color="primary">
+            {isExpanded ? 'Show less' : 'Show more'}
+          </Button>
         </Typography>
 
-        {category === 'volunteer' && (
+        {category === 'event' && (
           <Grid
             mt={2}
             display="flex"
@@ -83,14 +98,30 @@ function DetailPost(props) {
               <FaUserPlus />
               <Typography>3 / 20 Terdaftar</Typography>
             </Box>
-            <Button variant="contained" color="primary">
-              Join Event
-            </Button>
+            {authUser && (
+              <Button variant="contained" color="primary">
+                Join Event
+              </Button>
+            )}
           </Grid>
         )}
       </Box>
     </Grid>
   );
 }
+
+const ownerShape = {
+  name: PropTypes.string.isRequired,
+  headline: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+};
+
+DetailPost.propTypes = {
+  category: PropTypes.oneOf(['event', 'news']).isRequired,
+  title: PropTypes.string.isRequired,
+  owner: PropTypes.shape(ownerShape).isRequired,
+  createdAt: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
 
 export default DetailPost;

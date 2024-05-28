@@ -12,14 +12,15 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { FaUserPlus } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
 import ProfileOwner from '../ProfileOwner';
+import useExpand from '../../hooks/useExpand';
 
 function Details({ content }) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, handleExpand] = useExpand(false);
   return (
     <Box mt={2}>
       <Typography variant="body1" color="textSecondary">
         {isExpanded ? content : `${content.substring(0, 100)}...`}
-        <Button onClick={() => setIsExpanded(!isExpanded)} color="primary">
+        <Button onClick={handleExpand} color="primary">
           {isExpanded ? 'Show less' : 'Show more'}
         </Button>
       </Typography>
