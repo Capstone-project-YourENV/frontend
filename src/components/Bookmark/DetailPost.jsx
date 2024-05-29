@@ -33,56 +33,64 @@ function DetailPost({
   const truncatedContent = truncateText(content, 350);
 
   return (
-    <Link to={`/${eventId}`} style={{ textDecoration: 'none' }}>
-      <Card sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
-        <CardMedia
-          component="img"
-          image={postImage}
-          alt="Post Image"
-          sx={{ width: '100%', height: '300px', borderRadius: '8px 8px 0 0' }}
-        />
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Typography variant="h4" color="textPrimary" sx={{ fontFamily: 'Plus Jakarta Sans' }}>
-                {title}
-              </Typography>
-              <Grid container alignItems="center" spacing={1}>
-                <Grid item>
-                  <MdPerson style={{ color: '#ccc', fontSize: 18 }} />
+    <Box>
+      <Typography
+        variant="h5"
+        sx={{ fontFamily: 'Plus Jakarta Sans', fontWeight: 'bold', mb: 2 }}
+      >
+        Bookmark
+      </Typography>
+      <Link to={`/${eventId}`} style={{ textDecoration: 'none' }}>
+        <Card sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
+          <CardMedia
+            component="img"
+            image={postImage}
+            alt="Post Image"
+            sx={{ width: '100%', height: '300px', borderRadius: '8px 8px 0 0' }}
+          />
+          <CardContent sx={{ flex: '1 0 auto' }}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <Typography variant="h4" color="textPrimary" sx={{ fontFamily: 'Plus Jakarta Sans' }}>
+                  {title}
+                </Typography>
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid item>
+                    <MdPerson style={{ color: '#ccc', fontSize: 18 }} />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body2" color="textSecondary">
+                      {name}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="body2" color="textSecondary">
-                    {name}
-                  </Typography>
-                </Grid>
+                <Typography variant="body2" color="textSecondary">
+                  {createdAt}
+                </Typography>
               </Grid>
-              <Typography variant="body2" color="textSecondary">
-                {createdAt}
-              </Typography>
+              <Grid item>
+                <Typography variant="body1" color="textSecondary">
+                  {truncatedContent}
+                </Typography>
+                {category === 'volunteer' && (
+                  <Grid
+                    mt={2}
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <FaUserPlus />
+                      <Typography>{`${registered} / ${total} Terdaftar`}</Typography>
+                    </Box>
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography variant="body1" color="textSecondary">
-                {truncatedContent}
-              </Typography>
-              {category === 'volunteer' && (
-                <Grid
-                  mt={2}
-                  container
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <FaUserPlus />
-                    <Typography>{`${registered} / ${total} Terdaftar`}</Typography>
-                  </Box>
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    </Link>
+          </CardContent>
+        </Card>
+      </Link>
+    </Box>
   );
 }
 
