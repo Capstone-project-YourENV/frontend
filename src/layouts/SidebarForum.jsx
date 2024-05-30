@@ -1,29 +1,40 @@
-import { Grid, useMediaQuery } from '@mui/material';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from '@emotion/react';
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Divider, ListItemIcon } from '@mui/material';
+import { AccountCircle, VpnKey, ExitToApp } from '@mui/icons-material';
+import SidebarForum from '../layouts/SidebarForum';
 
-function SidebarForum({ children }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+const ProfileSidebar = ({ setActiveComponent }) => {
   return (
-    <Grid
-      xs={isMobile ? 12 : 3}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingBottom: '25px',
-      }}
-      gap="15px"
-    >
-      {children}
-    </Grid>
+    <SidebarForum>
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src="/profile.jpg" />
+          </ListItemAvatar>
+          <ListItemText primary="Ervalsa Dwi Nanda" secondary="Energie" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={() => setActiveComponent('profile')}>
+          <ListItemIcon>
+            <AccountCircle />
+          </ListItemIcon>
+          <ListItemText primary="My Profile" />
+        </ListItem>
+        <ListItem button onClick={() => setActiveComponent('password')}>
+          <ListItemIcon>
+            <VpnKey />
+          </ListItemIcon>
+          <ListItemText primary="Change Password" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <ExitToApp />
+          </ListItemIcon>
+          <ListItemText primary="Sign Out" />
+        </ListItem>
+      </List>
+    </SidebarForum>
   );
-}
-
-SidebarForum.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
-export default SidebarForum;
+export default ProfileSidebar;
