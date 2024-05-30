@@ -9,6 +9,10 @@ import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
 import CreateForumPage from './pages/CreateForumPage';
+import BookmarkPage from './pages/BookMarkPages';
+import TrendingPage from './pages/TrendingPage';
+import ComingSoonPage from './pages/ComingSoonPage';
+import ProfilPage from './pages/ProfilPage';
 
 function App() {
   // const authUser = null;
@@ -39,6 +43,10 @@ function App() {
       <Route path="/" element={<ForumPage />} />
       <Route path="/event/:eventId" element={<DetailForumPage />} />
       <Route path="/create" element={<CreateForumPage />} />
+      <Route path="/bookmark" element={<BookmarkPage />} />
+      <Route path="/trending" element={<TrendingPage />} />
+      <Route path="/comingsoon" element={<ComingSoonPage />} />
+      <Route path="/Profil" element={<ProfilPage />} />
     </Routes>
   );
 }
