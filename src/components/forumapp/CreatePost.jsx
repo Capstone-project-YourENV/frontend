@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Paper, Box, Typography, IconButton } from '@mui/material';
+import {
+  Paper,
+  Box,
+  Typography,
+  IconButton,
+} from '@mui/material';
 import PhotoIcon from '@mui/icons-material/Photo';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import EventIcon from '@mui/icons-material/Event';
@@ -36,7 +41,8 @@ function CreatePost() {
           display="flex"
           gap={2}
           flexWrap="wrap"
-          justifyContent="space-between">
+          justifyContent="space-between"
+        >
           {mediaOptions.map((option) => (
             <MediaOption key={option.label} {...option} />
           ))}

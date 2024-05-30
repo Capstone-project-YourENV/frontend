@@ -8,6 +8,7 @@ import AboutUsPage from './pages/AboutPage';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
+import CreateForumPage from './pages/CreateForumPage';
 
 function App() {
   // const authUser = null;
@@ -36,7 +37,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ForumPage />} />
-      <Route path="/:eventId" element={<DetailForumPage />} />
+      <Route path="/event/:eventId" element={<DetailForumPage />} />
+      <Route path="/create" element={<CreateForumPage />} />
     </Routes>
   );
 }

@@ -9,6 +9,7 @@ import {
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
+import EventShape from '../../types/Event';
 
 function EventItem({ title, url }) {
   const location = useLocation();
@@ -70,11 +71,6 @@ function RecentEvents({ events }) {
     </Card>
   );
 }
-
-const EventShape = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
 
 EventItem.propTypes = {
   url: PropTypes.func.isRequired,

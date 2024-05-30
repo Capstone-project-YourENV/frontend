@@ -20,7 +20,7 @@ export default function ParticipantItem(props) {
   const backgroundColor = variant === 'secondary' ? theme.palette.primary.main : 'white';
   const textColor = variant === 'secondary' ? 'white' : theme.palette.primary.main;
   return (
-    <Card sx={{ backgroundColor }}>
+    <Card sx={{ backgroundColor, borderRadius: '8px' }}>
       <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
         <Avatar src={avatar} />
         <Grid marginX={2} display="flex" flexDirection="column">
