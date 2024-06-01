@@ -8,6 +8,7 @@ import AboutUsPage from './pages/AboutPage';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
+import CreateForumPage from './pages/CreateForumPage';
 import BookmarkPage from './pages/BookMarkPages';
 import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
@@ -30,7 +31,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register/user" element={<RegisterUser />} />
           <Route path="/register/company" element={<RegisterCompany />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUsPage />} />
         </Routes>
         <Footer />
@@ -40,7 +41,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ForumPage />} />
-      <Route path="/:eventId" element={<DetailForumPage />} />
+      <Route path="/event/:eventId" element={<DetailForumPage />} />
+      <Route path="/create" element={<CreateForumPage />} />
       <Route path="/bookmark" element={<BookmarkPage />} />
       <Route path="/trending" element={<TrendingPage />} />
       <Route path="/comingsoon" element={<ComingSoonPage />} />
