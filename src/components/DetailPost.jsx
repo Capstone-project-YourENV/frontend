@@ -18,12 +18,21 @@ function DetailPost(props) {
   const lastPath = paths[paths.length - 1];
   return (
     <Grid gap={2} display="flex" flexDirection="column">
-      <Typography
-        fontWeight="bold"
-        color="softbrown"
-        textTransform="capitalize">
-        {category}
-      </Typography>
+      {lastPath === 'absent' ? (
+        <Typography
+          fontWeight="bold"
+          color="softbrown"
+          textTransform="capitalize">
+          Absent Event
+        </Typography>
+      ) : (
+        <Typography
+          fontWeight="bold"
+          color="softbrown"
+          textTransform="capitalize">
+          {category}
+        </Typography>
+      )}
 
       <Box
         display="flex"
