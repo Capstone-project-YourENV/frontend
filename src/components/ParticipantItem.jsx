@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ParticipantItem(props) {
-  const { name, headTItle, avatar, variant } = props;
+  const { name, headTitle, avatar, variant } = props;
   const theme = useTheme();
   const backgroundColor =
     variant === 'secondary' ? theme.palette.primary.main : 'white';
@@ -28,7 +28,7 @@ export default function ParticipantItem(props) {
             color={
               variant === 'secondary' ? theme.palette.primary.main : 'black'
             }>
-            {headTItle}
+            {headTitle}
           </Typography>
         </Grid>
       </CardContent>
@@ -38,7 +38,7 @@ export default function ParticipantItem(props) {
 
 ParticipantItem.propTypes = {
   name: PropTypes.string.isRequired,
-  headTItle: PropTypes.string.isRequired,
+  headTitle: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   variant: PropTypes.oneOf(['primary', 'secondary']),
 };

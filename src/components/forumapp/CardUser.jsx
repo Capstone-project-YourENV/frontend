@@ -9,8 +9,7 @@ function CardUser(props) {
       sx={{
         borderRadius: '12px',
       }}
-      className="w-full lg:w-[256px]"
-    >
+      className="w-full lg:w-[256px]">
       <Avatar
         loading="lazy"
         sx={{

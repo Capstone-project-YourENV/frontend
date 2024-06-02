@@ -30,7 +30,7 @@ function CommentItem({ owner, createdAt, content }) {
             {owner.name}
           </Typography>
           <div className="text-sm text-zinc-500 max-md:max-w-full">
-            {owner.headTItle}
+            {owner.headTitle}
           </div>
         </Box>
         <Typography alignSelf="start" fontWeight="400" color="black">

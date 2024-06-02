@@ -10,7 +10,7 @@ import SidebarContent from '../components/forumapp/SidebarContent';
 const authUser = {
   name: 'Ervalsa Dwi Nanda',
   avatar: 'https://i.pravatar.cc/300',
-  headTItle: 'Software Engineer',
+  headTitle: 'Software Engineer',
 };
 
 const recentevents = [
@@ -31,7 +31,7 @@ const detailForum = {
   owner: {
     name: 'Ervalsa Dwi Nanda',
     avatar: 'https://i.pravatar.cc/300',
-    headTItle: 'Software Engineer',
+    headTitle: 'Software Engineer',
   },
   createdAt: '21 August 2023 - 21 September 2024',
   content:

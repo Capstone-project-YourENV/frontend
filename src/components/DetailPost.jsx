@@ -64,7 +64,7 @@ function DetailPost(props) {
             {owner.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {owner.headTItle}
+            {owner.headTitle}
           </Typography>
         </Box>
         <Typography

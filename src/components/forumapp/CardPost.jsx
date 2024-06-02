@@ -100,7 +100,7 @@ function CardPost(props) {
         </Typography>
         <ProfileOwner
           name={owner.name}
-          headTItle={owner.headTItle}
+          headTitle={owner.headTitle}
           avatar={owner.avatar}
         />
 

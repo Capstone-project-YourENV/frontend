@@ -7,7 +7,7 @@ import TableParticipant from '../components/forumapp/TableParticipant';
 const authUser = {
   name: 'Ervalsa Dwi Nanda',
   avatar: 'https://i.pravatar.cc/300',
-  headTItle: 'Software Engineer',
+  headTitle: 'Software Engineer',
 };
 
 const events = [
@@ -21,12 +21,33 @@ const events = [
   },
 ];
 
+const data = [
+  {
+    id: 1,
+    name: 'John Doe',
+    email: 'NQpP1@example.com',
+    createdAt: '2022-01-01',
+    absent: 'https://random.imagecdn.app/500/150',
+  },
+  {
+    id: 2,
+    name: 'Jane Doe',
+    email: 'NQpP1@example.com',
+    address: '456 Main St',
+    createdAt: '2022-01-01',
+    absent: 'https://random.imagecdn.app/500/150',
+  },
+];
+
 function JoinParticipantPage() {
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} events={events} />
       <MainbarForum>
-        <TableParticipant />
+        <TableParticipant
+          title="Comptabilité - Problème Baisse de Charges"
+          data={data}
+        />
       </MainbarForum>
     </LayoutForumApp>
   );
