@@ -5,6 +5,7 @@ import { FaUserPlus } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
+import { useLocation } from 'react-router';
 
 function DetailPost(props) {
   const { category, title, owner, createdAt, content } = props;
@@ -12,6 +13,9 @@ function DetailPost(props) {
     id: '1',
   };
   const [isExpanded, handleExpand] = useExpand(false);
+  const location = useLocation();
+  const paths = location.pathname.split('/');
+  const lastPath = paths[paths.length - 1];
   return (
     <Grid gap={2} display="flex" flexDirection="column">
       <Typography
@@ -89,7 +93,7 @@ function DetailPost(props) {
           </Button>
         </Typography>
 
-        {category === 'event' && (
+        {category === 'event' && lastPath !== 'absent' && (
           <Grid
             mt={2}
             display="flex"

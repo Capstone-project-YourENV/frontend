@@ -9,6 +9,13 @@ import DetailPost from '../components/DetailPost';
 import ListParticipant from '../components/ListParticipant';
 import CreateComment from '../components/forumapp/CreateComment';
 import ListComment from '../components/forumapp/ListComment';
+import SidebarContent from '../components/forumapp/SidebarContent';
+
+const authUser = {
+  name: 'Ervalsa Dwi Nanda',
+  avatar: 'https://i.pravatar.cc/300',
+  headTitle: 'Software Engineer',
+};
 
 const events = [
   {
@@ -56,14 +63,7 @@ const comments = [
 function DetailForumPage() {
   return (
     <LayoutForumApp>
-      <SidebarForum>
-        <CardUser
-          name="Ervalsa Dwi Nanda"
-          image="https://i.pravatar.cc/300"
-          headTitle="Software Engineer"
-        />
-        <RecentEvents events={events} />
-      </SidebarForum>
+      <SidebarContent events={events} user={authUser} />
       <MainbarForum>
         <DetailPost
           title={detailForum.title}

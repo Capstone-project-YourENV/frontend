@@ -14,6 +14,7 @@ import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
+import AbsentPage from './pages/AbsentPage';
 
 function App() {
   // const authUser = null;
@@ -43,12 +44,13 @@ function App() {
     <Routes>
       <Route path="/" element={<ForumPage />} />
       <Route path="/event/:eventId" element={<DetailForumPage />} />
+      <Route path="/event/:id/participant" element={<JoinParticipantPage />} />
+      <Route path="/event/:id/absent" element={<AbsentPage />} />
       <Route path="/create" element={<CreateForumPage />} />
       <Route path="/bookmark" element={<BookmarkPage />} />
       <Route path="/trending" element={<TrendingPage />} />
       <Route path="/comingsoon" element={<ComingSoonPage />} />
       <Route path="/Profil" element={<ProfilPage />} />
-      <Route path="/participant/:id" element={<JoinParticipantPage />} />
     </Routes>
   );
 }
