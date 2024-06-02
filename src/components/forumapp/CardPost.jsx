@@ -37,15 +37,12 @@ function Info({ participant }) {
       pr={{ xs: 5, md: 20 }}
       mt={2}
       flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-      color="textSecondary"
-    >
+      color="textSecondary">
       {participant && (
         <Box display="flex" gap={2} alignItems="center">
           <FaUserPlus />
           <Typography variant="body2" alignSelf="center">
-            {participant}
-            {' '}
-            Participant
+            {participant} Participant
           </Typography>
         </Box>
       )}
@@ -76,13 +73,17 @@ function CardPost(props) {
   return (
     <Card sx={{ backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
       <CardContent>
-        <Grid display="flex" flexDirection="row" gap="20px" justifyContent="space-between" alignItems="center">
+        <Grid
+          display="flex"
+          flexDirection="row"
+          gap="20px"
+          justifyContent="space-between"
+          alignItems="center">
           <Typography
             variant="h5"
             fontWeight="bold"
             color="textPrimary"
-            alignSelf="start"
-          >
+            alignSelf="start">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary">
@@ -94,15 +95,12 @@ function CardPost(props) {
           variant="body2"
           color="textSecondary"
           mt={1.5}
-          alignSelf="start"
-        >
-          {startDate}
-          -
-          {endDate}
+          alignSelf="start">
+          {startDate}-{endDate}
         </Typography>
         <ProfileOwner
           name={owner.name}
-          headline={owner.headline}
+          headTItle={owner.headTItle}
           avatar={owner.avatar}
         />
 

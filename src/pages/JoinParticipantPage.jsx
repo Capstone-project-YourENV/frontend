@@ -1,11 +1,8 @@
 import React from 'react';
 import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarForum from '../layouts/SidebarForum';
-import CardUser from '../components/forumapp/CardUser';
-import RecentEvents from '../components/forumapp/RecentEvent';
-import MainbarForum from '../layouts/MainbarForum';
-import PostForm from '../components/forumapp/PostForm';
 import SidebarContent from '../components/forumapp/SidebarContent';
+import MainbarForum from '../layouts/MainbarForum';
+import TableParticipant from '../components/forumapp/TableParticipant';
 
 const authUser = {
   name: 'Ervalsa Dwi Nanda',
@@ -23,15 +20,16 @@ const events = [
     title: 'Comptabilité - Problème Baisse de Charges',
   },
 ];
-function CreateForumPage() {
+
+function JoinParticipantPage() {
   return (
     <LayoutForumApp>
-      <SidebarContent user={authUser} events={events}/>
+      <SidebarContent user={authUser} events={events} />
       <MainbarForum>
-        <PostForm />
+        <TableParticipant />
       </MainbarForum>
     </LayoutForumApp>
   );
 }
 
-export default CreateForumPage;
+export default JoinParticipantPage;

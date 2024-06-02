@@ -13,6 +13,7 @@ import BookmarkPage from './pages/BookMarkPages';
 import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
+import JoinParticipantPage from './pages/JoinParticipantPage';
 
 function App() {
   // const authUser = null;
@@ -47,6 +48,7 @@ function App() {
       <Route path="/trending" element={<TrendingPage />} />
       <Route path="/comingsoon" element={<ComingSoonPage />} />
       <Route path="/Profil" element={<ProfilPage />} />
+      <Route path="/participant/:id" element={<JoinParticipantPage />} />
     </Routes>
   );
 }

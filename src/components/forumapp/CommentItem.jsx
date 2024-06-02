@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Button, Card, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import useExpand from '../../hooks/useExpand';
 import ownerShape from '../../types/Owner';
@@ -20,8 +14,7 @@ function CommentItem({ owner, createdAt, content }) {
         flexDirection: 'column',
         gap: '20px',
         borderRadius: '10px',
-      }}
-    >
+      }}>
       <Box className="flex gap-2.5 max-md:flex-wrap flex-col sm:flex-row items-center">
         <Avatar loading="lazy" src={owner.avatar} alt={owner.name} />
         <Box
@@ -29,17 +22,15 @@ function CommentItem({ owner, createdAt, content }) {
           flexDirection="column"
           justifyContent="center"
           paddingY={1}
-          className="flex-1 max-md:max-w-full"
-        >
+          className="flex-1 max-md:max-w-full">
           <Typography
             fontWeight="600"
             color="black"
-            className="text-xl max-md:max-w-full"
-          >
+            className="text-xl max-md:max-w-full">
             {owner.name}
           </Typography>
           <div className="text-sm text-zinc-500 max-md:max-w-full">
-            {owner.headline}
+            {owner.headTItle}
           </div>
         </Box>
         <Typography alignSelf="start" fontWeight="400" color="black">
