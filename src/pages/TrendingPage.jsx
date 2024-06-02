@@ -5,6 +5,13 @@ import CardUser from '../components/forumapp/CardUser';
 import RecentEvents from '../components/forumapp/RecentEvent';
 import MainbarForum from '../layouts/MainbarForum';
 import DetailPost from '../components/Trending/DetailPage';
+import SidebarContent from '../components/forumapp/SidebarContent';
+
+const authUser = {
+  name: 'Ervalsa Dwi Nanda',
+  avatar: 'https://i.pravatar.cc/300',
+  headTItle: 'Software Engineer',
+};
 
 const recentevents = [
   {
@@ -24,7 +31,7 @@ const detailForum = {
   owner: {
     name: 'Ervalsa Dwi Nanda',
     avatar: 'https://i.pravatar.cc/300',
-    headline: 'Software Engineer',
+    headTItle: 'Software Engineer',
   },
   createdAt: '21 August 2023 - 21 September 2024',
   content:
@@ -37,14 +44,7 @@ const detailForum = {
 function BookmarkPage() {
   return (
     <LayoutForumApp>
-      <SidebarForum>
-        <CardUser
-          name="Ervalsa Dwi Nanda"
-          image="https://i.pravatar.cc/300"
-          headline="Software Engineer"
-        />
-        <RecentEvents events={recentevents} />
-      </SidebarForum>
+      <SidebarContent user={authUser} events={recentevents} />
       <MainbarForum>
         <DetailPost
           title={detailForum.title}

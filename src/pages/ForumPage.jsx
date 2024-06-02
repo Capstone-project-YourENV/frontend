@@ -8,6 +8,13 @@ import CardUser from '../components/forumapp/CardUser';
 import RecentEvents from '../components/forumapp/RecentEvent';
 import CreatePost from '../components/forumapp/CreatePost';
 import CardPost from '../components/forumapp/CardPost';
+import SidebarContent from '../components/forumapp/SidebarContent';
+
+const authUser = {
+  name: 'Ervalsa Dwi Nanda',
+  avatar: 'https://i.pravatar.cc/300',
+  headTItle: 'Software Engineer',
+};
 
 const events = [
   {
@@ -21,15 +28,17 @@ const events = [
 ];
 
 const dummyData = Array.from({ length: 20 }, (_, index) => ({
+  id: `${index + 1}`,
   title: `Title ${index + 1}`,
-  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  content:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   owner: {
     name: `Owner ${index + 1}`,
     avatar: `https://i.pravatar.cc/300?u=${index}`,
-    headline: `Software Engineer ${index + 1}`,
+    headTItle: `Software Engineer ${index + 1}`,
   },
   startDate: '12 Agustus 2023',
-  endDate: '15 Agustus 20223',
+  endDate: '15 Agustus 2023',
   createdAt: '12 Agustus 2023',
   participant: '21 / 30',
 }));
@@ -84,14 +93,7 @@ function ForumPage() {
   };
   return (
     <LayoutForumApp>
-      <SidebarForum>
-        <CardUser
-          name="Ervalsa Dwi Nanda"
-          image="https://i.pravatar.cc/300"
-          headline="Software Engineer"
-        />
-        <RecentEvents events={events} />
-      </SidebarForum>
+      <SidebarContent user={authUser} events={events} />
       <MainbarForum>
         <CreatePost />
         <InfiniteScroll
@@ -113,6 +115,7 @@ function ForumPage() {
           {data.map((post, index) => (
             <CardPost
               key={index}
+              id={post.id}
               title={post.title}
               content={post.content}
               owner={post.owner}

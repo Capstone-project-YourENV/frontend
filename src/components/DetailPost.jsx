@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Avatar,
-  Button,
-  Grid,
-  Card,
-} from '@mui/material';
+import { Box, Typography, Avatar, Button, Grid, Card } from '@mui/material';
 import { BookmarkAddOutlined } from '@mui/icons-material';
 import { FaUserPlus } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
@@ -14,13 +7,7 @@ import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 
 function DetailPost(props) {
-  const {
-    category,
-    title,
-    owner,
-    createdAt,
-    content,
-  } = props;
+  const { category, title, owner, createdAt, content } = props;
   const authUser = {
     id: '1',
   };
@@ -30,8 +17,7 @@ function DetailPost(props) {
       <Typography
         fontWeight="bold"
         color="softbrown"
-        textTransform="capitalize"
-      >
+        textTransform="capitalize">
         {category}
       </Typography>
 
@@ -39,8 +25,7 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         gap={2}
-        color="textPrimary"
-      >
+        color="textPrimary">
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
@@ -52,8 +37,7 @@ function DetailPost(props) {
               display: 'flex',
               gap: 1,
               color: 'black',
-            }}
-          >
+            }}>
             <BookmarkAddOutlined />
             <Typography variant="body1">Bookmark</Typography>
           </Button>
@@ -64,8 +48,7 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
-        gap={2.5}
-      >
+        gap={2.5}>
         <Avatar
           srcSet={owner.avatar}
           alt={owner.name}
@@ -76,20 +59,18 @@ function DetailPost(props) {
           flexDirection="column"
           flex={1}
           justifyContent="center"
-          py={1}
-        >
+          py={1}>
           <Typography variant="h5" fontWeight="bold">
             {owner.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {owner.headline}
+            {owner.headTItle}
           </Typography>
         </Box>
         <Typography
           variant="body1"
           color="textSecondary"
-          alignSelf="flex-start"
-        >
+          alignSelf="flex-start">
           {createdAt}
         </Typography>
       </Box>
@@ -100,8 +81,7 @@ function DetailPost(props) {
           boxShadow: 1,
           flexDirection: 'column',
           borderRadius: '10px',
-        }}
-      >
+        }}>
         <Typography variant="body1" color="textSecondary">
           {isExpanded ? content : `${content.substring(0, 100)}...`}
           <Button onClick={handleExpand} color="primary">
@@ -115,8 +95,7 @@ function DetailPost(props) {
             display="flex"
             flexWrap={{ xs: 'wrap', md: 'nowrap' }}
             justifyContent="space-between"
-            gap={5}
-          >
+            gap={5}>
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>3 / 20 Terdaftar</Typography>

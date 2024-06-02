@@ -1,9 +1,9 @@
-import { Avatar, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 function CardUser(props) {
-  const { name, image, headline } = props;
+  const { name, image, headTitle } = props;
   return (
     <Card
       sx={{
@@ -28,7 +28,7 @@ function CardUser(props) {
             {name}
           </Typography>
           <Typography variant="body2" color="text.secondary" align="center">
-            {headline}
+            {headTitle}
           </Typography>
         </Grid>
       </CardContent>
@@ -39,11 +39,11 @@ function CardUser(props) {
 CardUser.propTypes = {
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  headline: PropTypes.string,
+  headTitle: PropTypes.string,
 };
 
 CardUser.defaultProps = {
-  headline: null,
+  headTitle: null,
 };
 
 export default CardUser;

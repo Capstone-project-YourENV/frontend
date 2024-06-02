@@ -27,7 +27,7 @@ const detailForum = {
   owner: {
     name: 'Ervalsa Dwi Nanda',
     avatar: 'https://i.pravatar.cc/300',
-    headline: 'Software Engineer',
+    headTItle: 'Software Engineer',
   },
   createdAt: '21 August 2023',
   content:
@@ -37,7 +37,7 @@ const detailForum = {
 const participant = Array.from({ length: 20 }, (_, index) => ({
   name: `Participant ${index + 1}`,
   avatar: `https://i.pravatar.cc/300?u=${index}`,
-  headline: `Software Engineer ${index + 1}`,
+  headTItle: `Software Engineer ${index + 1}`,
 }));
 
 const comments = [
@@ -45,10 +45,11 @@ const comments = [
     owner: {
       name: 'Ervalsa Dwi Nanda',
       avatar: 'https://i.pravatar.cc/300',
-      headline: 'Software Engineer',
+      headTItle: 'Software Engineer',
     },
     createdAt: '21 August 2023',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
 ];
 
@@ -59,7 +60,7 @@ function DetailForumPage() {
         <CardUser
           name="Ervalsa Dwi Nanda"
           image="https://i.pravatar.cc/300"
-          headline="Software Engineer"
+          headTItle="Software Engineer"
         />
         <RecentEvents events={events} />
       </SidebarForum>
