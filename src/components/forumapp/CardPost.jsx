@@ -109,31 +109,10 @@ function CardPost(props) {
             -
             {endDate}
           </Typography>
-        </Grid>
-
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          mt={1.5}
-          alignSelf="start">
-          {startDate}-{endDate}
-        </Typography>
-        <ProfileOwner
-          name={owner.name}
-          headTitle={owner.headTitle}
-          avatar={owner.avatar}
-        />
-
-        <Details content={content} />
-        {image && (
-          <Box
-            component="img"
-            loading="lazy"
-            src={image}
-            alt={title}
-            width="100%"
-            mt={2}
-            sx={{ aspectRatio: '2.78' }}
+          <ProfileOwner
+            name={owner.name}
+            headline={owner.headline}
+            avatar={owner.avatar}
           />
 
           <Details content={content} />
