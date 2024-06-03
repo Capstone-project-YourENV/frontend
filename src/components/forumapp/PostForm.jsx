@@ -28,7 +28,8 @@ function PostForm() {
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
-        }}>
+        }}
+      >
         <Typography
           fontWeight="600"
           fontSize="26px"

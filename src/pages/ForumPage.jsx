@@ -13,7 +13,7 @@ import SidebarContent from '../components/forumapp/SidebarContent';
 const authUser = {
   name: 'Ervalsa Dwi Nanda',
   avatar: 'https://i.pravatar.cc/300',
-  headTItle: 'Software Engineer',
+  headTitle: 'Software Engineer',
 };
 
 const events = [
@@ -35,7 +35,7 @@ const dummyData = Array.from({ length: 20 }, (_, index) => ({
   owner: {
     name: `Owner ${index + 1}`,
     avatar: `https://i.pravatar.cc/300?u=${index}`,
-    headTItle: `Software Engineer ${index + 1}`,
+    headTitle: `Software Engineer ${index + 1}`,
   },
   startDate: '12 Agustus 2023',
   endDate: '15 Agustus 2023',
@@ -101,17 +101,16 @@ function ForumPage() {
           dataLength={data.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={(
+          loader={
             <CircularProgress
               sx={{ display: 'block', margin: 'auto', marginY: 2 }}
             />
-          )}
-          endMessage={(
+          }
+          endMessage={
             <p style={{ textAlign: 'center' }}>
               {isLoading ? 'Loading...' : 'No more data'}
             </p>
-          )}
-        >
+          }>
           {data.map((post, index) => (
             <CardPost
               key={index}

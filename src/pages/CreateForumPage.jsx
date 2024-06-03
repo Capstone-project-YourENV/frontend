@@ -10,7 +10,7 @@ import SidebarContent from '../components/forumapp/SidebarContent';
 const authUser = {
   name: 'Ervalsa Dwi Nanda',
   avatar: 'https://i.pravatar.cc/300',
-  headTItle: 'Software Engineer',
+  headTitle: 'Software Engineer',
 };
 
 const events = [
@@ -26,7 +26,7 @@ const events = [
 function CreateForumPage() {
   return (
     <LayoutForumApp>
-      <SidebarContent user={authUser} events={events}/>
+      <SidebarContent user={authUser} events={events} />
       <MainbarForum>
         <PostForm />
       </MainbarForum>

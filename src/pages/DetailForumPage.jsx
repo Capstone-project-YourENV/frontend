@@ -9,6 +9,13 @@ import DetailPost from '../components/DetailPost';
 import ListParticipant from '../components/ListParticipant';
 import CreateComment from '../components/forumapp/CreateComment';
 import ListComment from '../components/forumapp/ListComment';
+import SidebarContent from '../components/forumapp/SidebarContent';
+
+const authUser = {
+  name: 'Ervalsa Dwi Nanda',
+  avatar: 'https://i.pravatar.cc/300',
+  headTitle: 'Software Engineer',
+};
 
 const events = [
   {
@@ -27,7 +34,7 @@ const detailForum = {
   owner: {
     name: 'Ervalsa Dwi Nanda',
     avatar: 'https://i.pravatar.cc/300',
-    headTItle: 'Software Engineer',
+    headTitle: 'Software Engineer',
   },
   createdAt: '21 August 2023',
   content:
@@ -37,7 +44,7 @@ const detailForum = {
 const participant = Array.from({ length: 20 }, (_, index) => ({
   name: `Participant ${index + 1}`,
   avatar: `https://i.pravatar.cc/300?u=${index}`,
-  headTItle: `Software Engineer ${index + 1}`,
+  headTitle: `Software Engineer ${index + 1}`,
 }));
 
 const comments = [
@@ -45,7 +52,7 @@ const comments = [
     owner: {
       name: 'Ervalsa Dwi Nanda',
       avatar: 'https://i.pravatar.cc/300',
-      headTItle: 'Software Engineer',
+      headTitle: 'Software Engineer',
     },
     createdAt: '21 August 2023',
     content:
@@ -56,14 +63,7 @@ const comments = [
 function DetailForumPage() {
   return (
     <LayoutForumApp>
-      <SidebarForum>
-        <CardUser
-          name="Ervalsa Dwi Nanda"
-          image="https://i.pravatar.cc/300"
-          headTItle="Software Engineer"
-        />
-        <RecentEvents events={events} />
-      </SidebarForum>
+      <SidebarContent events={events} user={authUser} />
       <MainbarForum>
         <DetailPost
           title={detailForum.title}

@@ -1,69 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'mantine-react-table/styles.css';
 import {
-  flexRender,
   MRT_GlobalFilterTextInput,
-  MRT_TablePagination,
-  MRT_ToolbarAlertBanner,
   useMantineReactTable,
-  MRT_TableBodyCellValue,
   MantineReactTable,
 } from 'mantine-react-table';
-import { FaCheck } from 'react-icons/fa6';
-import {
-  Button,
-  Divider,
-  Flex,
-  Menu,
-  Stack,
-  Table,
-  Title,
-} from '@mantine/core';
-import { IconSend, IconUserCircle } from '@tabler/icons-react';
-
-const data = [
-  {
-    id: 1,
-    email: 'NQpP1@example.com',
-    name: 'John Doe',
-    address: '123 Main St',
-    city: 'New York',
-    state: 'NY',
-  },
-  {
-    id: 2,
-    email: 'NQpP1@example.com',
-    name: 'Jane Doe',
-    address: '456 Main St',
-    city: 'New York',
-    state: 'NY',
-  },
-];
+import { FaCheck, FaRegImage } from 'react-icons/fa6';
+import { Box, Button, Flex, Image, Modal, Text } from '@mantine/core';
+import PropTypes from 'prop-types';
+import participantShape from '../../types/Participant';
 
 const columns = [
+  {
+    accessorKey: 'name',
+    header: 'Full Name',
+  },
   {
     accessorKey: 'email',
     header: 'Email',
   },
   {
-    accessorKey: 'name',
-    header: 'Last Name',
+    accessorKey: 'createdAt',
+    header: 'Join Date',
   },
   {
-    accessorKey: 'address',
-    header: 'Address',
-  },
-  {
-    accessorKey: 'city',
-    header: 'City',
-  },
-  {
-    accessorKey: 'state',
-    header: 'State',
+    accessorKey: 'absent',
+    header: 'Absent',
+    Cell: ({ cell }) => (
+      <AbsentButton title={cell.getValue()} imageUrl={cell.getValue()} />
+    ),
   },
 ];
+function AbsentButton({ imageUrl, title }) {
+  const [opened, setOpened] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpened(true)}>
+        <FaRegImage />
+        {title}
+      </Button>
+      <Modal opened={opened} onClose={() => setOpened(false)} title={title}>
+        <Image src={imageUrl} alt="Absent Image" />
+      </Modal>
+    </>
+  );
+}
 
-function TableParticipant() {
+function TableParticipant({ title, data }) {
   const table = useMantineReactTable({
     columns,
     data,
@@ -100,7 +83,9 @@ function TableParticipant() {
           <Flex style={{ gap: '8px' }}>
             <Button
               color="green"
-              disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+              disabled={
+                !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
+              }
               onClick={handleActivate}
               variant="filled">
               <FaCheck />
@@ -111,7 +96,20 @@ function TableParticipant() {
       );
     },
   });
-  return <MantineReactTable table={table} />;
+  return (
+    <Box style={{ gap: '15px', display: 'flex', flexDirection: 'column' }}>
+      <Text size="lg" fw={700} style={{ color: '#75A47F' }}>
+        List Participant
+      </Text>
+      <Text style={{ fontSize: '26px', fontWeight: 'bold' }}>{title}</Text>
+      <MantineReactTable table={table} />
+    </Box>
+  );
 }
+
+TableParticipant.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.shape(participantShape).isRequired,
+};
 
 export default TableParticipant;

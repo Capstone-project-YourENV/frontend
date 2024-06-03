@@ -3,7 +3,7 @@ import { Grid, Typography, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ParticipantItem from './ParticipantItem';
-import participantShape from '../types/Participant';
+import ownerShape from '../types/Owner';
 
 function ListParticipant({ participant }) {
   const groupParticipants = (participants, itemsPerGroup) => {
@@ -57,7 +57,7 @@ function ListParticipant({ participant }) {
 }
 
 ListParticipant.propTypes = {
-  participant: PropTypes.shape(participantShape).isRequired,
+  participant: PropTypes.shape(ownerShape).isRequired,
 };
 
 export default ListParticipant;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const ownerShape = {
   name: PropTypes.string.isRequired,
-  headTItle: PropTypes.string.isRequired,
+  headTitle: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
 };
 

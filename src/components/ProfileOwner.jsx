@@ -2,7 +2,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ProfileOwner({ name, headTItle, avatar }) {
+function ProfileOwner({ name, headTitle, avatar }) {
   return (
     <Box
       display="flex"
@@ -25,7 +25,7 @@ function ProfileOwner({ name, headTItle, avatar }) {
           {name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {headTItle}
+          {headTitle}
         </Typography>
       </Box>
     </Box>
@@ -34,7 +34,7 @@ function ProfileOwner({ name, headTItle, avatar }) {
 
 ProfileOwner.propTypes = {
   name: PropTypes.string.isRequired,
-  headTItle: PropTypes.string.isRequired,
+  headTitle: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
 };
 
