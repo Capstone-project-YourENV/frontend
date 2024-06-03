@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Card,
@@ -11,6 +11,7 @@ import {
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { FaUserPlus } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ProfileOwner from '../ProfileOwner';
 import useExpand from '../../hooks/useExpand';
 import ownerShape from '../../types/Owner';
@@ -30,6 +31,13 @@ function Details({ content }) {
 }
 
 function Info({ participant }) {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleBookmark = (event) => {
+    event.preventDefault();
+    setIsBookmarked(!isBookmarked);
+  };
+
   return (
     <Box
       display="flex"
@@ -37,18 +45,21 @@ function Info({ participant }) {
       pr={{ xs: 5, md: 20 }}
       mt={2}
       flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-      color="textSecondary">
+      color="textSecondary"
+    >
       {participant && (
         <Box display="flex" gap={2} alignItems="center">
           <FaUserPlus />
           <Typography variant="body2" alignSelf="center">
-            {participant} Participant
+            {participant}
+            {' '}
+            Participant
           </Typography>
         </Box>
       )}
       <Box display="flex" gap={1.5}>
-        <IconButton>
-          <BookmarkIcon />
+        <IconButton onClick={handleBookmark}>
+          <BookmarkIcon sx={{ color: isBookmarked ? '#252525' : 'inherit' }} />
         </IconButton>
         <Typography variant="body2" alignSelf="center">
           Bookmark
@@ -71,23 +82,32 @@ function CardPost(props) {
   } = props;
 
   return (
-    <Card sx={{ backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
-      <CardContent>
-        <Grid
-          display="flex"
-          flexDirection="row"
-          gap="20px"
-          justifyContent="space-between"
-          alignItems="center">
+    <Link to="/detailpost" style={{ textDecoration: 'none' }}>
+      <Card sx={{ backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
+        <CardContent>
+          <Grid display="flex" flexDirection="row" gap="20px" justifyContent="space-between" alignItems="center">
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="textPrimary"
+              alignSelf="start"
+            >
+              {title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {createdAt}
+            </Typography>
+          </Grid>
+
           <Typography
-            variant="h5"
-            fontWeight="bold"
-            color="textPrimary"
-            alignSelf="start">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {createdAt}
+            variant="body2"
+            color="textSecondary"
+            mt={1.5}
+            alignSelf="start"
+          >
+            {startDate}
+            -
+            {endDate}
           </Typography>
         </Grid>
 
@@ -115,10 +135,23 @@ function CardPost(props) {
             mt={2}
             sx={{ aspectRatio: '2.78' }}
           />
-        )}
-        <Info participant={participant} />
-      </CardContent>
-    </Card>
+
+          <Details content={content} />
+          {image && (
+            <Box
+              component="img"
+              loading="lazy"
+              src={image}
+              alt={title}
+              width="100%"
+              mt={2}
+              sx={{ aspectRatio: '2.78' }}
+            />
+          )}
+          <Info participant={participant} />
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
