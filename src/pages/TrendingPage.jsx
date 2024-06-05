@@ -1,65 +1,125 @@
-import React from 'react';
-import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarForum from '../layouts/SidebarForum';
-import CardUser from '../components/forumapp/CardUser';
-import RecentEvents from '../components/forumapp/RecentEvent';
-import MainbarForum from '../layouts/MainbarForum';
-import DetailPost from '../components/Trending/DetailPage';
-import SidebarContent from '../components/forumapp/SidebarContent';
+import React, { useState } from 'react';
+import { Container, Grid, Typography, Box, Button } from '@mui/material';
+import TrendItem from '../components/Trending/TrendItem';
 
-const authUser = {
-  name: 'Ervalsa Dwi Nanda',
-  avatar: 'https://i.pravatar.cc/300',
-  headTitle: 'Software Engineer',
-};
-
-const recentevents = [
+const eventTrends = [
   {
-    id: '21ad3',
-    title: 'COVID-19',
+    id: 1,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '250/280',
+    percentage: '85%',
+    image: './src/assets/post.jpg',
   },
   {
-    id: '21ad3f',
-    title: 'Comptabilité - Problème Baisse de Charges',
+    id: 2,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '100/180',
+    percentage: '74%',
+    image: './src/assets/post.jpg',
+  },
+  {
+    id: 3,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '250/280',
+    percentage: '85%',
+    image: './src/assets/post.jpg',
+  },
+  {
+    id: 4,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '100/180',
+    percentage: '74%',
+    image: './src/assets/post.jpg',
+  },
+  {
+    id: 5,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '250/280',
+    percentage: '85%',
+    image: './src/assets/post.jpg',
+  },
+  {
+    id: 6,
+    title: 'Sedekah Untuk Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Sedekah',
+    target: '100/180',
+    percentage: '74%',
+    image: './src/assets/post.jpg',
   },
 ];
 
-const detailForum = {
-  category: 'volunteer',
-  title: 'Comptabilité ahsahvb',
-  name: 'Satria Testing',
-  owner: {
-    name: 'Ervalsa Dwi Nanda',
-    avatar: 'https://i.pravatar.cc/300',
-    headTitle: 'Software Engineer',
+const volunteerTrends = [
+  {
+    id: 3,
+    title: 'Bantu Saudara Kita Terdampak Krisis Pangan',
+    organization: 'Dompet Peduli',
+    target: '300/350',
+    percentage: '86%',
+    image: './src/assets/post.jpg',
   },
-  createdAt: '21 August 2023 - 21 September 2024',
-  content:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt   ',
-  postImage: './src/assets/post.jpg',
-  registered: 3,
-  total: 50,
+  {
+    id: 4,
+    title: 'Bantu Kegiatan Sosial Untuk Pendidikan',
+    organization: 'Dompet Peduli',
+    target: '150/200',
+    percentage: '75%',
+    image: './src/assets/post.jpg',
+  },
+];
+
+const FilterButtons = ({ activeFilter, setActiveFilter }) => (
+  <Box sx={{ display: 'flex', mb: 3, gap: 2 }}>
+    <Button
+      variant={activeFilter === 'event' ? 'contained' : 'outlined'}
+      onClick={() => setActiveFilter('event')}
+      sx={{ borderRadius: '20px', padding: '5px 20px' }}
+    >
+      Event
+    </Button>
+    <Button
+      variant={activeFilter === 'volunteer' ? 'contained' : 'outlined'}
+      onClick={() => setActiveFilter('volunteer')}
+      sx={{ borderRadius: '20px', padding: '5px 20px' }}
+    >
+      Volunteer
+    </Button>
+  </Box>
+);
+
+FilterButtons.propTypes = {
+  activeFilter: PropTypes.string.isRequired,
+  setActiveFilter: PropTypes.func.isRequired,
 };
 
-function BookmarkPage() {
-  return (
-    <LayoutForumApp>
-      <SidebarContent user={authUser} events={recentevents} />
-      <MainbarForum>
-        <DetailPost
-          title={detailForum.title}
-          content={detailForum.content}
-          owner={detailForum.owner}
-          createdAt={detailForum.createdAt}
-          category={detailForum.category}
-          postImage={detailForum.postImage}
-          name={detailForum.name}
-          total={detailForum.total}
-          registered={detailForum.registered}
-        />
-      </MainbarForum>
-    </LayoutForumApp>
-  );
-}
+const TrendPage = () => {
+  const [activeFilter, setActiveFilter] = useState('event');
+  const trends = activeFilter === 'event' ? eventTrends : volunteerTrends;
 
-export default BookmarkPage;
+  return (
+    <Container>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', my: 4 }}>
+        <Typography variant="h4" component="h1" fontWeight="bold">
+          Trends
+        </Typography>
+        <Typography variant="body2" component="a" href="#">
+          Lihat Semua
+        </Typography>
+      </Box>
+      <FilterButtons activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+      <Grid container spacing={3}>
+        {trends.map((trend) => (
+          <Grid item xs={12} sm={6} md={4} key={trend.id}>
+            <TrendItem trend={trend} />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
+};
+
+export default TrendPage;
