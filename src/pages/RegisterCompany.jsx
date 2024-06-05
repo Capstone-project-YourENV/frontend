@@ -1,15 +1,37 @@
 import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import Copyright from '../components/Copyright';
 import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
+import { asyncRegisterUser } from '../states/users/thunk';
 
 function RegisterCompany() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const handleSubmit = (data) => {
-    console.log(data);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (data) => {
+    const { username, email, password, role = 'company' } = data;
+    try {
+      const { error } = await dispatch(
+        asyncRegisterUser({
+          username,
+          email,
+          password,
+          role,
+        }),
+      );
+
+      if (!error) {
+        navigate('/login');
+      }
+    } catch (error) {
+      navigate('/register/company');
+    }
   };
 
   return (

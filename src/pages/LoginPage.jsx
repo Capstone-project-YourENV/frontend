@@ -1,20 +1,30 @@
 import React from 'react';
 import { useMediaQuery, Box, Grid, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import Copyright from '../components/Copyright';
 import LoginForm from '../components/authentication/LoginForm';
 import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
-import useBoundStore from '../states';
+import { asyncSetAuthUser } from '../states/authentication/thunk';
 
 export default function LoginPage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const setAuthUser = useBoundStore((state) => state.setAuthUser);
-  console.log(setAuthUser);
-  const handleSubmit = (e, data) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e, data) => {
     e.preventDefault();
-    console.log(data);
-    setAuthUser(data);
+    try {
+      const { error } = await dispatch(asyncSetAuthUser(data));
+      console.log(error);
+      if (!error) {
+        navigate('/');
+      }
+    } catch (error) {
+      navigate('/login');
+    }
   };
 
   return (
@@ -30,7 +40,7 @@ export default function LoginPage() {
             loading="lazy"
             style={{ width: '512px', height: '512px', margin: 'auto' }}
             alt="Login picture."
-            src="/assets/login-picture.png"
+            src="./src/assets/login-picture.png"
           />
         </Grid>
       )}

@@ -1,15 +1,38 @@
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import Copyright from '../components/Copyright';
 import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
+import { asyncRegisterUser } from '../states/users/thunk';
 
 function RegisterUser() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const handleSubmit = (data) => {
-    console.log(data);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (e, data) => {
+    e.preventDefault();
+    const { username, email, password, role = 'user' } = data;
+    try {
+      const { error } = await dispatch(
+        asyncRegisterUser({
+          username,
+          email,
+          password,
+          role,
+        }),
+      );
+      console.log(error);
+
+      if (!error) {
+        navigate('/login');
+      }
+    } catch (error) {
+      navigate('/register/user');
+    }
   };
 
   return (
@@ -34,7 +57,7 @@ function RegisterUser() {
             component="img"
             loading="lazy"
             style={{ width: '512px', height: '512px', margin: 'auto' }}
-            alt="Login picture."
+            alt="Register picture."
             src="/src/assets/register-picture.png"
           />
         </Grid>

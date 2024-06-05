@@ -12,6 +12,9 @@ import {
   Grid,
   useTheme,
   useMediaQuery,
+  Avatar,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ButtonAuthentication from './authentication/ButtonAuthentication';
@@ -34,11 +37,20 @@ function NavItem({ text, isActive, link }) {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ authUser, signOut }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -78,16 +90,44 @@ export default function Navbar() {
             gap="8px"
             className="justify-end hidden md:flex"
             paddingRight={isTablet ? '0' : '56px'}>
-            <Link href="/register/user">
-              <ButtonAuthentication
-                text="Register"
-                styleType="primary"
-                variant="outlined"
-              />
-            </Link>
-            <Link href="/login">
-              <ButtonAuthentication text="Login" styleType="primary" />
-            </Link>
+            {authUser ? (
+              <>
+                <IconButton onClick={handleMenuOpen} color="inherit">
+                  <Avatar alt={authUser.name} src={authUser.avatarUrl} />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}>
+                  <MenuItem
+                    onClick={handleMenuClose}
+                    component={Link}
+                    href="/profile">
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleMenuClose}
+                    component={Link}
+                    href="/bookmarks">
+                    Bookmarks
+                  </MenuItem>
+                  <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Link href="/register/user">
+                  <ButtonAuthentication
+                    text="Register"
+                    styleType="primary"
+                    variant="outlined"
+                  />
+                </Link>
+                <Link href="/login">
+                  <ButtonAuthentication text="Login" styleType="primary" />
+                </Link>
+              </>
+            )}
           </Grid>
           <div className="flex-1 flex md:hidden justify-end">
             <IconButton
@@ -120,12 +160,24 @@ export default function Navbar() {
             ))}
           </List>
           <List>
-            <ListItem button>
-              <ListItemText primary="Register" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Login" />
-            </ListItem>
+            {authUser ? (
+              <ListItem button>
+                <ListItemText primary="Sign Out" onClick={signOut} />
+              </ListItem>
+            ) : (
+              <>
+                <ListItem button>
+                  <Link href="/register/user">
+                    <ListItemText primary="Register" />
+                  </Link>
+                </ListItem>
+                <ListItem button>
+                  <Link href="/login">
+                    <ListItemText primary="Login" />
+                  </Link>
+                </ListItem>
+              </>
+            )}
           </List>
         </div>
       </Drawer>

@@ -1,4 +1,5 @@
 const api = (() => {
+  // const BASE_URL = 'https://comment.yourcodeapp.com/api';
   const BASE_URL = 'http://localhost:5000/api';
 
   function putAcessToken(token) {
@@ -14,35 +15,34 @@ const api = (() => {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `${getAcessToken()}`,
+        token: `${getAcessToken()}`,
       },
     });
   }
 
-  async function register({ name, email, password }) {
+  async function register({ username, email, password, role }) {
     const response = await fetch(`${BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name,
+        username,
         email,
         password,
+        role: role || 'user',
       }),
     });
     const responseJson = await response.json();
 
-    const { status, message } = responseJson;
+    const { status, message, msg } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
+    if (msg || status !== 'success') {
+      throw new Error(message || msg);
     }
 
-    const {
-      data: { user },
-    } = responseJson;
-    return user;
+    const { data } = responseJson;
+    return data;
   }
 
   async function login({ email, password }) {
@@ -58,17 +58,28 @@ const api = (() => {
     });
     const responseJson = await response.json();
 
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
     const {
       data: { token },
     } = responseJson;
-
     return token;
+  }
+
+  async function getOwnProfile() {
+    const response = await _fetchWithAuth(`${BASE_URL}/profile/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const responseJson = await response.json();
+
+    const { status, msg, message } = responseJson;
+    if (msg || status !== 'success') {
+      throw new Error(msg || message);
+    }
+    const { data } = responseJson;
+    return data;
   }
   return {
     register,
@@ -76,6 +87,7 @@ const api = (() => {
     putAcessToken,
     getAcessToken,
     _fetchWithAuth,
+    getOwnProfile,
   };
 })();
 

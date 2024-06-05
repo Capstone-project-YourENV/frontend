@@ -21,7 +21,7 @@ function RegisterForm({ register, color }) {
       component="form"
       width="100%"
       noValidate
-      onSubmit={() => register({ username, email, password })}
+      onSubmit={(e) => register(e, { username, email, password })}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginPage from './pages/LoginPage';
 import RegisterUser from './pages/RegisterUser';
 import RegisterCompany from './pages/RegisterCompany';
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutPage';
-import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
 import CreateForumPage from './pages/CreateForumPage';
@@ -15,11 +15,29 @@ import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
-import useBoundStore from './states';
+import { asyncPreloadProcess } from './states/isPreload/thunk';
+import Navbar from './components/Navbar';
+import { asyncUnsetAuthUSer } from './states/authentication/thunk';
 
 function App() {
-  const authUser = useBoundStore((state) => state.authUser);
+  const authUser = useSelector((state) => state.authUser);
+  const isPreload = useSelector((state) => state.isPreload);
   console.log(authUser);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onSignOut = () => {
+    dispatch(asyncUnsetAuthUSer());
+    navigate('/');
+  };
+
+  useEffect(() => {
+    dispatch(asyncPreloadProcess());
+  }, [dispatch]);
+
+  if (isPreload) {
+    return null;
+  }
 
   if (authUser == null) {
     return (
@@ -35,17 +53,23 @@ function App() {
     );
   }
   return (
-    <Routes>
-      <Route path="/" element={<ForumPage />} />
-      <Route path="/event/:eventId" element={<DetailForumPage />} />
-      <Route path="/event/:id/participant" element={<JoinParticipantPage />} />
-      <Route path="/event/:id/absent" element={<AbsentPage />} />
-      <Route path="/create" element={<CreateForumPage />} />
-      <Route path="/bookmark" element={<BookmarkPage />} />
-      <Route path="/trending" element={<TrendingPage />} />
-      <Route path="/comingsoon" element={<ComingSoonPage />} />
-      <Route path="/profile" element={<ProfilPage />} />
-    </Routes>
+    <>
+      <Navbar authUser={authUser} signOut={onSignOut} />
+      <Routes>
+        <Route path="/" element={<ForumPage />} />
+        <Route path="/event/:eventId" element={<DetailForumPage />} />
+        <Route
+          path="/event/:id/participant"
+          element={<JoinParticipantPage />}
+        />
+        <Route path="/event/:id/absent" element={<AbsentPage />} />
+        <Route path="/create" element={<CreateForumPage />} />
+        <Route path="/bookmark" element={<BookmarkPage />} />
+        <Route path="/trending" element={<TrendingPage />} />
+        <Route path="/comingsoon" element={<ComingSoonPage />} />
+        <Route path="/profile" element={<ProfilPage />} />
+      </Routes>
+    </>
   );
 }
 
