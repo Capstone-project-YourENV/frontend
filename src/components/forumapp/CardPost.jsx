@@ -71,6 +71,7 @@ function Info({ participant }) {
 
 function CardPost(props) {
   const {
+    id,
     title,
     owner,
     content,
@@ -82,7 +83,7 @@ function CardPost(props) {
   } = props;
 
   return (
-    <Link to="/detailpost" style={{ textDecoration: 'none' }}>
+    <Link to={`/event/${id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{ backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
         <CardContent>
           <Grid display="flex" flexDirection="row" gap="20px" justifyContent="space-between" alignItems="center">

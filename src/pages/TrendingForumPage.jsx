@@ -1,7 +1,7 @@
 import React from 'react';
 import LayoutForumApp from '../layouts/LayoutForumApp';
-import MainbarForum from '../layouts/MainbarForum';
 import SidebarContent from '../components/forumapp/SidebarContent';
+import MainbarForum from '../layouts/MainbarForum';
 import PostItem from '../components/PostItem';
 
 const authUser = {
@@ -38,7 +38,7 @@ const detailForum = {
   total: 50,
 };
 
-function BookmarkPage() {
+function TrendingForumPage() {
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} events={recentevents} />
@@ -59,4 +59,4 @@ function BookmarkPage() {
   );
 }
 
-export default BookmarkPage;
+export default TrendingForumPage;
