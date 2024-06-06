@@ -15,6 +15,7 @@ import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
+import VolunteerPage from './pages/DetailVolunteerPage';
 
 function App() {
   // const authUser = null;
@@ -35,6 +36,7 @@ function App() {
           <Route path="/register/company" element={<RegisterCompany />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUsPage />} />
+          
         </Routes>
         <Footer />
       </div>
@@ -51,6 +53,7 @@ function App() {
       <Route path="/trending" element={<TrendingPage />} />
       <Route path="/comingsoon" element={<ComingSoonPage />} />
       <Route path="/Profil" element={<ProfilPage />} />
+      <Route path="/volunteer" element={<VolunteerPage />} />
     </Routes>
   );
 }
