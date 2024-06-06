@@ -5,11 +5,11 @@ const asyncRegisterUser = createAsyncThunk(
   'registerUser',
   async (data, thunkAPI) => {
     try {
-      console.log(data);
       await api.register(data);
       return { error: null };
     } catch (error) {
-      return { error: error.message };
+      alert(error.message);
+      throw error;
     }
   },
 );

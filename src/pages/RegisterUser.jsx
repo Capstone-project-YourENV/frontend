@@ -26,7 +26,6 @@ function RegisterUser() {
         }),
       );
       console.log(error);
-
       if (!error) {
         navigate('/login');
       }

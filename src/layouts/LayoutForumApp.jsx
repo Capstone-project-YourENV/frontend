@@ -8,10 +8,8 @@ function LayoutForumApp({ children }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <Grid
+      container
       spacing={3}
-      display="flex"
-      flexDirection={isMobile ? 'column' : 'row'}
-      gap={isMobile ? '10px' : '50px'}
       paddingY="60px"
       paddingX={5}
       sx={{ backgroundColor: 'softwhite' }}>

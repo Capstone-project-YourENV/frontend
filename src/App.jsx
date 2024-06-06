@@ -18,13 +18,14 @@ import AbsentPage from './pages/AbsentPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';
 import Navbar from './components/Navbar';
 import { asyncUnsetAuthUSer } from './states/authentication/thunk';
+import TrendingForumPage from './pages/TrendingForumPage';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
   const isPreload = useSelector((state) => state.isPreload);
-  console.log(authUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(authUser);
 
   const onSignOut = () => {
     dispatch(asyncUnsetAuthUSer());
@@ -48,6 +49,7 @@ function App() {
           <Route path="/register/user" element={<RegisterUser />} />
           <Route path="/register/company" element={<RegisterCompany />} />
           <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/trends" element={<TrendingPage />} />
         </Routes>
       </div>
     );
@@ -65,7 +67,7 @@ function App() {
         <Route path="/event/:id/absent" element={<AbsentPage />} />
         <Route path="/create" element={<CreateForumPage />} />
         <Route path="/bookmark" element={<BookmarkPage />} />
-        <Route path="/trending" element={<TrendingPage />} />
+        <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>

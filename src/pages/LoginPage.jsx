@@ -16,6 +16,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
+    console.log(data);
     try {
       const { error } = await dispatch(asyncSetAuthUser(data));
       console.log(error);

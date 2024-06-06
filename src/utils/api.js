@@ -35,10 +35,10 @@ const api = (() => {
     });
     const responseJson = await response.json();
 
-    const { status, message, msg } = responseJson;
-
-    if (msg || status !== 'success') {
-      throw new Error(message || msg);
+    const { errors } = responseJson;
+    if (errors) {
+      const errorMessage = errors.map((error) => error.msg).join('\n');
+      throw new Error(errorMessage);
     }
 
     const { data } = responseJson;
@@ -58,9 +58,12 @@ const api = (() => {
     });
     const responseJson = await response.json();
 
-    const {
-      data: { token },
-    } = responseJson;
+    const { errors } = responseJson;
+    if (errors) {
+      const errorMessage = errors.map((error) => error.msg).join('\n');
+      throw new Error(errorMessage);
+    }
+    const { token } = responseJson;
     return token;
   }
 
@@ -73,7 +76,6 @@ const api = (() => {
     });
 
     const responseJson = await response.json();
-
     const { status, msg, message } = responseJson;
     if (msg || status !== 'success') {
       throw new Error(msg || message);

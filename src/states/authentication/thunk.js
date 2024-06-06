@@ -12,7 +12,6 @@ const asyncSetAuthUser = createAsyncThunk(
       api.putAcessToken(token);
       const authUser = await api.getOwnProfile();
       dispatch(setAuthUser(authUser));
-      return { error: null };
     } catch (error) {
       alert(error.message);
       throw error;

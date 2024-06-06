@@ -18,12 +18,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ButtonAuthentication from './authentication/ButtonAuthentication';
-
-const navItems = [
-  { text: 'Beranda', isActive: true, link: '/' },
-  { text: 'Trend', link: '/trend' },
-  { text: 'Upcoming', link: '/upcoming' },
-];
+import { useLocation } from 'react-router';
 
 function NavItem({ text, isActive, link }) {
   return (
@@ -43,6 +38,7 @@ export default function Navbar({ authUser, signOut }) {
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const location = useLocation();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,18 +58,28 @@ export default function Navbar({ authUser, signOut }) {
     setDrawerOpen(open);
   };
 
+  const navItems = [
+    { text: 'Beranda', link: '/' },
+    { text: 'Trend', link: '/trends' },
+    authUser
+      ? { text: 'Upcoming', link: '/comingsoon' }
+      : { text: 'About', link: '/about' },
+  ];
+
   return (
     <>
       <AppBar position="sticky" color="softwhite">
         <Toolbar className="justify-between px-4 max-md:px-2">
-          <Typography
-            variant="h6"
-            color="green"
-            fontWeight="bold"
-            className="text-2xl"
-            paddingLeft={isMobile ? '0' : '56px'}>
-            Comment
-          </Typography>
+          <Link href="/" underline="none">
+            <Typography
+              variant="h6"
+              color="green"
+              fontWeight="bold"
+              className="text-2xl"
+              paddingLeft={isMobile ? '0' : '56px'}>
+              Comment
+            </Typography>
+          </Link>
           <div className="flex-1 hidden md:flex justify-center">
             <div className="flex gap-5 justify-center">
               {navItems.map((item, index) => (
@@ -81,7 +87,7 @@ export default function Navbar({ authUser, signOut }) {
                   key={index}
                   link={item.link}
                   text={item.text}
-                  isActive={item.isActive}
+                  isActive={location.pathname === item.link}
                 />
               ))}
             </div>
