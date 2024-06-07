@@ -9,9 +9,6 @@ import { useLocation } from 'react-router';
 
 function DetailPost(props) {
   const { category, title, owner, createdAt, content } = props;
-  const authUser = {
-    id: '1',
-  };
   const [isExpanded, handleExpand] = useExpand(false);
   const location = useLocation();
   const paths = location.pathname.split('/');
