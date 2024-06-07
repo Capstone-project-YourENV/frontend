@@ -20,7 +20,7 @@ function LoginForm({ login }) {
       component="form"
       width="100%"
       noValidate
-      onSubmit={() => login({ email, password })}
+      onSubmit={(e) => login(e,{ email, password })}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"

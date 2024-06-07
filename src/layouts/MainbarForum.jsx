@@ -6,7 +6,13 @@ function MainbarForum({ children }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
-    <Grid xs={isMobile ? 12 : 9} display="flex" flexDirection="column" gap="15px">
+    <Grid
+      xs={isMobile ? 12 : 9}
+      display="flex"
+      flexDirection="column"
+      gap="15px"
+      width="100%"
+    >
       {children}
     </Grid>
   );

@@ -11,7 +11,7 @@ const FAQSection = () => {
   return (
     <section className="py-16 px-4">
       <h2 className="text-2xl font-bold mb-8 text-center">FAQ</h2>
-      <div className="max-w-4xl mx-auto">
+      <div className="w-auto mx-auto">
         {faqData.map((faq, index) => (
           <Accordion
             key={index}
