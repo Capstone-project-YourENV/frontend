@@ -3,6 +3,7 @@ import authUserSlice from './authentication/slice';
 import preloadSlice from './isPreload/slice';
 import userSlice from './users/slice';
 import postSlice from './posts/slice';
+import postDetailSlice from './postDetail/slice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     isPreload: preloadSlice,
     users: userSlice,
     posts: postSlice,
+    postDetail: postDetailSlice,
   },
 });
 

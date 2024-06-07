@@ -8,6 +8,7 @@ const asyncReceivePostDetail = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const postDetail = await fakeApi.getDetailPost(postId);
+      console.log(postDetail);
       dispatch(receivePostDetail(postDetail));
     } catch (error) {
       alert(error.message);

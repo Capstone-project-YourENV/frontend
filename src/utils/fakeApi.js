@@ -9,7 +9,7 @@ const authUser = {
     headTitle: 'Software Engineer',
     phone: '+62 xxx xxxx xxx',
   },
-  recentEvent: [
+  recentEvents: [
     {
       id: '1',
       title: 'Event 1',
@@ -17,20 +17,20 @@ const authUser = {
   ],
 };
 
-const posts =  Array.from({ length: 20 }, (_, index) => ({
-    id: `12dad3-1412da-2134d-141w1-${index + 1}`,
-    title: `Event ${index + 1}`,
-    category: 'event',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    startDate: '2023-01-01',
-    endDate: '2023-01-10',
-    maxParticipant: 20,
-    image: 'https://i.pravatar.cc/300',
-    createdAt: '2023-01-01 00:00:00',
-    ownerId: `${index + 1}`,
-    bookmarks: [],
-    totalParticipants: 1,
+const posts = Array.from({ length: 100 }, (_, index) => ({
+  id: `12dad3-1412da-2134d-141w1-${index + 1}`,
+  title: `Event ${index + 1}`,
+  category: 'event',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  startDate: '2023-01-01',
+  endDate: '2023-01-10',
+  maxParticipant: 20,
+  image: 'https://i.pravatar.cc/300',
+  createdAt: '2023-01-01 00:00:00',
+  ownerId: `${index + 1}`,
+  bookmarks: [],
+  totalParticipants: 1,
 }));
 
 const detailPost = {
@@ -76,17 +76,8 @@ const fakeApi = (() => {
   const getAuthUser = async () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = authUser;
-        if (data) {
-          const response = {
-            status: 'success',
-            msg: 'ok',
-            data: { user: data },
-          };
-          const {
-            data: { user },
-          } = response;
-          return resolve(user);
+        if (authUser) {
+          resolve(authUser);
         } else {
           reject(new Error('Not found'));
         }
@@ -94,63 +85,43 @@ const fakeApi = (() => {
     });
   };
 
-  const getPosts = async () => {
+  // Fungsi untuk mendapatkan daftar postingan
+  const getPosts = async (page = 1, limit = 10) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = posts;
-        if (data) {
-          const response = {
-            status: 'success',
-            msg: 'ok',
-            data: { post: data },
-          };
-          const {
-            data: { post },
-          } = response;
-          return resolve(post);
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        const paginatedPosts = posts.slice(start, end);
+        if (paginatedPosts.length > 0) {
+          resolve({ posts: paginatedPosts, hasMore: end < posts.length });
         } else {
-          return reject(new Error('Not found'));
+          reject(new Error('No more posts'));
         }
       }, 1000);
     });
   };
 
+  // Fungsi untuk mendapatkan detail postingan berdasarkan ID
   const getDetailPost = async (postId) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = detailPost;
-        if (data && data.id === postId) {
-          const response = {
-            status: 'success',
-            msg: 'ok',
-            data: { detailPost: data },
-          };
-          const {
-            data: { detailPost },
-          } = response;
-          return resolve(response);
+        if (detailPost) {
+          resolve(detailPost);
         } else {
-          return reject(new Error('Not found'));
+          reject(new Error('Not found'));
         }
       }, 1000);
     });
   };
+
+  // Fungsi untuk mendapatkan daftar pengguna
   const getUsers = async () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = users;
-        if (data) {
-          const response = {
-            status: 'success',
-            msg: 'ok',
-            data: { users: data },
-          };
-          const {
-            data: { users },
-          }
-          return resolve(users);
+        if (users.length > 0) {
+          resolve(users);
         } else {
-          return reject(new Error('Not found'));
+          reject(new Error('Not found'));
         }
       }, 1000);
     });

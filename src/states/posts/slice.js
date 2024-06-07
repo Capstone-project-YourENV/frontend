@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { asyncForumPostAndUsers } from '../shared/thunk';
 
 const initialState = {
   data: [],
+  status: 'idle',
   hasMore: true,
-  isLoading: false,
+  page: 1,
   error: null,
 };
 
@@ -11,22 +13,16 @@ const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
+    incrementPage(state) {
+      state.page += 1;
+    },
+    resetPosts(state) {
+      state.items = [];
+      state.page = 1;
+      state.hasMore = true;
+    },
     receivePosts(state, action) {
       return { ...state, data: action.payload };
-    },
-    forumPost: {
-      reducer(state, action) {
-        const updatedPosts = [...state.data, ...action.payload.post];
-        return {
-          ...state,
-          data: updatedPosts,
-          hasMore: action.payload.post.length === 10,
-          isLoading: false,
-        };
-      },
-      prepare(post) {
-        return { payload: { post } };
-      },
     },
     addPost: {
       reducer(state, action) {
@@ -88,9 +84,26 @@ const postSlice = createSlice({
       },
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(asyncForumPostAndUsers.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(asyncForumPostAndUsers.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = [...state.items, ...action.payload.posts];
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(asyncForumPostAndUsers.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || action.error.message;
+      });
+  },
 });
 
 export const {
+  incrementPage,
+  resetPosts,
   receivePosts,
   forumPost,
   addPost,
