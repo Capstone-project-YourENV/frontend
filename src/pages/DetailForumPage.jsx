@@ -1,9 +1,5 @@
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarForum from '../layouts/SidebarForum';
-import CardUser from '../components/forumapp/CardUser';
-import RecentEvents from '../components/forumapp/RecentEvent';
 import MainbarForum from '../layouts/MainbarForum';
 import DetailPost from '../components/DetailPost';
 import ListParticipant from '../components/ListParticipant';

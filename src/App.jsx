@@ -15,6 +15,9 @@ import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
+import VolunteerPage from './pages/DetailVolunteerPage';
+import CompanyPage from './pages/CompanyDetailPage';
+import UserPage from './pages/UserPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';
 import Navbar from './components/Navbar';
 import { asyncUnsetAuthUSer } from './states/authentication/thunk';
@@ -70,6 +73,9 @@ function App() {
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
         <Route path="/profile" element={<ProfilPage />} />
+        <Route path="/volunteer" element={<VolunteerPage />} />
+        <Route path="/company" element={<CompanyPage />} />
+        <Route path="/user" element={<UserPage />} />
       </Routes>
     </>
   );
