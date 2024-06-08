@@ -12,19 +12,22 @@ import {
 import { FaUserPlus } from 'react-icons/fa';
 import { MdPerson } from 'react-icons/md';
 import useExpand from '../hooks/useExpand';
+import { formatDate } from '../utils/date';
 
 function PostByCategory({
   category,
   createdAt,
-  content,
+  description,
+  startDate,
+  endDate,
+  owner,
   postImage,
   registered,
   total,
   title,
-  name,
 }) {
   const [isExpanded, handleExpand] = useExpand(false);
-
+  console.log(owner);
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
       <CardMedia
@@ -48,22 +51,26 @@ function PostByCategory({
               </Grid>
               <Grid item>
                 <Typography variant="body2" color="textSecondary">
-                  {name}
+                  {owner?.username}
                 </Typography>
               </Grid>
             </Grid>
             <Typography variant="body2" color="textSecondary">
-              {createdAt}
+              {formatDate(startDate)}
+              -
+              {formatDate(endDate)}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body1" color="textSecondary">
-              {isExpanded ? content : `${content.substring(0, 100)}...`}
+              {isExpanded
+                ? description
+                : `${description?.substring(0, 100)}...`}
               <Button onClick={handleExpand} color="primary">
                 {isExpanded ? 'Show less' : 'Show more'}
               </Button>
             </Typography>
-            {category === 'volunteer' && (
+            {category === 'Event' && (
               <Grid
                 mt={2}
                 container
@@ -85,12 +92,11 @@ function PostByCategory({
 PostByCategory.propTypes = {
   category: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   postImage: PropTypes.string.isRequired,
   registered: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
 };
 
 export default PostByCategory;

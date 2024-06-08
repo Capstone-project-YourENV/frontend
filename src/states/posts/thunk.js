@@ -14,7 +14,7 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
   } = data;
   const { dispatch } = thunkAPI;
   try {
-    const post = await fakeApi.addPost({
+    const post = await fakeApi.createPost({
       title,
       description,
       image,

@@ -20,7 +20,7 @@ const asyncSetAuthUser = createAsyncThunk(
   },
 );
 
-const asyncUnsetAuthUSer = createAsyncThunk(
+const asyncUnsetAuthUser = createAsyncThunk(
   'asyncUnsetAuthUSer',
   async (data, { dispatch }) => {
     dispatch(unsetAuthUser());
@@ -28,4 +28,4 @@ const asyncUnsetAuthUSer = createAsyncThunk(
   },
 );
 
-export { asyncSetAuthUser, asyncUnsetAuthUSer };
+export { asyncSetAuthUser, asyncUnsetAuthUser };

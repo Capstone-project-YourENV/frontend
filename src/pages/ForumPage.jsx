@@ -16,6 +16,8 @@ function ForumPage() {
   const page = useSelector((state) => state.posts.page);
   const hasMore = useSelector((state) => state.posts.hasMore);
   const posts = useSelector((state) => state.posts.data);
+  const users = useSelector((state) => state.users);
+
   const dispatch = useDispatch();
 
   const loadMorePosts = useCallback(() => {
@@ -30,6 +32,13 @@ function ForumPage() {
     }
   }, [status, page, dispatch]);
 
+  const listPost = posts?.map((post) => ({
+    ...post,
+    owner: users.find((user) => user.id === post.ownerId),
+  }));
+
+  console.log(listPost);
+
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
@@ -40,28 +49,30 @@ function ForumPage() {
           dataLength={posts.length}
           next={loadMorePosts}
           hasMore={hasMore}
-          loader={(
+          loader={
             <CircularProgress
               sx={{ display: 'block', margin: 'auto', marginY: 2 }}
             />
-          )}
-          endMessage={(
+          }
+          endMessage={
             <p style={{ textAlign: 'center' }}>
               {status === 'loading' ? 'Loading...' : 'No more data'}
             </p>
-          )}
-        >
-          {posts.map((post, index) => (
+          }>
+          {listPost.map((post, index) => (
             <CardPost
               key={index}
-              id={post.id}
-              title={post.title}
-              content={post.content}
-              owner={post.owner}
-              startDate={post.startDate}
-              endDate={post.endDate}
-              createdAt={post.createdAt}
-              participant={post.participant}
+              id={post?.id}
+              title={post?.title}
+              description={post?.description}
+              image={post?.image}
+              category={post?.category}
+              owner={post?.owner}
+              startDate={post?.startDate}
+              endDate={post?.endDate}
+              createdAt={post?.createdAt}
+              totalParticipants={post?.totalParticipants}
+              maxParticipant={post?.maxParticipant}
             />
           ))}
         </InfiniteScroll>

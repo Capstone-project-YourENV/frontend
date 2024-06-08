@@ -19,7 +19,7 @@ import DetailPostPage from './pages/DetailPostPage';
 import UserPage from './pages/UserPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';
 import Navbar from './components/Navbar';
-import { asyncUnsetAuthUSer } from './states/authentication/thunk';
+import { asyncUnsetAuthUser } from './states/authentication/thunk';
 import TrendingForumPage from './pages/TrendingForumPage';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   const dispatch = useDispatch();
 
   const onSignOut = () => {
-    dispatch(asyncUnsetAuthUSer());
+    dispatch(asyncUnsetAuthUser());
     navigate('/');
   };
 

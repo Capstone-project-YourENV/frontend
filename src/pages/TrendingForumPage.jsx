@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import MainbarForum from '../layouts/MainbarForum';
 import ListPost from '../components/ListPost';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncForumPostAndUsersByTrends } from '../states/shared/thunk';
 
 const detailForum = [
   {
@@ -26,11 +27,24 @@ const detailForum = [
 
 function TrendingForumPage() {
   const authUser = useSelector((state) => state.authUser);
+  const trendingPost = useSelector((state) => state.posts.data);
+  const users = useSelector((state) => state.users);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(asyncForumPostAndUsersByTrends());
+  }, [dispatch]);
+
+  const trendList = trendingPost?.map((post) => ({
+    ...post,
+    owner: users.find((user) => user.id === post.ownerId),
+  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Trending" events={detailForum} />
+        <ListPost title="Trending" events={trendList} />
       </MainbarForum>
     </LayoutForumApp>
   );

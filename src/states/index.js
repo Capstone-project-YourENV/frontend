@@ -4,6 +4,7 @@ import preloadSlice from './isPreload/slice';
 import userSlice from './users/slice';
 import postSlice from './posts/slice';
 import postDetailSlice from './postDetail/slice';
+import bookmarkSlice from './bookmark/slice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: userSlice,
     posts: postSlice,
     postDetail: postDetailSlice,
+    bookmark: bookmarkSlice,
   },
 });
 

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Typography, Box, Card } from '@mui/material';
 import {
+  Avatar,
   Button,
   Group,
+  Image,
+  Modal,
+  Notification,
   NumberInput,
   SimpleGrid,
   Switch,
@@ -19,6 +23,11 @@ import { randomId } from '@mantine/hooks';
 
 function PostForm({ addPost }) {
   const [category, toggleCategory] = useToggle(['News', 'Event']);
+  const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [fileName, setFileName] = useState('');
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -41,6 +50,7 @@ function PostForm({ addPost }) {
   });
 
   const handleDrop = (files) => {
+    setLoading(true);
     const randomName = randomId();
     const fileExtension = files[0].name.split('.').pop();
     const newName = `${randomName}.${fileExtension}`;
@@ -51,6 +61,9 @@ function PostForm({ addPost }) {
     });
 
     form.setFieldError('image', null); // Clear any existing errors on drop
+    setPreview(URL.createObjectURL(files[0]));
+    setFileName(files[0].name);
+    setLoading(false);
   };
 
   const handleReject = (files) => {
@@ -64,141 +77,192 @@ function PostForm({ addPost }) {
     form.setFieldValue('category', newCategory);
   };
   return (
-    <Card sx={{ padding: 4 }}>
-      <Box
-        component="form"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 3,
-        }}
-        onSubmit={form.onSubmit((values) => addPost(values))}>
-        <Typography
-          fontWeight="600"
-          fontSize="26px"
-          color="primary"
-          component="h1"
-          align="start">
-          Make Your Post.
-        </Typography>
+    <>
+      <Card sx={{ padding: 4 }}>
+        <Box
+          component="form"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+          }}
+          onSubmit={form.onSubmit((values) => addPost(values))}>
+          <Typography
+            fontWeight="600"
+            fontSize="26px"
+            color="primary"
+            component="h1"
+            align="start">
+            Make Your Post.
+          </Typography>
 
-        <TextInput
-          label="Title"
-          placeholder="Title..."
-          key={form.key('title')}
-          {...form.getInputProps('title')}
-        />
+          <TextInput
+            label="Title"
+            placeholder="Title..."
+            key={form.key('title')}
+            {...form.getInputProps('title')}
+          />
 
-        <Textarea
-          placeholder="Description..."
-          label="Description"
-          autosize
-          minRows={4}
-          key={form.key('description')}
-          {...form.getInputProps('description')}
-        />
+          <Textarea
+            placeholder="Description..."
+            label="Description"
+            autosize
+            minRows={4}
+            key={form.key('description')}
+            {...form.getInputProps('description')}
+          />
 
-        <Switch
-          color={category === 'Event' ? 'green' : 'gray'}
-          label={category}
-          onClick={handleToggleCategory}
-          checked={category === 'Event'}
-        />
+          <Switch
+            color={category === 'Event' ? 'green' : 'gray'}
+            label={category}
+            onClick={handleToggleCategory}
+            checked={category === 'Event'}
+          />
 
-        {category === 'Event' && (
-          <>
-            <SimpleGrid cols={2}>
-              <DatePickerInput
-                clearable
-                defaultValue={new Date()}
-                label="Start date"
-                placeholder="Start Date"
-                valueFormat="DD MMM YYYY"
-                key={form.key('startDate')}
-                {...form.getInputProps('startDate')}
+          {category === 'Event' && (
+            <>
+              <SimpleGrid cols={2}>
+                <DatePickerInput
+                  clearable
+                  defaultValue={new Date()}
+                  label="Start date"
+                  placeholder="Start Date"
+                  valueFormat="DD MMM YYYY"
+                  key={form.key('startDate')}
+                  {...form.getInputProps('startDate')}
+                />
+                <DatePickerInput
+                  clearable
+                  defaultValue={new Date()}
+                  label="End date"
+                  placeholder="End Date"
+                  valueFormat="DD MMM YYYY"
+                  key={form.key('endDate')}
+                  {...form.getInputProps('endDate')}
+                />
+              </SimpleGrid>
+
+              <NumberInput
+                label="Max Participant"
+                placeholder="Participate"
+                allowDecimal={false}
+                allowNegative={false}
+                key={form.key('maxParticipant')}
+                {...form.getInputProps('maxParticipant')}
               />
-              <DatePickerInput
-                clearable
-                defaultValue={new Date()}
-                label="End date"
-                placeholder="End Date"
-                valueFormat="DD MMM YYYY"
-                key={form.key('endDate')}
-                {...form.getInputProps('endDate')}
-              />
-            </SimpleGrid>
+            </>
+          )}
 
-            <NumberInput
-              label="Max Participant"
-              placeholder="Participate"
-              allowDecimal={false}
-              allowNegative={false}
-              key={form.key('maxParticipant')}
-              {...form.getInputProps('maxParticipant')}
-            />
-          </>
-        )}
+          <Dropzone
+            onDrop={handleDrop}
+            onReject={handleReject}
+            maxSize={5 * 1024 ** 2}
+            loading={loading === true}
+            accept={IMAGE_MIME_TYPE}
+            key={form.key('image')}
+            {...form.getInputProps('image')}
+            style={{
+              borderColor: form.errors.image ? 'red' : undefined,
+            }}>
+            <Group
+              justify="center"
+              gap="xl"
+              mih={220}
+              style={{ pointerEvents: 'none' }}>
+              <Dropzone.Accept>
+                <IconUpload
+                  style={{
+                    width: '52px',
+                    height: '52px',
+                    color: 'var(--mantine-color-blue-6)',
+                  }}
+                  stroke={1.5}
+                />
+              </Dropzone.Accept>
+              <Dropzone.Reject>
+                <IconX
+                  style={{
+                    width: '52px',
+                    height: '52px',
+                    color: 'var(--mantine-color-red-6)',
+                  }}
+                  stroke={1.5}
+                />
+              </Dropzone.Reject>
+              <Dropzone.Idle>
+                <IconPhoto
+                  style={{
+                    width: '52px',
+                    height: '52px',
+                    color: 'var(--mantine-color-dimmed)',
+                  }}
+                  stroke={1.5}
+                />
+              </Dropzone.Idle>
 
-        <Dropzone
-          onDrop={handleDrop}
-          onReject={handleReject}
-          maxSize={5 * 1024 ** 2}
-          accept={IMAGE_MIME_TYPE}
-          key={form.key('image')}
-          {...form.getInputProps('image')}>
-          <Group
-            justify="center"
-            gap="xl"
-            mih={220}
-            style={{ pointerEvents: 'none' }}>
-            <Dropzone.Accept>
-              <IconUpload
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  color: 'var(--mantine-color-blue-6)',
-                }}
-                stroke={1.5}
-              />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  color: 'var(--mantine-color-red-6)',
-                }}
-                stroke={1.5}
-              />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconPhoto
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  color: 'var(--mantine-color-dimmed)',
-                }}
-                stroke={1.5}
-              />
-            </Dropzone.Idle>
+              <div>
+                <Text size="xl" inline>
+                  Drag images here or click to select files
+                </Text>
+                <Text size="sm" color="dimmed" inline mt={7}>
+                  Attach as many files as you like, each file should not exceed
+                  5MB
+                </Text>
+              </div>
+            </Group>
+          </Dropzone>
 
-            <div>
-              <Text size="xl" inline>
-                Drag images here or click to select files
-              </Text>
-              <Text size="sm" color="dimmed" inline mt={7}>
-                Attach as many files as you like, each file should not exceed
-                5MB
-              </Text>
-            </div>
-          </Group>
-        </Dropzone>
+          {form.errors.image && (
+            <Notification
+              color="red"
+              title="Upload Error"
+              disallowClose
+              mt="md">
+              {form.errors.image}
+            </Notification>
+          )}
 
-        <Button type="submit" fullWidth color="#75A47F">
-          Submit
-        </Button>
-      </Box>
-    </Card>
+          {preview && (
+            <Box
+              component={Card}
+              sx={{
+                padding: '2rem',
+                backgroundColor: 'white',
+                borderRadius: '10px',
+                cursor: 'pointer',
+              }}
+              boxShadow={'xs'}
+              onClick={() => setModalOpened(true)}
+            >
+              <Group>
+                <Avatar
+                  src={preview}
+                  alt="Profile of Darlene Robertson"
+                  size="xl"
+                  radius="xl"
+                />
+                <div>
+                  <Text size="xl" weight={500}>
+                    {fileName}
+                  </Text>
+                </div>
+              </Group>
+            </Box>
+          )}
+
+          <Button type="submit" fullWidth color="#75A47F">
+            Submit
+          </Button>
+        </Box>
+      </Card>
+      <Modal
+        centered
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        title="Image Preview">
+        <Image src={preview} alt="Preview" />
+      </Modal>
+    </>
   );
 }
 

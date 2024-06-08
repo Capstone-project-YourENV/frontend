@@ -18,7 +18,7 @@ const theme = createTheme({
   },
 });
 
-const ProfileDetails = ({ name, title, email, phone, onUpdate }) => {
+const ProfileDetails = ({ username, name, title, email, phone, onUpdate }) => {
   const [open, setOpen] = useState(false);
   const [updatedName, setUpdatedName] = useState(name);
   const [updatedTitle, setUpdatedTitle] = useState(title);
@@ -41,17 +41,31 @@ const ProfileDetails = ({ name, title, email, phone, onUpdate }) => {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Typography variant="h5" gutterBottom sx={{fontWeight:"Bold"}}>Profile</Typography>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'Bold' }}>
+          Profile
+        </Typography>
         <Divider sx={{ marginBottom: 2 }} />
-        
+
         <div style={{ marginTop: 20 }}>
-          <Typography variant="body1" sx={{ marginBottom: 2 }}>Name: {name}</Typography>
+          <Typography variant="body1" sx={{ marginBottom: 2 }}>
+            Username: {username}
+          </Typography>
           <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>Head Title: {title}</Typography>
+          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
+            Name: {name}
+          </Typography>
           <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>Email Account: {email}</Typography>
+          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
+            Head Title: {title}
+          </Typography>
           <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>Mobile Phone: {phone}</Typography>
+          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
+            Email Account: {email}
+          </Typography>
+          <Divider />
+          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
+            Mobile Phone: {phone}
+          </Typography>
           <Divider />
         </div>
 
@@ -65,8 +79,7 @@ const ProfileDetails = ({ name, title, email, phone, onUpdate }) => {
             },
           }}
           onClick={handleClickOpen}
-          fullWidth
-        >
+          fullWidth>
           Change Profile
         </Button>
 

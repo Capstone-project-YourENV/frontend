@@ -68,7 +68,7 @@ export default function Navbar({ authUser, signOut }) {
 
   return (
     <>
-      <AppBar position="sticky" color="softwhite">
+      <AppBar position="sticky" color="softwhite" style={{ zIndex: 200 }}>
         <Toolbar className="justify-between px-4 max-md:px-2">
           <Link href="/" underline="none">
             <Typography

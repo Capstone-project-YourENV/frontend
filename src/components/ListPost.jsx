@@ -24,15 +24,16 @@ function ListPost({ title, events }) {
         {events?.map((event) => {
           return (
             <PostByCategory
-              title={event.title}
-              content={event.content}
-              owner={event.owner}
-              createdAt={event.createdAt}
-              category={event.category}
-              postImage={event.postImage}
-              name={event.name}
-              total={event.total}
-              registered={event.registered}
+              title={event?.title}
+              description={event?.description}
+              owner={event?.owner}
+              startDate={event?.startDate}
+              endDate={event?.endDate}
+              category={event?.category}
+              postImage={event?.image}
+              name={event?.name}
+              total={event?.maxParticipant}
+              registered={event?.totalParticipants}
             />
           );
         })}

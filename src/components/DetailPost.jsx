@@ -7,6 +7,7 @@ import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
+import { postedAt } from '../utils/date';
 
 function DetailPost(props) {
   const {
@@ -92,7 +93,7 @@ function DetailPost(props) {
           variant="body1"
           color="textSecondary"
           alignSelf="flex-start">
-          {createdAt}
+          {postedAt(createdAt)}
         </Typography>
       </Box>
 
@@ -120,7 +121,7 @@ function DetailPost(props) {
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
-                {participants?.length} / {maxParticipant} Terdaftar
+                {participants?.length} / {maxParticipant} Participant
               </Typography>
             </Box>
             {authUser && (
