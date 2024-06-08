@@ -18,3 +18,11 @@ const postDetailSlice = createSlice({
     },
   },
 });
+
+export const {
+  receivePostDetail,
+  clearPostDetail,
+  updatePostDetail,
+  deletePostDetail,
+} = postDetailSlice.actions;
+export default postDetailSlice.reducer;

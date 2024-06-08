@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function CardUser(props) {
-  const { name, image, headTitle } = props;
+  const { name, photo, headTitle } = props;
   return (
     <Card
       sx={{
@@ -18,7 +18,7 @@ function CardUser(props) {
           margin: 'auto',
           marginTop: '24px',
         }}
-        src={image}
+        src={photo}
         alt={`Profile picture of ${name}`}
       />
       <CardContent>
@@ -37,7 +37,7 @@ function CardUser(props) {
 
 CardUser.propTypes = {
   name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  photo: PropTypes.string.isRequired,
   headTitle: PropTypes.string,
 };
 

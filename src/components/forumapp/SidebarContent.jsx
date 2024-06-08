@@ -3,15 +3,15 @@ import SidebarForum from '../../layouts/SidebarForum';
 import CardUser from './CardUser';
 import RecentEvents from './RecentEvent';
 
-
-
-function SidebarContent({ user, events }) {
+function SidebarContent({ user }) {
   return (
     <SidebarForum>
       <CardUser
-        {...user}
+        name={user?.profile?.name}
+        photo={user?.profile?.image}
+        headTitle={user?.profile?.headTitle}
       />
-      <RecentEvents events={events} />
+      {user?.recentEvents && <RecentEvents events={user?.recentEvents} />}
     </SidebarForum>
   );
 }

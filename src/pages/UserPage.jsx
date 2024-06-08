@@ -4,23 +4,7 @@ import SidebarContent from '../components/forumapp/SidebarContent';
 import Header from '../components/Company/Header';
 import Event from '../components/Company/Event';
 import { Container, Typography, Box, Grid } from '@mui/material';
-
-const authUser = {
-  name: 'Ervalsa Dwi Nanda',
-  image: 'https://i.pravatar.cc/300',
-  headTitle: 'Software Engineer',
-};
-
-const recentevents = [
-  {
-    id: '21ad3',
-    title: 'COVID-19',
-  },
-  {
-    id: '21ad3f',
-    title: 'Comptabilité - Problème Baisse de Charges',
-  },
-];
+import { useSelector } from 'react-redux';
 
 const company = {
   name: 'Biffco Enterprises Ltd.',
@@ -72,10 +56,11 @@ const pastEvents = [
 ];
 
 function BookmarkPage() {
+  const authUser = useSelector((state) => state.authUser);
   return (
     <LayoutForumApp>
       <Grid container spacing={2}>
-        <SidebarContent user={authUser} events={recentevents} />
+        <SidebarContent user={authUser} />
         <Grid item xs={12} md={9}>
           <Container sx={{ mt: 4 }}>
             <Header company={company} />

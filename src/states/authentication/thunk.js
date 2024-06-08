@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import { setAuthUser, unsetAuthUser } from './slice';
+import fakeApi from '../../utils/fakeApi';
 
 const asyncSetAuthUser = createAsyncThunk(
   'asyncSetAuthUser',
@@ -10,7 +11,7 @@ const asyncSetAuthUser = createAsyncThunk(
     try {
       const token = await api.login({ email, password });
       api.putAcessToken(token);
-      const authUser = await api.getOwnProfile();
+      const authUser = await fakeApi.getAuthUser();
       dispatch(setAuthUser(authUser));
     } catch (error) {
       alert(error.message);
