@@ -127,6 +127,18 @@ const fakeApi = (() => {
     });
   };
 
+  const createPost = async (data) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (data) {
+          resolve(data);
+        } else {
+          reject(new Error('Not found'));
+        }
+      }, 1000);
+    });
+  };
+
   return {
     getAuthUser,
     getPosts,

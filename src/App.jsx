@@ -68,7 +68,7 @@ function App() {
         />
         <Route path="/events/:id/absent" element={<AbsentPage />} />
         <Route path="/create" element={<CreateForumPage />} />
-        <Route path="/bookmark" element={<BookmarkPage />} />
+        <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
         <Route path="/users/:id" element={<UserPage />} />
