@@ -20,10 +20,11 @@ function ListPost({ title, events }) {
           {title}
         </Typography>
       </Grid>
-      <Box width="100%">
+      <Box width="100%" display="flex" gap={2} flexDirection="column">
         {events?.map((event) => {
           return (
             <PostByCategory
+              id={event?.id}
               title={event?.title}
               description={event?.description}
               owner={event?.owner}
@@ -31,7 +32,6 @@ function ListPost({ title, events }) {
               endDate={event?.endDate}
               category={event?.category}
               postImage={event?.image}
-              name={event?.name}
               total={event?.maxParticipant}
               registered={event?.totalParticipants}
             />

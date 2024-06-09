@@ -27,6 +27,7 @@ function DetailForumPage() {
         <DetailPost
           authUser={authUser}
           title={postDetail?.title}
+          image={postDetail?.image}
           description={postDetail?.description}
           maxParticipant={postDetail?.maxParticipant}
           participants={postDetail?.participants}
@@ -34,9 +35,14 @@ function DetailForumPage() {
           createdAt={postDetail?.createdAt}
           category={postDetail?.category}
         />
-        {/* <ListParticipant participant={postDetail?.participant} /> */}
-        <CreateComment />
-        <ListComment comments={postDetail?.comments} />
+        {authUser?.role !== 'company' &&
+          postDetail?.owner?.id !== authUser?.id && (
+            <>
+              <ListParticipant participant={postDetail?.participants} />
+              <CreateComment />
+              <ListComment comments={postDetail?.comments} />
+            </>
+        )}
       </MainbarForum>
     </LayoutForumApp>
   );

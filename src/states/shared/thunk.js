@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import fakeApi from '../../utils/fakeApi';
 import { receiveUsers } from '../users/slice';
 import { receivePosts } from '../posts/slice';
-import { receiveBookmark } from '../bookmark/slice';
 
 const asyncForumPostAndUsers = createAsyncThunk(
   'asyncForumPostAndUsers',
@@ -28,7 +27,7 @@ const asyncForumPostAndUsers = createAsyncThunk(
 
 const asyncForumPostAndUsersByTrends = createAsyncThunk(
   'asyncForumPostAndUsersByTrends',
-  async (page, thunkAPI) => {
+  async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
       const response = await fakeApi.getPostsByTrends();
@@ -45,7 +44,7 @@ const asyncForumPostAndUsersByTrends = createAsyncThunk(
 
 const asyncForumPostAndUsersByUpcoming = createAsyncThunk(
   'asyncForumPostAndUsersByUpcoming',
-  async (page, thunkAPI) => {
+  async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
       const response = await fakeApi.getPostsByUpcoming();
@@ -68,7 +67,24 @@ const asyncForumPostAndUsersBookmark = createAsyncThunk(
       const response = await fakeApi.getPostsByBookmark(authUser.id);
       const users = await fakeApi.getUsers();
       dispatch(receiveUsers(users));
-      dispatch(receiveBookmark(response));
+      dispatch(receivePosts(response));
+    } catch (error) {
+      alert(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+const asyncForumMyPosts = createAsyncThunk(
+  'asyncForumMyPosts',
+  async (data, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    try {
+      const { authUser } = getState();
+      const response = await fakeApi.getMyPosts(authUser.id);
+      const users = await fakeApi.getUsers();
+      dispatch(receiveUsers(users));
+      dispatch(receivePosts(response));
     } catch (error) {
       alert(error.message);
       return thunkAPI.rejectWithValue(error.message);
@@ -81,4 +97,5 @@ export {
   asyncForumPostAndUsersByTrends,
   asyncForumPostAndUsersByUpcoming,
   asyncForumPostAndUsersBookmark,
+  asyncForumMyPosts,
 };

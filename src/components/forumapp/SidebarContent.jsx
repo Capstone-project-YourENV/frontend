@@ -8,7 +8,7 @@ function SidebarContent({ user }) {
     <SidebarForum>
       <CardUser
         name={user?.profile?.name}
-        photo={user?.profile?.image}
+        photo={user?.profile?.photo}
         headTitle={user?.profile?.headTitle}
       />
       {user?.recentEvents.length > 0 && (

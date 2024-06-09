@@ -17,7 +17,7 @@ const postSlice = createSlice({
       state.page += 1;
     },
     resetPosts(state) {
-      state.items = [];
+      state.data = [];
       state.page = 1;
       state.hasMore = true;
     },

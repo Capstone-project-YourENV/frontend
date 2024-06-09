@@ -4,7 +4,7 @@ const authUser = {
   id: '1',
   username: 'Ers',
   email: 'NQpP1@example.com',
-  role: 'user',
+  role: 'company',
   profile: {
     name: 'Ervalsa Dwi Nanda',
     photo: 'https://i.pravatar.cc/300',
@@ -72,18 +72,27 @@ const detailPost = {
   ],
 };
 
-const users = Array.from({ length: 20 }, (_, index) => ({
-  id: `${index + 1}`,
-  username: `user${index + 1}`,
-  email: `user${index + 1}@example.com`,
-  role: 'user',
-  profile: {
-    name: 'Ervalsa Dwi Nanda',
-    photo: 'https://i.pravatar.cc/300',
-    headTitle: 'Software Engineer',
-    phone: '+62 xxx xxxx xxx',
-  },
-}));
+const users = Array.from({ length: 20 }, (_, index) => {
+  const role = Math.random() > 0.5 ? 'user' : 'company';
+  return {
+    id: `${index + 1}`,
+    username: `user${index + 1}`,
+    email: `user${index + 1}@example.com`,
+    role,
+    profile: {
+      name: 'Ervalsa Dwi Nanda',
+      photo: 'https://i.pravatar.cc/300',
+      headTitle: 'Software Engineer',
+      phone: '+62 xxx xxxx xxx',
+    },
+    recentEvents: [
+      {
+        id: `12dad3-1412da-2134d-141w1-${index + 2}`,
+        title: `Event ${index + 2}`,
+      },
+    ],
+  };
+});
 
 const fakeApi = (() => {
   const getAuthUser = async () => {
@@ -161,12 +170,29 @@ const fakeApi = (() => {
       }, 1000);
     });
   };
+  const getMyPosts = async (userId) => {
+    return new Promise((resolve, reject) => {
+      const myPosts = posts.filter((post) => post?.ownerId === userId);
+      setTimeout(() => {
+        if (myPosts.length > 0) {
+          resolve(myPosts);
+        } else {
+          reject(new Error('No more posts'));
+        }
+      }, 1000);
+    });
+  };
   // Fungsi untuk mendapatkan detail postingan berdasarkan ID
   const getDetailPost = async (postId) => {
     return new Promise((resolve, reject) => {
+      const detailPostById = posts.find((post) => post.id === postId);
+      const detailPostTotal = {
+        ...detailPostById,
+        owner: users.find((user) => user.id === detailPostById.ownerId),
+      };
       setTimeout(() => {
-        if (detailPost) {
-          resolve(detailPost);
+        if (detailPostTotal) {
+          resolve(detailPostTotal);
         } else {
           reject(new Error('Not found'));
         }
@@ -185,6 +211,30 @@ const fakeApi = (() => {
         }
       }, 1000);
     });
+  };
+
+  const getDetailUser = async (userId) => {
+    try {
+      const detailUser = users.find((user) => user.id === userId);
+      if (!detailUser) throw new Error('User not found');
+
+      const detailUserWithEvent = {
+        ...detailUser,
+        recentEvents: detailUser.recentEvents.map((event) => {
+          const post = posts.find((post) => post.id === event.id);
+          if (!post) throw new Error(`Event with ID ${event.id} not found`);
+          return post;
+        }),
+      };
+
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(detailUserWithEvent), 1000);
+      });
+    } catch (error) {
+      return new Promise((_, reject) => {
+        setTimeout(() => reject(error), 1000);
+      });
+    }
   };
 
   const createPost = async (data) => {
@@ -206,7 +256,9 @@ const fakeApi = (() => {
     getPostsByTrends,
     getPostsByUpcoming,
     getPostsByBookmark,
+    getMyPosts,
     getUsers,
+    getDetailUser,
     createPost,
   };
 })();

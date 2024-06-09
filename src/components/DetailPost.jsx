@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { useLocation } from 'react-router';
-import { useSelector } from 'react-redux';
 import { postedAt } from '../utils/date';
+import ButtonMenuCompany from './forumapp/ButtonMenuCompany';
 
 function DetailPost(props) {
   const {
@@ -20,7 +20,7 @@ function DetailPost(props) {
     maxParticipant,
     participants,
   } = props;
-  // const authUser = useSelector((state) => state.authUser);
+  console.log(owner);
   const [isExpanded, handleExpand] = useExpand(false);
   const location = useLocation();
   const paths = location.pathname.split('/');
@@ -51,7 +51,7 @@ function DetailPost(props) {
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
-        {authUser && (
+        {authUser?.role === 'user' && (
           <Button
             sx={{
               alignItems: 'center',
@@ -64,6 +64,10 @@ function DetailPost(props) {
             <Typography variant="body1">Bookmark</Typography>
           </Button>
         )}
+
+        {authUser?.role === 'company' && owner?.id === authUser?.id && (
+          <ButtonMenuCompany />
+        )}
       </Box>
 
       <Box
@@ -72,8 +76,8 @@ function DetailPost(props) {
         flexDirection={{ xs: 'column', md: 'row' }}
         gap={2.5}>
         <Avatar
-          srcSet={owner?.photo}
-          alt={owner?.name}
+          srcSet={owner?.profile?.photo}
+          alt={owner?.profile?.name}
           sx={{ width: 56, height: 56, borderRadius: '50%' }}
         />
         <Box
@@ -83,10 +87,10 @@ function DetailPost(props) {
           justifyContent="center"
           py={1}>
           <Typography variant="h5" fontWeight="bold">
-            {owner?.name}
+            {owner?.profile?.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {owner?.headTitle}
+            {owner?.profile?.headTitle}
           </Typography>
         </Box>
         <Typography
@@ -124,7 +128,7 @@ function DetailPost(props) {
                 {participants?.length} / {maxParticipant} Participant
               </Typography>
             </Box>
-            {authUser && (
+            {authUser?.role === 'user' && (
               <Button variant="contained" color="primary">
                 Join Event
               </Button>

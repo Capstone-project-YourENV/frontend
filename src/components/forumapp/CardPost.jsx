@@ -22,10 +22,7 @@ function Details({ description }) {
   return (
     <Box mt={2}>
       <Typography variant="body1" color="textSecondary">
-        {isExpanded ? description : `${description?.substring(0, 100)}...`}
-        <Button onClick={handleExpand} color="primary">
-          {isExpanded ? 'Show less' : 'Show more'}
-        </Button>
+        {`${description.substring(0, 100)}...`}
       </Typography>
     </Box>
   );
@@ -47,7 +44,6 @@ function CardPost(props) {
   } = props;
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  console.log('owner', owner)
   const handleBookmark = (event) => {
     event.preventDefault();
     setIsBookmarked(!isBookmarked);
@@ -88,6 +84,7 @@ function CardPost(props) {
             avatar={owner?.profile?.photo}
           />
 
+          <Details description={description} />
           {image && (
             <Box
               component="img"
@@ -95,11 +92,11 @@ function CardPost(props) {
               src={image}
               alt={title}
               width="100%"
+              height="350px"
               mt={2}
-              sx={{ aspectRatio: '2.78' }}
+              sx={{ objectFit: 'cover' }}
             />
           )}
-          <Details description={description} />
           <Box
             display="flex"
             gap={5}
