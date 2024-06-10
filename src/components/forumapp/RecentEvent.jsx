@@ -60,7 +60,7 @@ function RecentEvents({ events }) {
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
-        {events.map((event, index) => (
+        {events?.map((event, index) => (
           <EventItem
             key={index}
             url={() => navigate(`/posts/${event.id}`)}

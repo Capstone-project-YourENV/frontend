@@ -83,6 +83,104 @@ const api = (() => {
     const { data } = responseJson;
     return data;
   }
+
+  async function getPosts(page) {
+    const response = await _fetchWithAuth(`${BASE_URL}/events/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log(data);
+    return data;
+  }
+
+  async function createPost(data) {
+    const {
+      title,
+      description,
+      image,
+      startDate,
+      endDate,
+      maxParticipant,
+      category,
+    } = data;
+    const response = await _fetchWithAuth(`${BASE_URL}/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        image,
+        startDate,
+        endDate,
+        maxParticipant,
+        category,
+      }),
+    });
+    const responseJson = await response.json();
+    console.log(responseJson);
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+  async function editPost(data) {
+    const {
+      id,
+      title,
+      description,
+      image,
+      startDate,
+      endDate,
+      maxParticipant,
+      category,
+    } = data;
+    const response = await _fetchWithAuth(`${BASE_URL}/events/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        title,
+        description,
+        image,
+        startDate,
+        endDate,
+        maxParticipant,
+        category,
+      },
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+  async function deletePost(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/events/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+
   return {
     register,
     login,
@@ -90,6 +188,10 @@ const api = (() => {
     getAcessToken,
     _fetchWithAuth,
     getOwnProfile,
+    getPosts,
+    createPost,
+    editPost,
+    deletePost,
   };
 })();
 

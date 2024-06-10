@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarContent from '../components/forumapp/SidebarContent';
-import MainbarForum from '../layouts/MainbarForum';
-import ListPost from '../components/ListPost';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncForumPostAndUsersByTrends } from '../states/shared/thunk';
+import LayoutForumApp from '../layouts/LayoutForumApp';
+import MainbarForum from '../layouts/MainbarForum';
+import SidebarContent from '../components/forumapp/SidebarContent';
+import ListPost from '../components/ListPost';
+import { bookmarkPost } from '../states/posts/slice';
+import { asyncForumMyPosts, asyncForumPostAndUsersBookmark } from '../states/shared/thunk';
 
 const detailForum = [
   {
@@ -25,18 +26,18 @@ const detailForum = [
   },
 ];
 
-function TrendingForumPage() {
+function MyPostPage() {
+  const myPost = useSelector((state) => state.posts.data);
   const authUser = useSelector((state) => state.authUser);
-  const trendingPost = useSelector((state) => state.posts.data);
   const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(asyncForumPostAndUsersByTrends());
+    dispatch(asyncForumMyPosts());
   }, [dispatch]);
 
-  const trendList = trendingPost?.map((post) => ({
+  const bookmarkList = myPost?.map((post) => ({
     ...post,
     owner: users.find((user) => user.id === post.ownerId),
   }));
@@ -44,10 +45,10 @@ function TrendingForumPage() {
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Trending" events={trendList} />
+        <ListPost title="My Post" events={bookmarkList} />
       </MainbarForum>
     </LayoutForumApp>
   );
 }
 
-export default TrendingForumPage;
+export default MyPostPage;

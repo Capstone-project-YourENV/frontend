@@ -9,7 +9,8 @@ function ProfileOwner({ name, headTitle, avatar }) {
       gap={2.5}
       mt={2}
       flexDirection={{ xs: 'column', md: 'row' }}
-      flexWrap={{ xs: 'wrap', md: 'nowrap' }}>
+      flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+      alignItems="center">
       <Avatar
         src={avatar}
         alt={`${name}'s profile`}

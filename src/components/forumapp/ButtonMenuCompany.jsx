@@ -1,44 +1,51 @@
 import React, { useState } from 'react';
-import { Typography, Box, Card } from '@mui/material';
 import {
-  Avatar,
+  Menu,
   Button,
-  Group,
-  Image,
   Modal,
-  Notification,
-  NumberInput,
-  SimpleGrid,
-  Switch,
-  Text,
   TextInput,
   Textarea,
+  Group,
+  Text,
+  NumberInput,
+  Avatar,
+  Notification,
+  Box,
+  Card,
 } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
+import {
+  IconTrash,
+  IconEdit,
+  IconSettings2,
+  IconUpload,
+  IconPhoto,
+  IconX,
+} from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
-import { useToggle } from '@mantine/hooks';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
+import { DateInput } from '@mantine/dates';
 
-function PostForm({ addPost }) {
-  const [category, toggleCategory] = useToggle(['News', 'Event']);
+function ButtonMenuCompany({ event, handleEdit }) {
+  const [editModalOpened, setEditModalOpened] = useState(false);
+  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
-  const [modalOpened, setModalOpened] = useState(false);
   const [fileName, setFileName] = useState('');
 
+  console.log(event);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
-      title: '',
-      description: '',
-      image: null,
-      category: 'News',
-      startDate: null,
-      endDate: null,
-      maxParticipant: null,
+      title: event?.title,
+      description: event?.description,
+      image: event?.image,
+      category: event?.category,
+      startDate: event?.startDate,
+      endDate: event?.endDate,
+      maxParticipant: event?.maxParticipant,
     },
+
     validate: {
       title: (value) =>
         value.length < 3 ? 'Title must be at least 3 letters' : null,
@@ -48,6 +55,34 @@ function PostForm({ addPost }) {
           : null,
     },
   });
+
+  const handleOpenEditModal = () => {
+    setEditModalOpened(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setEditModalOpened(false);
+  };
+
+  const handleOpenDeleteModal = () => {
+    setDeleteModalOpened(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModalOpened(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Handle form submission logic here
+    handleEdit();
+    handleCloseEditModal();
+  };
+
+  const handleDelete = () => {
+    // Handle delete logic here
+    handleCloseDeleteModal();
+  };
 
   const handleDrop = (files) => {
     setLoading(true);
@@ -71,88 +106,87 @@ function PostForm({ addPost }) {
     form.setFieldError('image', 'File size exceeds 5MB or invalid file type');
   };
 
-  const handleToggleCategory = () => {
-    toggleCategory();
-    const newCategory = category === 'News' ? 'Event' : 'News';
-    form.setFieldValue('category', newCategory);
-  };
   return (
     <>
-      <Card sx={{ padding: 4 }}>
-        <Box
-          component="form"
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,
-          }}
-          onSubmit={form.onSubmit((values) => addPost(values))}>
-          <Typography
-            fontWeight="600"
-            fontSize="26px"
-            color="primary"
-            component="h1"
-            align="start">
-            Make Your Post.
-          </Typography>
+      <Menu shadow="md" width={150}>
+        <Menu.Target>
+          <Button color="#75A47F">
+            <IconSettings2 style={{ paddingRight: '5px' }} />
+            Properties
+          </Button>
+        </Menu.Target>
 
+        <Menu.Dropdown>
+          <Menu.Label>Action</Menu.Label>
+          <Menu.Item
+            onClick={handleOpenEditModal}
+            leftSection={
+              <IconEdit style={{ width: '14px', height: '14px' }} />
+            }>
+            Edit Post
+          </Menu.Item>
+          <Menu.Item
+            color="red"
+            onClick={handleOpenDeleteModal}
+            leftSection={
+              <IconTrash style={{ width: '14px', height: '14px' }} />
+            }>
+            Delete Post
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+
+      <Modal
+        opened={editModalOpened}
+        onClose={handleCloseEditModal}
+        title="Edit Post"
+        centered>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <TextInput
-            label="Title"
-            placeholder="Title..."
+            label="Post Title"
+            placeholder="Enter post title"
+            required
             key={form.key('title')}
             {...form.getInputProps('title')}
           />
-
           <Textarea
-            placeholder="Description..."
-            label="Description"
-            autosize
-            minRows={4}
+            label="Post Description"
+            placeholder="Enter post description"
+            required
             key={form.key('description')}
             {...form.getInputProps('description')}
           />
-
-          <Switch
-            color={category === 'Event' ? 'green' : 'gray'}
-            label={category}
-            onClick={handleToggleCategory}
-            checked={category === 'Event'}
-          />
-
-          {category === 'Event' && (
+          {event?.category === 'Event' && (
             <>
-              <SimpleGrid cols={2}>
-                <DatePickerInput
-                  clearable
-                  defaultValue={new Date()}
-                  label="Start date"
-                  placeholder="Start Date"
-                  valueFormat="DD MMM YYYY"
-                  key={form.key('startDate')}
-                  {...form.getInputProps('startDate')}
-                />
-                <DatePickerInput
-                  clearable
-                  defaultValue={new Date()}
-                  label="End date"
-                  placeholder="End Date"
-                  valueFormat="DD MMM YYYY"
-                  key={form.key('endDate')}
-                  {...form.getInputProps('endDate')}
-                />
-              </SimpleGrid>
-
+              <DateInput
+                value={form.key('startDate')}
+                {...form.getInputProps('startDate')}
+                key={form.key('startDate')}
+                label="Date input"
+                placeholder="Date input"
+              />
+              <DateInput
+                value={form.key('endDate')}
+                {...form.getInputProps('endDate')}
+                key={form.key('endDate')}
+                label="Date input"
+                placeholder="Date input"
+              />
               <NumberInput
                 label="Max Participant"
-                placeholder="Participate"
-                allowDecimal={false}
-                allowNegative={false}
+                placeholder="Enter max participant"
+                min={1}
+                max={100}
                 key={form.key('maxParticipant')}
                 {...form.getInputProps('maxParticipant')}
               />
             </>
           )}
-
+          <Text size="lg" fw={600}>
+            Image
+          </Text>
           <Dropzone
             onDrop={handleDrop}
             onReject={handleReject}
@@ -231,9 +265,7 @@ function PostForm({ addPost }) {
                 borderRadius: '10px',
                 cursor: 'pointer',
               }}
-              boxShadow={'xs'}
-              onClick={() => setModalOpened(true)}
-            >
+              boxShadow={'xs'}>
               <Group>
                 <Avatar
                   src={preview}
@@ -249,21 +281,31 @@ function PostForm({ addPost }) {
               </Group>
             </Box>
           )}
+          <Group position="center" mt="md">
+            <Button type="submit" style={{ width: '100%' }}>
+              Edit
+            </Button>
+          </Group>
+        </form>
+      </Modal>
 
-          <Button type="submit" fullWidth color="#75A47F">
-            Submit
-          </Button>
-        </Box>
-      </Card>
       <Modal
-        centered
-        opened={modalOpened}
-        onClose={() => setModalOpened(false)}
-        title="Image Preview">
-        <Image src={preview} alt="Preview" />
+        opened={deleteModalOpened}
+        onClose={handleCloseDeleteModal}
+        title="Confirm Deletion"
+        centered>
+        <Text>Are you sure you want to delete this post?</Text>
+        <Group position="right" mt="md">
+          <Button variant="outline" onClick={handleCloseDeleteModal}>
+            Cancel
+          </Button>
+          <Button color="red" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Group>
       </Modal>
     </>
   );
 }
 
-export default PostForm;
+export default ButtonMenuCompany;
