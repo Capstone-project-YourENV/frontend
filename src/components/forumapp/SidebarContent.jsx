@@ -11,7 +11,7 @@ function SidebarContent({ user }) {
         photo={user?.profile?.photo}
         headTitle={user?.profile?.headTitle}
       />
-      {user?.recentEvents.length > 0 && (
+      {user?.recentEvents?.length > 0 && (
         <RecentEvents events={user?.recentEvents} />
       )}
     </SidebarForum>

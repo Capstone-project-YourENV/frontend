@@ -30,9 +30,11 @@ function DetailForumPage() {
           image={postDetail?.image}
           description={postDetail?.description}
           maxParticipant={postDetail?.maxParticipant}
-          participants={postDetail?.participants}
+          participants={postDetail?.totalParticipants}
           owner={postDetail?.owner}
           createdAt={postDetail?.createdAt}
+          startDate={postDetail?.startDate}
+          endDate={postDetail?.endDate}
           category={postDetail?.category}
         />
         {authUser?.role !== 'company' &&

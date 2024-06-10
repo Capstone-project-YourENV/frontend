@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { useLocation } from 'react-router';
-import { postedAt } from '../utils/date';
+import { formatDate, postedAt } from '../utils/date';
 import ButtonMenuCompany from './forumapp/ButtonMenuCompany';
 
 function DetailPost(props) {
@@ -14,13 +14,16 @@ function DetailPost(props) {
     authUser,
     category,
     title,
+    image,
     owner,
+    startDate,
+    endDate,
     createdAt,
     description,
     maxParticipant,
     participants,
   } = props;
-  console.log(owner);
+  console.log(props);
   const [isExpanded, handleExpand] = useExpand(false);
   const location = useLocation();
   const paths = location.pathname.split('/');
@@ -66,7 +69,7 @@ function DetailPost(props) {
         )}
 
         {authUser?.role === 'company' && owner?.id === authUser?.id && (
-          <ButtonMenuCompany />
+          <ButtonMenuCompany event={props} />
         )}
       </Box>
 
@@ -100,6 +103,30 @@ function DetailPost(props) {
           {postedAt(createdAt)}
         </Typography>
       </Box>
+      {category === 'Event' && (
+        <Box
+          display="flex"
+          flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+          gap={2}
+          color="textPrimary">
+          <Typography fontWeight="light" flex={1}>
+            {formatDate(startDate)} - {formatDate(endDate)}
+          </Typography>
+        </Box>
+      )}
+
+      {image && (
+        <Box
+          component="img"
+          loading="lazy"
+          src={image}
+          alt={title}
+          width="100%"
+          height="350px"
+          mt={2}
+          sx={{ objectFit: 'cover' }}
+        />
+      )}
 
       <Card
         sx={{
@@ -115,7 +142,7 @@ function DetailPost(props) {
           </Button>
         </Typography>
 
-        {category === 'event' && lastPath !== 'absent' && (
+        {category === 'Event' && lastPath !== 'absent' && (
           <Grid
             mt={2}
             display="flex"
@@ -125,7 +152,7 @@ function DetailPost(props) {
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
-                {participants?.length} / {maxParticipant} Participant
+                {participants} / {maxParticipant} Participant
               </Typography>
             </Box>
             {authUser?.role === 'user' && (

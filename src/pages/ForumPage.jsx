@@ -46,7 +46,7 @@ function ForumPage() {
         <CreatePost />
         <InfiniteScroll
           style={{ display: 'flex', gap: '20px', flexDirection: 'column' }}
-          dataLength={posts.length}
+          dataLength={posts?.length}
           next={loadMorePosts}
           hasMore={hasMore}
           loader={
@@ -59,7 +59,7 @@ function ForumPage() {
               {status === 'loading' ? 'Loading...' : 'No more data'}
             </p>
           }>
-          {listPost.map((post, index) => (
+          {listPost?.map((post, index) => (
             <CardPost
               key={index}
               id={post?.id}

@@ -11,7 +11,7 @@ const asyncSetAuthUser = createAsyncThunk(
     try {
       const token = await api.login({ email, password });
       api.putAcessToken(token);
-      const authUser = await fakeApi.getAuthUser();
+      const authUser = await api.getOwnProfile();
       dispatch(setAuthUser(authUser));
     } catch (error) {
       alert(error.message);

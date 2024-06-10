@@ -13,7 +13,7 @@ function CreateForumPage() {
   const navigate = useNavigate();
 
   const handlerSubmit = (data) => {
-    // console.log(data);
+    console.log(data);
     const { error } = dispatch(asyncAddPost(data));
     if (!error) {
       navigate('/');
