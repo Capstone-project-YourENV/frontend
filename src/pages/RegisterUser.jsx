@@ -25,7 +25,6 @@ function RegisterUser() {
           role,
         }),
       );
-      console.log(error);
       if (!error) {
         navigate('/login');
       }

@@ -6,12 +6,20 @@ import PropTypes from 'prop-types';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 
 function DetailPost(props) {
-  const { category, title, owner, createdAt, content } = props;
-  const authUser = {
-    id: '1',
-  };
+  const {
+    authUser,
+    category,
+    title,
+    owner,
+    createdAt,
+    description,
+    maxParticipant,
+    participants,
+  } = props;
+  // const authUser = useSelector((state) => state.authUser);
   const [isExpanded, handleExpand] = useExpand(false);
   const location = useLocation();
   const paths = location.pathname.split('/');
@@ -63,8 +71,8 @@ function DetailPost(props) {
         flexDirection={{ xs: 'column', md: 'row' }}
         gap={2.5}>
         <Avatar
-          srcSet={owner.avatar}
-          alt={owner.name}
+          srcSet={owner?.photo}
+          alt={owner?.name}
           sx={{ width: 56, height: 56, borderRadius: '50%' }}
         />
         <Box
@@ -74,10 +82,10 @@ function DetailPost(props) {
           justifyContent="center"
           py={1}>
           <Typography variant="h5" fontWeight="bold">
-            {owner.name}
+            {owner?.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {owner.headTitle}
+            {owner?.headTitle}
           </Typography>
         </Box>
         <Typography
@@ -96,7 +104,7 @@ function DetailPost(props) {
           borderRadius: '10px',
         }}>
         <Typography variant="body1" color="textSecondary">
-          {isExpanded ? content : `${content.substring(0, 100)}...`}
+          {isExpanded ? description : `${description?.substring(0, 100)}...`}
           <Button onClick={handleExpand} color="primary">
             {isExpanded ? 'Show less' : 'Show more'}
           </Button>
@@ -111,7 +119,9 @@ function DetailPost(props) {
             gap={5}>
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
-              <Typography>3 / 20 Terdaftar</Typography>
+              <Typography>
+                {participants?.length} / {maxParticipant} Terdaftar
+              </Typography>
             </Box>
             {authUser && (
               <Button variant="contained" color="primary">

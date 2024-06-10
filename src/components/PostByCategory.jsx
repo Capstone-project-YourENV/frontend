@@ -10,10 +10,10 @@ import {
   Button,
 } from '@mui/material';
 import { FaUserPlus } from 'react-icons/fa';
-import { MdPerson, MdNotifications } from 'react-icons/md';
+import { MdPerson } from 'react-icons/md';
 import useExpand from '../hooks/useExpand';
 
-function PostItem({
+function PostByCategory({
   category,
   createdAt,
   content,
@@ -82,7 +82,7 @@ function PostItem({
   );
 }
 
-PostItem.propTypes = {
+PostByCategory.propTypes = {
   category: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
@@ -93,4 +93,4 @@ PostItem.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-export default PostItem;
+export default PostByCategory;

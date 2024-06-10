@@ -2,58 +2,35 @@ import React from 'react';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import MainbarForum from '../layouts/MainbarForum';
-import PostItem from '../components/PostItem';
+import ListPost from '../components/ListPost';
+import { useSelector } from 'react-redux';
 
-const authUser = {
-  name: 'Ervalsa Dwi Nanda',
-  avatar: 'https://i.pravatar.cc/300',
-  headTitle: 'Software Engineer',
-};
-
-const recentevents = [
+const detailForum = [
   {
-    id: '21ad3',
-    title: 'COVID-19',
-  },
-  {
-    id: '21ad3f',
-    title: 'Comptabilité - Problème Baisse de Charges',
+    category: 'volunteer',
+    title: 'Comptabilité ahsahvb',
+    name: 'Satria Testing',
+    owner: {
+      name: 'Ervalsa Dwi Nanda',
+      avatar: 'https://i.pravatar.cc/300',
+      headTitle: 'Software Engineer',
+    },
+    createdAt: '21 August 2023 - 21 September 2024',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt   ',
+    postImage: './src/assets/post.jpg',
+    registered: 3,
+    total: 50,
   },
 ];
 
-const detailForum = {
-  category: 'volunteer',
-  title: 'Comptabilité ahsahvb',
-  name: 'Satria Testing',
-  owner: {
-    name: 'Ervalsa Dwi Nanda',
-    avatar: 'https://i.pravatar.cc/300',
-    headTitle: 'Software Engineer',
-  },
-  createdAt: '21 August 2023 - 21 September 2024',
-  content:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt   ',
-  postImage: './src/assets/post.jpg',
-  registered: 3,
-  total: 50,
-};
-
 function TrendingForumPage() {
+  const authUser = useSelector((state) => state.authUser);
   return (
     <LayoutForumApp>
-      <SidebarContent user={authUser} events={recentevents} />
+      <SidebarContent user={authUser} />
       <MainbarForum>
-        <PostItem
-          title={detailForum.title}
-          content={detailForum.content}
-          owner={detailForum.owner}
-          createdAt={detailForum.createdAt}
-          category={detailForum.category}
-          postImage={detailForum.postImage}
-          name={detailForum.name}
-          total={detailForum.total}
-          registered={detailForum.registered}
-        />
+        <ListPost title="Trending" events={detailForum} />
       </MainbarForum>
     </LayoutForumApp>
   );

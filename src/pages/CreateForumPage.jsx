@@ -1,34 +1,25 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarForum from '../layouts/SidebarForum';
-import CardUser from '../components/forumapp/CardUser';
-import RecentEvents from '../components/forumapp/RecentEvent';
 import MainbarForum from '../layouts/MainbarForum';
 import PostForm from '../components/forumapp/PostForm';
 import SidebarContent from '../components/forumapp/SidebarContent';
+import { asyncAddPost } from '../states/posts/thunk';
 
-const authUser = {
-  name: 'Ervalsa Dwi Nanda',
-  avatar: 'https://i.pravatar.cc/300',
-  headTitle: 'Software Engineer',
-};
-
-const events = [
-  {
-    id: '21ad3',
-    title: 'COVID-19',
-  },
-  {
-    id: '21ad3f',
-    title: 'Comptabilité - Problème Baisse de Charges',
-  },
-];
 function CreateForumPage() {
+  const authUser = useSelector((state) => state.authUser);
+  const dispatch = useDispatch();
+
+  const handlerSubmit = (data) => {
+    console.log(data);
+    // dispatch(asyncAddPost(data));
+  };
+
   return (
     <LayoutForumApp>
-      <SidebarContent user={authUser} events={events} />
+      <SidebarContent user={authUser} />
       <MainbarForum>
-        <PostForm />
+        <PostForm addPost={handlerSubmit} />
       </MainbarForum>
     </LayoutForumApp>
   );

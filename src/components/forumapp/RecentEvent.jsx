@@ -63,7 +63,7 @@ function RecentEvents({ events }) {
         {events.map((event, index) => (
           <EventItem
             key={index}
-            url={() => navigate(`/event/${event.id}`)}
+            url={() => navigate(`/posts/${event.id}`)}
             title={event.title}
           />
         ))}

@@ -15,6 +15,8 @@ import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
+import DetailPostPage from './pages/DetailPostPage';
+import UserPage from './pages/UserPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';
 import Navbar from './components/Navbar';
 import { asyncUnsetAuthUSer } from './states/authentication/thunk';
@@ -25,7 +27,6 @@ function App() {
   const isPreload = useSelector((state) => state.isPreload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(authUser);
 
   const onSignOut = () => {
     dispatch(asyncUnsetAuthUSer());
@@ -50,6 +51,7 @@ function App() {
           <Route path="/register/company" element={<RegisterCompany />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/trends" element={<TrendingPage />} />
+          <Route path="/posts/:id" element={<DetailPostPage />} />
         </Routes>
       </div>
     );
@@ -59,16 +61,17 @@ function App() {
       <Navbar authUser={authUser} signOut={onSignOut} />
       <Routes>
         <Route path="/" element={<ForumPage />} />
-        <Route path="/event/:eventId" element={<DetailForumPage />} />
+        <Route path="/posts/:postId" element={<DetailForumPage />} />
         <Route
-          path="/event/:id/participant"
+          path="/events/:id/participant"
           element={<JoinParticipantPage />}
         />
-        <Route path="/event/:id/absent" element={<AbsentPage />} />
+        <Route path="/events/:id/absent" element={<AbsentPage />} />
         <Route path="/create" element={<CreateForumPage />} />
-        <Route path="/bookmark" element={<BookmarkPage />} />
+        <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
+        <Route path="/users/:id" element={<UserPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>
     </>
