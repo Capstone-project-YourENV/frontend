@@ -1,9 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import MainbarForum from '../layouts/MainbarForum';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import ListPost from '../components/ListPost';
+import { bookmarkPost } from '../states/posts/slice';
+import { asyncForumPostAndUsersBookmark } from '../states/shared/thunk';
 
 const detailForum = [
   {
@@ -25,13 +27,25 @@ const detailForum = [
 ];
 
 function BookmarkPage() {
-  const posts = useSelector((state) => state.posts);
+  const postsBookmark = useSelector((state) => state.posts.data);
   const authUser = useSelector((state) => state.authUser);
+  const users = useSelector((state) => state.users);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(asyncForumPostAndUsersBookmark());
+  }, [dispatch]);
+
+  const bookmarkList = postsBookmark?.map((post) => ({
+    ...post,
+    owner: users.find((user) => user.id === post.ownerId),
+  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Bookmark" events={detailForum} />
+        <ListPost title="Bookmark" events={bookmarkList} />
       </MainbarForum>
     </LayoutForumApp>
   );

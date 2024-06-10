@@ -17,7 +17,7 @@ const postSlice = createSlice({
       state.page += 1;
     },
     resetPosts(state) {
-      state.items = [];
+      state.data = [];
       state.page = 1;
       state.hasMore = true;
     },
@@ -91,7 +91,7 @@ const postSlice = createSlice({
       })
       .addCase(asyncForumPostAndUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = [...state.items, ...action.payload.posts];
+        state.data = [...state.data, ...action.payload];
         state.hasMore = action.payload.hasMore;
       })
       .addCase(asyncForumPostAndUsers.rejected, (state, action) => {

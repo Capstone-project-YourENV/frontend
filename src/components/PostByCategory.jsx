@@ -1,96 +1,107 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { BookmarkBorder } from '@mui/icons-material';
 import {
-  Box,
-  Typography,
-  Grid,
   Card,
-  CardContent,
   CardMedia,
+  CardContent,
+  Typography,
   Button,
 } from '@mui/material';
-import { FaUserPlus } from 'react-icons/fa';
-import { MdPerson } from 'react-icons/md';
+import { FaUser, FaUserPlus } from 'react-icons/fa6';
 import useExpand from '../hooks/useExpand';
+import { formatDate } from '../utils/date';
+import { Link } from 'react-router-dom';
 
-function PostByCategory({
-  category,
-  createdAt,
-  content,
-  postImage,
-  registered,
-  total,
-  title,
-  name,
-}) {
-  const [isExpanded, handleExpand] = useExpand(false);
-
+function AuthorDetails({ name }) {
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
-      <CardMedia
-        component="img"
-        image={postImage}
-        alt="Post Image"
-        sx={{ width: '100%', height: '300px', borderRadius: '8px 8px 0 0' }}
-      />
-      <CardContent sx={{ flex: '1 0 auto' }}>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <Typography
-              variant="h4"
-              color="textPrimary"
-              sx={{ fontFamily: 'Plus Jakarta Sans' }}>
-              {title}
-            </Typography>
-            <Grid container alignItems="center" spacing={1}>
-              <Grid item>
-                <MdPerson style={{ color: '#ccc', fontSize: 18 }} />
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" color="textSecondary">
-                  {name}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Typography variant="body2" color="textSecondary">
-              {createdAt}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="body1" color="textSecondary">
-              {isExpanded ? content : `${content.substring(0, 100)}...`}
-              <Button onClick={handleExpand} color="primary">
-                {isExpanded ? 'Show less' : 'Show more'}
-              </Button>
-            </Typography>
-            {category === 'volunteer' && (
-              <Grid
-                mt={2}
-                container
-                justifyContent="space-between"
-                alignItems="center">
-                <Box display="flex" alignItems="center" gap={2}>
-                  <FaUserPlus />
-                  <Typography>{`${registered} / ${total} Terdaftar`}</Typography>
-                </Box>
-              </Grid>
-            )}
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+    <div className="flex gap-1 mt-2 font-medium text-gray-500 max-md:flex-wrap">
+      <FaUser />
+      <span className="flex-1 max-md:max-w-full">{name}</span>
+    </div>
   );
 }
 
-PostByCategory.propTypes = {
-  category: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  postImage: PropTypes.string.isRequired,
-  registered: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-};
+function Stats({ registeredCount, totalCount }) {
+  return (
+    <div className="flex gap-2 items-center">
+      <FaUserPlus />
+      <span className="text-sm">
+        {registeredCount} / {totalCount} Participant
+      </span>
+    </div>
+  );
+}
+
+function Bookmark() {
+  return (
+    <Button className="flex gap-1.5 whitespace-nowrap focus:outline-none">
+      <BookmarkBorder fontSize="small" className="shrink-0" />
+      <span className="my-auto">Bookmark</span>
+    </Button>
+  );
+}
+
+function PostByCategory(props) {
+  const {
+    id,
+    title,
+    description,
+    owner,
+    startDate,
+    endDate,
+    category,
+    postImage,
+    total,
+    registered,
+  } = props;
+  const [isExpanded, handleExpand] = useExpand(false);
+
+  return (
+    <Link to={`/posts/${id}`}>
+      <Card className="flex flex-col self-stretch text-sm leading-5 bg-white rounded-lg max-w-[984px] text-zinc-800">
+        <CardMedia
+          component="img"
+          loading="lazy"
+          image={postImage}
+          alt={title}
+          className="w-full aspect-[8.33] max-md:max-w-full"
+        />
+        <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full">
+          <Typography
+            variant="h5"
+            component="h1"
+            fontWeight="bold"
+            className="text-2xl leading-8 max-md:max-w-full">
+            {title}
+          </Typography>
+          <AuthorDetails name={owner?.username} />
+          {category === 'Event' && (
+            <Typography
+              variant="body2"
+              component="time"
+              className="mt-2 font-semibold text-gray-500 max-md:max-w-full">
+              {formatDate(startDate)} - {formatDate(endDate)}
+            </Typography>
+          )}
+          <Typography
+            variant="body2"
+            component="p"
+            className="mt-4 font-medium max-md:max-w-full">
+            {isExpanded ? description : `${description?.substring(0, 100)}...`}
+            <Button onClick={handleExpand} color="primary">
+              {isExpanded ? 'Show less' : 'Show more'}
+            </Button>
+          </Typography>
+          <div className="flex gap-5 pr-20 mt-4 text-base text-gray-700 max-md:flex-wrap max-md:pr-5">
+            {category === 'Event' && (
+              <Stats registeredCount={registered} totalCount={total} />
+            )}
+            <Bookmark />
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
 
 export default PostByCategory;

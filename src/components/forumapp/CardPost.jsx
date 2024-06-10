@@ -15,56 +15,15 @@ import { Link } from 'react-router-dom';
 import ProfileOwner from '../ProfileOwner';
 import useExpand from '../../hooks/useExpand';
 import ownerShape from '../../types/Owner';
+import { formatDate, postedAt } from '../../utils/date';
 
-function Details({ content }) {
+function Details({ description }) {
   const [isExpanded, handleExpand] = useExpand(false);
   return (
     <Box mt={2}>
       <Typography variant="body1" color="textSecondary">
-        {isExpanded ? content : `${content.substring(0, 100)}...`}
-        <Button onClick={handleExpand} color="primary">
-          {isExpanded ? 'Show less' : 'Show more'}
-        </Button>
+        {`${description.substring(0, 100)}...`}
       </Typography>
-    </Box>
-  );
-}
-
-function Info({ participant }) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const handleBookmark = (event) => {
-    event.preventDefault();
-    setIsBookmarked(!isBookmarked);
-  };
-
-  return (
-    <Box
-      display="flex"
-      gap={5}
-      pr={{ xs: 5, md: 20 }}
-      mt={2}
-      flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-      color="textSecondary"
-    >
-      {participant && (
-        <Box display="flex" gap={2} alignItems="center">
-          <FaUserPlus />
-          <Typography variant="body2" alignSelf="center">
-            {participant}
-            {' '}
-            Participant
-          </Typography>
-        </Box>
-      )}
-      <Box display="flex" gap={1.5}>
-        <IconButton onClick={handleBookmark}>
-          <BookmarkIcon sx={{ color: isBookmarked ? '#252525' : 'inherit' }} />
-        </IconButton>
-        <Typography variant="body2" alignSelf="center">
-          Bookmark
-        </Typography>
-      </Box>
     </Box>
   );
 }
@@ -74,29 +33,41 @@ function CardPost(props) {
     id,
     title,
     owner,
-    content,
+    category,
+    description,
     image,
     startDate,
     endDate,
     createdAt,
-    participant,
+    totalParticipants,
+    maxParticipant,
   } = props;
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleBookmark = (event) => {
+    event.preventDefault();
+    setIsBookmarked(!isBookmarked);
+  };
 
   return (
-    <Link to={`/event/${id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/posts/${id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{ backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
         <CardContent>
-          <Grid display="flex" flexDirection="row" gap="20px" justifyContent="space-between" alignItems="center">
+          <Grid
+            display="flex"
+            flexDirection="row"
+            gap="20px"
+            justifyContent="space-between"
+            alignItems="center">
             <Typography
               variant="h5"
               fontWeight="bold"
               color="textPrimary"
-              alignSelf="start"
-            >
+              alignSelf="start">
               {title}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {createdAt}
+              {postedAt(createdAt)}
             </Typography>
           </Grid>
 
@@ -104,19 +75,16 @@ function CardPost(props) {
             variant="body2"
             color="textSecondary"
             mt={1.5}
-            alignSelf="start"
-          >
-            {startDate}
-            -
-            {endDate}
+            alignSelf="start">
+            {formatDate(startDate)} - {formatDate(endDate)}
           </Typography>
           <ProfileOwner
-            name={owner.name}
-            headline={owner.headline}
-            avatar={owner.avatar}
+            name={owner?.profile?.name}
+            headTitle={owner?.profile?.headTitle}
+            avatar={owner?.profile?.photo}
           />
 
-          <Details content={content} />
+          <Details description={description} />
           {image && (
             <Box
               component="img"
@@ -124,11 +92,38 @@ function CardPost(props) {
               src={image}
               alt={title}
               width="100%"
+              height="350px"
               mt={2}
-              sx={{ aspectRatio: '2.78' }}
+              sx={{ objectFit: 'cover' }}
             />
           )}
-          <Info participant={participant} />
+          <Box
+            display="flex"
+            gap={5}
+            pr={{ xs: 5, md: 20 }}
+            mt={2}
+            flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+            color="textSecondary">
+            {category === 'Event' && (
+              <Box display="flex" gap={2} alignItems="center">
+                <FaUserPlus />
+                <Typography variant="body2" alignSelf="center">
+                  {totalParticipants} / {maxParticipant}
+                  Participant
+                </Typography>
+              </Box>
+            )}
+            <Box display="flex" gap={1.5}>
+              <IconButton onClick={handleBookmark}>
+                <BookmarkIcon
+                  sx={{ color: isBookmarked ? '#252525' : 'inherit' }}
+                />
+              </IconButton>
+              <Typography variant="body2" alignSelf="center">
+                Bookmark
+              </Typography>
+            </Box>
+          </Box>
         </CardContent>
       </Card>
     </Link>
@@ -136,27 +131,21 @@ function CardPost(props) {
 }
 
 Details.propTypes = {
-  content: PropTypes.string.isRequired,
-};
-
-Info.propTypes = {
-  participant: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 CardPost.propTypes = {
   title: PropTypes.string.isRequired,
   owner: PropTypes.shape(ownerShape).isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   image: PropTypes.string,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  participant: PropTypes.string,
 };
 
 CardPost.defaultProps = {
   image: null,
-  participant: null,
 };
 
 export default CardPost;

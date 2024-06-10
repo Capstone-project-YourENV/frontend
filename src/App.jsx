@@ -19,8 +19,9 @@ import DetailPostPage from './pages/DetailPostPage';
 import UserPage from './pages/UserPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';
 import Navbar from './components/Navbar';
-import { asyncUnsetAuthUSer } from './states/authentication/thunk';
+import { asyncUnsetAuthUser } from './states/authentication/thunk';
 import TrendingForumPage from './pages/TrendingForumPage';
+import MyPostPage from './pages/MyPostPage';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
@@ -29,7 +30,7 @@ function App() {
   const dispatch = useDispatch();
 
   const onSignOut = () => {
-    dispatch(asyncUnsetAuthUSer());
+    dispatch(asyncUnsetAuthUser());
     navigate('/');
   };
 
@@ -68,10 +69,11 @@ function App() {
         />
         <Route path="/events/:id/absent" element={<AbsentPage />} />
         <Route path="/create" element={<CreateForumPage />} />
+        <Route path="/mypost" element={<MyPostPage />} />
         <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
-        <Route path="/users/:id" element={<UserPage />} />
+        <Route path="/users/:userId" element={<UserPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>
     </>

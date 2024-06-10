@@ -68,7 +68,7 @@ export default function Navbar({ authUser, signOut }) {
 
   return (
     <>
-      <AppBar position="sticky" color="softwhite">
+      <AppBar position="sticky" color="softwhite" style={{ zIndex: 200 }}>
         <Toolbar className="justify-between px-4 max-md:px-2">
           <Link href="/" underline="none">
             <Typography
@@ -99,7 +99,7 @@ export default function Navbar({ authUser, signOut }) {
             {authUser ? (
               <>
                 <IconButton onClick={handleMenuOpen} color="inherit">
-                  <Avatar alt={authUser.name} src={authUser.avatarUrl} />
+                  <Avatar alt={authUser?.profile?.name} src={authUser?.profile?.photo} />
                 </IconButton>
                 <Menu
                   anchorEl={anchorEl}
@@ -110,6 +110,12 @@ export default function Navbar({ authUser, signOut }) {
                     component={Link}
                     href="/profile">
                     Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleMenuClose}
+                    component={Link}
+                    href="/mypost">
+                    My Post
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuClose}

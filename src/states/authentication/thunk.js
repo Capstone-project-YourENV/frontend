@@ -11,7 +11,7 @@ const asyncSetAuthUser = createAsyncThunk(
     try {
       const token = await api.login({ email, password });
       api.putAcessToken(token);
-      const authUser = await fakeApi.getAuthUser();
+      const authUser = await api.getOwnProfile();
       dispatch(setAuthUser(authUser));
     } catch (error) {
       alert(error.message);
@@ -20,7 +20,7 @@ const asyncSetAuthUser = createAsyncThunk(
   },
 );
 
-const asyncUnsetAuthUSer = createAsyncThunk(
+const asyncUnsetAuthUser = createAsyncThunk(
   'asyncUnsetAuthUSer',
   async (data, { dispatch }) => {
     dispatch(unsetAuthUser());
@@ -28,4 +28,4 @@ const asyncUnsetAuthUSer = createAsyncThunk(
   },
 );
 
-export { asyncSetAuthUser, asyncUnsetAuthUSer };
+export { asyncSetAuthUser, asyncUnsetAuthUser };

@@ -8,7 +8,7 @@ import ownerShape from '../types/Owner';
 function ListParticipant({ participant }) {
   const groupParticipants = (participants, itemsPerGroup) => {
     const groups = [];
-    for (let i = 0; i < participants.length; i += itemsPerGroup) {
+    for (let i = 0; i < participants?.length; i += itemsPerGroup) {
       groups.push(participants.slice(i, i + itemsPerGroup));
     }
     return groups;
