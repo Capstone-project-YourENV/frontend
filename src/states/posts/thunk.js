@@ -13,12 +13,13 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
     maxParticipant,
     category,
   } = data;
-  const { dispatch } = thunkAPI;
+  const { getState, dispatch } = thunkAPI;
   try {
     const post = await api.createPost({
+      ownerId: getState().authUser.id,
       title,
       description,
-      image: image.name,
+      image,
       startDate,
       endDate,
       maxParticipant,
@@ -34,12 +35,12 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
 });
 
 const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
-  const { id, title, description, image, startDate, endDate, maxParticipant } =
+  const { dispatch, getState } = thunkAPI;
+  const { title, description, image, startDate, endDate, maxParticipant } =
     data;
-  const { dispatch } = thunkAPI;
   try {
     const post = await api.editPost({
-      id,
+      id: getState().postDetail.id,
       title,
       description,
       image,

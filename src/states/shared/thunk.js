@@ -4,15 +4,14 @@ import { receiveUsers } from '../users/slice';
 import { receivePosts } from '../posts/slice';
 import api from '../../utils/api';
 
-const asyncForumPostAndUsers = createAsyncThunk(
-  'asyncForumPostAndUsers',
-  async (page, thunkAPI) => {
+const asyncHomePostsAndUsers = createAsyncThunk(
+  'asyncHomePostsAndUsers',
+  async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      const response = await api.getPosts(page);
-      const users = await fakeApi.getUsers();
+      const { posts, users } = await api.getPostsHome();
+      dispatch(receivePosts(posts));
       dispatch(receiveUsers(users));
-      return response;
     } catch (error) {
       alert(error.message);
       return thunkAPI.rejectWithValue(error.message);
@@ -20,8 +19,29 @@ const asyncForumPostAndUsers = createAsyncThunk(
   },
 );
 
-const asyncForumPostAndUsersByTrends = createAsyncThunk(
-  'asyncForumPostAndUsersByTrends',
+const asyncForumPostsAndUsers = createAsyncThunk(
+  'asyncForumPostsAndUsers',
+  async (page, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      console.log(page);
+      const response = await api.getPostsForum(page);
+      const users = await api.getAllUser();
+      dispatch(receiveUsers(users));
+      return {
+        data: response.data,
+        hasMore: response.data.length > 0, // Adjust this according to your API response
+        page,
+      };
+    } catch (error) {
+      alert(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+const asyncForumPostsAndUsersByTrends = createAsyncThunk(
+  'asyncForumPostsAndUsersByTrends',
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
@@ -37,8 +57,8 @@ const asyncForumPostAndUsersByTrends = createAsyncThunk(
   },
 );
 
-const asyncForumPostAndUsersByUpcoming = createAsyncThunk(
-  'asyncForumPostAndUsersByUpcoming',
+const asyncForumPostsAndUsersByUpcoming = createAsyncThunk(
+  'asyncForumPostsAndUsersByUpcoming',
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
@@ -53,14 +73,13 @@ const asyncForumPostAndUsersByUpcoming = createAsyncThunk(
   },
 );
 
-const asyncForumPostAndUsersBookmark = createAsyncThunk(
-  'asyncForumPostAndUsersBookmark',
-  async (data, thunkAPI) => {
-    const { dispatch, getState } = thunkAPI;
+const asyncForumPostsAndUsersBookmark = createAsyncThunk(
+  'asyncForumPostsAndUsersBookmark',
+  async (userId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
     try {
-      const { authUser } = getState();
-      const response = await fakeApi.getPostsByBookmark(authUser.id);
-      const users = await fakeApi.getUsers();
+      const response = await api.getPostsBookmarks(userId);
+      const users = await api.getAllUser();
       dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
     } catch (error) {
@@ -72,11 +91,10 @@ const asyncForumPostAndUsersBookmark = createAsyncThunk(
 
 const asyncForumMyPosts = createAsyncThunk(
   'asyncForumMyPosts',
-  async (data, thunkAPI) => {
-    const { dispatch, getState } = thunkAPI;
+  async (userId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
     try {
-      const { authUser } = getState();
-      const response = await fakeApi.getMyPosts(authUser.id);
+      const response = await api.getMyPosts(userId);
       const users = await fakeApi.getUsers();
       dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
@@ -88,9 +106,10 @@ const asyncForumMyPosts = createAsyncThunk(
 );
 
 export {
-  asyncForumPostAndUsers,
-  asyncForumPostAndUsersByTrends,
-  asyncForumPostAndUsersByUpcoming,
-  asyncForumPostAndUsersBookmark,
+  asyncHomePostsAndUsers,
+  asyncForumPostsAndUsers,
+  asyncForumPostsAndUsersByTrends,
+  asyncForumPostsAndUsersByUpcoming,
+  asyncForumPostsAndUsersBookmark,
   asyncForumMyPosts,
 };

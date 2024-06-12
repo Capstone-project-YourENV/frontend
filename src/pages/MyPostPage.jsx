@@ -4,8 +4,7 @@ import LayoutForumApp from '../layouts/LayoutForumApp';
 import MainbarForum from '../layouts/MainbarForum';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import ListPost from '../components/ListPost';
-import { bookmarkPost } from '../states/posts/slice';
-import { asyncForumMyPosts, asyncForumPostAndUsersBookmark } from '../states/shared/thunk';
+import { asyncForumMyPosts } from '../states/shared/thunk';
 
 const detailForum = [
   {
@@ -29,23 +28,17 @@ const detailForum = [
 function MyPostPage() {
   const myPost = useSelector((state) => state.posts.data);
   const authUser = useSelector((state) => state.authUser);
-  const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(asyncForumMyPosts());
+    dispatch(asyncForumMyPosts(authUser.id));
   }, [dispatch]);
-
-  const bookmarkList = myPost?.map((post) => ({
-    ...post,
-    owner: users.find((user) => user.id === post.ownerId),
-  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="My Post" events={bookmarkList} />
+        <ListPost title="My Post" events={myPost} />
       </MainbarForum>
     </LayoutForumApp>
   );
