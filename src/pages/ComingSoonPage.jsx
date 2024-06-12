@@ -1,30 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import MainbarForum from '../layouts/MainbarForum';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import ListPost from '../components/ListPost';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { asyncForumPostAndUsersByUpcoming } from '../states/shared/thunk';
-
-const detailForum = [
-  {
-    category: 'volunteer',
-    title: 'Comptabilité ahsahvb',
-    name: 'Satria Testing',
-    owner: {
-      name: 'Ervalsa Dwi Nanda',
-      avatar: 'https://i.pravatar.cc/300',
-      headTitle: 'Software Engineer',
-    },
-    createdAt: '21 August 2023 - 21 September 2024',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt   ',
-    postImage: './src/assets/post.jpg',
-    registered: 3,
-    total: 50,
-  },
-];
+import { asyncForumPostsAndUsersByUpcoming } from '../states/shared/thunk';
 
 function BookmarkPage() {
   const authUser = useSelector((state) => state.authUser);
@@ -33,7 +13,7 @@ function BookmarkPage() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(asyncForumPostAndUsersByUpcoming());
+    dispatch(asyncForumPostsAndUsersByUpcoming());
   }, [dispatch]);
 
   const upcomingList = upcomingPosts?.map((post) => ({

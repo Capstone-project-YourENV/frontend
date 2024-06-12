@@ -66,9 +66,189 @@ const api = (() => {
     const { token } = responseJson;
     return token;
   }
+  async function getPostsHome() {
+    const response = await fetch(`${BASE_URL}/home/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+  async function getPostsForum(page) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/post?page=${page}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return {
+      data,
+      hasMore: data.length > 0, // Adjust this according to your API response
+      page,
+    };
+  }
 
+  async function getPostsTrends() {
+    const response = await fetch(`${BASE_URL}/posts/trends`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function getPostsBookmarks(userId) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/bookmarks/${userId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function getDetailPost(id) {
+    const response = await fetch(`${BASE_URL}/posts/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function createPost(postData) {
+    const {
+      ownerId,
+      title,
+      description,
+      image,
+      file,
+      startDate,
+      endDate,
+      maxParticipant,
+      category,
+    } = postData;
+
+    const payload = new FormData();
+    payload.append('file', file);
+    payload.append('ownerId', ownerId);
+    payload.append('image', image);
+    payload.append('title', title);
+    payload.append('description', description);
+    payload.append('startDate', startDate);
+    payload.append('endDate', endDate);
+    payload.append('maxParticipant', maxParticipant);
+    payload.append('category', category);
+    const response = await _fetchWithAuth(`${BASE_URL}/posts`, {
+      method: 'POST',
+      body: payload,
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+  async function editPost(data) {
+    const {
+      id,
+      file,
+      title,
+      description,
+      image,
+      startDate,
+      endDate,
+      maxParticipant,
+      category,
+    } = data;
+    const payload = new FormData();
+    payload.append('file', file);
+    payload.append('image', image);
+    payload.append('title', title);
+    if (category === 'Event') {
+      payload.append('startDate', startDate);
+      payload.append('endDate', endDate);
+      payload.append('maxParticipant', maxParticipant);
+    }
+    payload.append('description', description);
+    payload.append('category', category);
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
+      method: 'PUT',
+      body: payload,
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+  async function deletePost(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+
+  async function getMyPosts(userId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
   async function getOwnProfile() {
-    const response = await _fetchWithAuth(`${BASE_URL}/profile/me`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -83,9 +263,8 @@ const api = (() => {
     const { data } = responseJson;
     return data;
   }
-
-  async function getPosts(page) {
-    const response = await _fetchWithAuth(`${BASE_URL}/events/`, {
+  async function getAllUser() {
+    const response = await fetch(`${BASE_URL}/users`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -96,68 +275,35 @@ const api = (() => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
+    return data;
+  }
+  async function getDetailUser(userId) {
+    const userById = await fetch(`${BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await userById.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
     return data;
   }
 
-  async function createPost(data) {
-    const {
-      title,
-      description,
-      image,
-      startDate,
-      endDate,
-      maxParticipant,
-      category,
-    } = data;
-    const response = await _fetchWithAuth(`${BASE_URL}/events`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        image,
-        startDate,
-        endDate,
-        maxParticipant,
-        category,
-      }),
-    });
-    const responseJson = await response.json();
-    console.log(responseJson);
-    const { error } = responseJson;
-    if (error) {
-      throw new Error(error.message);
-    }
-    return responseJson;
-  }
-  async function editPost(data) {
-    const {
-      id,
-      title,
-      description,
-      image,
-      startDate,
-      endDate,
-      maxParticipant,
-      category,
-    } = data;
-    const response = await _fetchWithAuth(`${BASE_URL}/events/${id}`, {
+  async function editProfileUser(userId, user) {
+    const { username, name, headTitle, phone, photo } = user;
+    const payload = new FormData();
+    payload.append('file', photo);
+    payload.append('title', username);
+    payload.append('description', name);
+    payload.append('category', headTitle);
+    payload.append('category', phone);
+
+    const response = await _fetchWithAuth(`${BASE_URL}/users/${userId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        title,
-        description,
-        image,
-        startDate,
-        endDate,
-        maxParticipant,
-        category,
-      },
+      body: payload,
     });
     const responseJson = await response.json();
     const { error } = responseJson;
@@ -166,8 +312,9 @@ const api = (() => {
     }
     return responseJson;
   }
-  async function deletePost(id) {
-    const response = await _fetchWithAuth(`${BASE_URL}/events/${id}`, {
+
+  async function deleteUser(userId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/users/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -188,10 +335,19 @@ const api = (() => {
     getAcessToken,
     _fetchWithAuth,
     getOwnProfile,
-    getPosts,
+    getPostsHome,
+    getPostsForum,
+    getPostsTrends,
+    getPostsBookmarks,
+    getDetailPost,
     createPost,
     editPost,
     deletePost,
+    getMyPosts,
+    getAllUser,
+    getDetailUser,
+    editProfileUser,
+    deleteUser,
   };
 })();
 

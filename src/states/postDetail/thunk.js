@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import fakeApi from '../../utils/fakeApi';
 import { clearPostDetail, receivePostDetail } from './slice';
+import api from '../../utils/api';
 
 const asyncReceivePostDetail = createAsyncThunk(
   'asyncReceivePostDetail',
@@ -8,7 +9,7 @@ const asyncReceivePostDetail = createAsyncThunk(
     const { dispatch } = thunkAPI;
     dispatch(clearPostDetail());
     try {
-      const postDetail = await fakeApi.getDetailPost(postId);
+      const postDetail = await api.getDetailPost(postId);
       dispatch(receivePostDetail(postDetail));
     } catch (error) {
       alert(error.message);

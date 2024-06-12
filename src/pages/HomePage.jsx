@@ -1,12 +1,7 @@
 import React from 'react';
 import 'swiper/swiper.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {
-  Box,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Grid, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import homeImage from '../assets/home.png';
 import LayoutHomepage from '../layouts/LayoutHomepage';
@@ -15,12 +10,31 @@ import VolunteerItem from '../components/homepage/VolunteerItem';
 import EventItem from '../components/homepage/EventItem';
 import NewsItem from '../components/homepage/NewsItem';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { asyncHomePostsAndUsers } from '../states/shared/thunk';
 
 function HomePage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts.data);
+  const users = useSelector((state) => state.users);
+
+  const eventsList = posts
+    ?.slice(0, 10)
+    .filter((post) => post.category === 'Event');
+  const newsList = posts
+    ?.slice(0, 10)
+    .filter((post) => post.category === 'News');
+  const usersList = users?.slice(0, 6);
+
+  useEffect(() => {
+    dispatch(asyncHomePostsAndUsers());
+  }, [dispatch]);
 
   let slidesPerView = 1;
   if (isMobile) {
@@ -200,7 +214,7 @@ function HomePage() {
   ];
 
   return (
-    <div>
+    <>
       <Navbar />
       <LayoutHomepage>
         <Grid
@@ -208,8 +222,7 @@ function HomePage() {
             position: 'relative',
             width: '100%',
             height: '100%',
-          }}
-        >
+          }}>
           <Box
             component="img"
             loading="lazy"
@@ -237,20 +250,18 @@ function HomePage() {
                 px: 10, // Padding for larger screens
                 gap: '20px',
               },
-            }}
-          >
+            }}>
             <Typography
               sx={{
                 color: 'white',
                 fontSize: {
                   xs: 20, // font size for extra small screens
                   sm: 32, // font size for extra small screens
-                  lg: 48, // font size for larg screens and up
+                  lg: 40, // font size for larg screens and up
                 },
-                fontWeight: 700,
+                fontWeight: 600,
                 wordWrap: 'break-word',
-              }}
-            >
+              }}>
               Program Volunteer
             </Typography>
             <Typography
@@ -259,15 +270,15 @@ function HomePage() {
                 fontSize: {
                   xs: 16, // font size for extra small screens
                   sm: 20, // font size for small screens and up
-                  lg: 36, // font size for large screens and up
+                  lg: 32, // font size for large screens and up
                 },
                 fontFamily: 'Plus Jakarta Sans',
                 fontWeight: 600,
                 wordWrap: 'break-word',
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dol
+              }}>
+              Bergabunglah dengan gerakan global untuk menjaga bumi kita! Anda
+              dapat berkontribusi dalam berbagai program lingkungan, menemukan
+              kegiatan di sekitar Anda, dan membuat dampak nyata.
             </Typography>
           </Grid>
         </Grid>
@@ -277,11 +288,16 @@ function HomePage() {
             slidesPerView={slidesPerView}
             pagination={{ clickable: true }}
             navigation
-            className="rounded-lg"
-          >
-            {volunteerSlides.map((volunteer) => (
+            className="rounded-lg">
+            {usersList?.map((volunteer) => (
               <SwiperSlide key={volunteer.id}>
-                <VolunteerItem {...volunteer} />
+                <VolunteerItem
+                  id={volunteer?.id}
+                  photo={volunteer?.image}
+                  name={volunteer?.name}
+                  headTitle={volunteer?.headTitle}
+                  phone={volunteer?.profile?.phone}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -292,9 +308,8 @@ function HomePage() {
             slidesPerView={slidesPerView}
             pagination={{ clickable: true }}
             navigation
-            className="rounded-lg"
-          >
-            {donationSlides.map((slide) => (
+            className="rounded-lg">
+            {eventsList?.map((slide) => (
               <SwiperSlide key={slide.id}>
                 <EventItem {...slide} />
               </SwiperSlide>
@@ -307,9 +322,8 @@ function HomePage() {
             slidesPerView={slidesPerView}
             pagination={{ clickable: true }}
             navigation
-            className="rounded-lg"
-          >
-            {newsSlides.map((slide) => (
+            className="rounded-lg">
+            {newsList?.map((slide) => (
               <SwiperSlide className="w-full" key={slide.id}>
                 <NewsItem {...slide} />
               </SwiperSlide>
@@ -317,7 +331,8 @@ function HomePage() {
           </Swiper>
         </ListHomepage>
       </LayoutHomepage>
-    </div>
+      <Footer />
+    </>
   );
 }
 

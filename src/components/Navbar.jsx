@@ -60,7 +60,7 @@ export default function Navbar({ authUser, signOut }) {
 
   const navItems = [
     { text: 'Beranda', link: '/' },
-    { text: 'Trend', link: '/trends' },
+    { text: 'Trends', link: '/trends' },
     authUser
       ? { text: 'Upcoming', link: '/comingsoon' }
       : { text: 'About', link: '/about' },

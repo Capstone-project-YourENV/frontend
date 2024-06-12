@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncForumPostAndUsers } from '../shared/thunk';
+import { asyncForumPostsAndUsers } from '../shared/thunk';
 
 const initialState = {
   data: [],
@@ -26,7 +26,7 @@ const postSlice = createSlice({
     },
     addPost: {
       reducer(state, action) {
-        return [action.payload.post, ...state.data];
+        return { ...state, data: [action.payload.post, ...state.data] };
       },
       prepare(post) {
         return { payload: { post } };
@@ -86,15 +86,16 @@ const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(asyncForumPostAndUsers.pending, (state) => {
+      .addCase(asyncForumPostsAndUsers.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(asyncForumPostAndUsers.fulfilled, (state, action) => {
+      .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = [...state.data, ...action.payload];
+        state.data = [...state.data, ...action.payload.data];
         state.hasMore = action.payload.hasMore;
+        state.page = action.payload.page + 1; // Increment page for next fetch
       })
-      .addCase(asyncForumPostAndUsers.rejected, (state, action) => {
+      .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message;
       });

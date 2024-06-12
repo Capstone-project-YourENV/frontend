@@ -13,16 +13,14 @@ import { FaUserPlus } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ProfileOwner from '../ProfileOwner';
-import useExpand from '../../hooks/useExpand';
 import ownerShape from '../../types/Owner';
 import { formatDate, postedAt } from '../../utils/date';
 
 function Details({ description }) {
-  const [isExpanded, handleExpand] = useExpand(false);
   return (
     <Box mt={2}>
       <Typography variant="body1" color="textSecondary">
-        {`${description.substring(0, 100)}...`}
+        {`${description?.substring(0, 100)}...`}
       </Typography>
     </Box>
   );
@@ -71,13 +69,15 @@ function CardPost(props) {
             </Typography>
           </Grid>
 
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            mt={1.5}
-            alignSelf="start">
-            {formatDate(startDate)} - {formatDate(endDate)}
-          </Typography>
+          {startDate && endDate && (
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              mt={1.5}
+              alignSelf="start">
+              {formatDate(startDate)} - {formatDate(endDate)}
+            </Typography>
+          )}
           <ProfileOwner
             name={owner?.profile?.name}
             headTitle={owner?.profile?.headTitle}
@@ -108,8 +108,7 @@ function CardPost(props) {
               <Box display="flex" gap={2} alignItems="center">
                 <FaUserPlus />
                 <Typography variant="body2" alignSelf="center">
-                  {totalParticipants} / {maxParticipant}
-                  Participant
+                  {totalParticipants} / {maxParticipant} Participant
                 </Typography>
               </Box>
             )}

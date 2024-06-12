@@ -7,10 +7,12 @@ import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { useLocation } from 'react-router';
 import { formatDate, postedAt } from '../utils/date';
-import ButtonMenuCompany from './forumapp/ButtonMenuCompany';
+import ButtonMenu from './forumapp/ButtonMenu';
+import { Link } from 'react-router-dom';
 
 function DetailPost(props) {
   const {
+    id,
     authUser,
     category,
     title,
@@ -22,8 +24,9 @@ function DetailPost(props) {
     description,
     maxParticipant,
     participants,
+    editPost,
+    deletePost,
   } = props;
-  console.log(props);
   const [isExpanded, handleExpand] = useExpand(false);
   const location = useLocation();
   const paths = location.pathname.split('/');
@@ -54,7 +57,7 @@ function DetailPost(props) {
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
-        {authUser?.role === 'user' && (
+        {owner?.id !== authUser?.id && (
           <Button
             sx={{
               alignItems: 'center',
@@ -68,8 +71,12 @@ function DetailPost(props) {
           </Button>
         )}
 
-        {authUser?.role === 'company' && owner?.id === authUser?.id && (
-          <ButtonMenuCompany event={props} />
+        {owner?.id === authUser?.id && (
+          <ButtonMenu
+            event={props}
+            editPost={editPost}
+            deletePost={deletePost}
+          />
         )}
       </Box>
 
@@ -78,24 +85,28 @@ function DetailPost(props) {
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
         gap={2.5}>
-        <Avatar
-          srcSet={owner?.profile?.photo}
-          alt={owner?.profile?.name}
-          sx={{ width: 56, height: 56, borderRadius: '50%' }}
-        />
-        <Box
-          display="flex"
-          flexDirection="column"
-          flex={1}
-          justifyContent="center"
-          py={1}>
-          <Typography variant="h5" fontWeight="bold">
-            {owner?.profile?.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {owner?.profile?.headTitle}
-          </Typography>
-        </Box>
+        <Link to={`/users/${owner?.id}`}>
+          <Avatar
+            srcSet={owner?.profile?.photo}
+            alt={owner?.profile?.name}
+            sx={{ width: 56, height: 56, borderRadius: '50%' }}
+          />
+        </Link>
+        <Link to={`/users/${owner?.id}`}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            flex={1}
+            justifyContent="center"
+            py={1}>
+            <Typography variant="h5" fontWeight="bold">
+              {owner?.profile?.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {owner?.profile?.headTitle}
+            </Typography>
+          </Box>
+        </Link>
         <Typography
           variant="body1"
           color="textSecondary"

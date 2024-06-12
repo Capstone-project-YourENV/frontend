@@ -25,15 +25,17 @@ import { useForm } from '@mantine/form';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
+import { useDispatch } from 'react-redux';
+import { asyncEditPost } from '../../states/posts/thunk';
 
-function ButtonMenuCompany({ event, handleEdit }) {
+function ButtonMenu({ event, editPost, deletePost }) {
   const [editModalOpened, setEditModalOpened] = useState(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState('');
+  const dispatch = useDispatch();
 
-  console.log(event);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -72,15 +74,16 @@ function ButtonMenuCompany({ event, handleEdit }) {
     setDeleteModalOpened(false);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    handleEdit();
-    handleCloseEditModal();
+  const handleSubmit = (data) => {
+    const { error } = editPost(data);
+    if (!error) {
+      handleCloseEditModal();
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = (postId) => {
     // Handle delete logic here
+    const { error } = deletePost(postId);
     handleCloseDeleteModal();
   };
 
@@ -142,7 +145,7 @@ function ButtonMenuCompany({ event, handleEdit }) {
         title="Edit Post"
         centered>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={form.onSubmit((values) => handleSubmit(values))}
           style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <TextInput
             label="Post Title"
@@ -299,7 +302,7 @@ function ButtonMenuCompany({ event, handleEdit }) {
           <Button variant="outline" onClick={handleCloseDeleteModal}>
             Cancel
           </Button>
-          <Button color="red" onClick={handleDelete}>
+          <Button color="red" onClick={() => handleDelete(event?.id)}>
             Delete
           </Button>
         </Group>
@@ -308,4 +311,4 @@ function ButtonMenuCompany({ event, handleEdit }) {
   );
 }
 
-export default ButtonMenuCompany;
+export default ButtonMenu;
