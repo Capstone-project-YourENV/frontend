@@ -27,8 +27,8 @@ function VolunteerItem(props) {
         <CardMedia
           component="img"
           loading="lazy"
-          src={image}
-          alt={title}
+          src={photo}
+          alt={name}
           sx={{ objectFit: 'cover', height: 200 }}
         />
         <CardContent sx={{ p: 2, flexGrow: 1 }}>
@@ -41,7 +41,7 @@ function VolunteerItem(props) {
               whiteSpace: 'nowrap',
               fontWeight: 'bold',
             }}>
-            {title}
+            {name}
           </Typography>
           <Box
             sx={{
@@ -50,7 +50,7 @@ function VolunteerItem(props) {
               color: 'text.secondary',
               mb: 1,
             }}>
-            <Typography variant="body2">{organization}</Typography>
+            <Typography variant="body2">{headTitle}</Typography>
             <FontAwesomeIcon
               icon={faCheckCircle}
               style={{ color: 'blue', marginLeft: 4 }}
@@ -68,18 +68,7 @@ function VolunteerItem(props) {
                 style={{ color: 'gray' }}
               />
               <Typography variant="body2" sx={{ ml: 1 }}>
-                {distance}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'text.secondary',
-              }}>
-              <FontAwesomeIcon icon={faCalendarAlt} style={{ color: 'gray' }} />
-              <Typography variant="body2" sx={{ ml: 1 }}>
-                {time}
+                {phone}
               </Typography>
             </Box>
           </Box>

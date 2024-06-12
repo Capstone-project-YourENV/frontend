@@ -22,6 +22,7 @@ import Navbar from './components/Navbar';
 import { asyncUnsetAuthUser } from './states/authentication/thunk';
 import TrendingForumPage from './pages/TrendingForumPage';
 import MyPostPage from './pages/MyPostPage';
+import UserForumPage from './pages/UserForumPage';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
@@ -53,6 +54,7 @@ function App() {
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/trends" element={<TrendingPage />} />
           <Route path="/posts/:id" element={<DetailPostPage />} />
+          <Route path="/users/:userId" element={<UserPage />} />
         </Routes>
       </div>
     );
@@ -73,7 +75,7 @@ function App() {
         <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
-        <Route path="/users/:userId" element={<UserPage />} />
+        <Route path="/users/:userId" element={<UserForumPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>
     </>

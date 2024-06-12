@@ -8,7 +8,7 @@ import ListEvent from '../components/ListEvent';
 import MainbarForum from '../layouts/MainbarForum';
 import { asyncReceiveUserDetail } from '../states/userDetail/thunk';
 
-function UserPage() {
+function UserForumPage() {
   const userDetail = useSelector((state) => state.userDetail);
   const { userId } = useParams();
 
@@ -31,4 +31,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default UserForumPage;
