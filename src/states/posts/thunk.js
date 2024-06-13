@@ -39,6 +39,7 @@ const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
   const { title, description, image, startDate, endDate, maxParticipant } =
     data;
   try {
+    console.log(data);
     const post = await api.editPost({
       id: getState().postDetail.id,
       title,

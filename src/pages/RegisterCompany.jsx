@@ -48,7 +48,7 @@ function RegisterCompany() {
           color="green"
         />
         <RegisterForm register={handleSubmit} color="green" />
-        <Copyright sx={{ mt: 5 }} color="softwhite" />
+        <Copyright sx={{ mt: 5 }} color="softbrown" />
       </LayoutAuthentication>
       {!isMobile && (
         <Grid

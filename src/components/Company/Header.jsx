@@ -98,7 +98,7 @@ function Header({ user }) {
                     </Grid>
                     <Grid item>
                       <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
-                        {user?.events} Event
+                        {user?.posts?.length} Event
                       </Typography>
                     </Grid>
                   </Grid>

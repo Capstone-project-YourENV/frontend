@@ -53,7 +53,7 @@ function App() {
           <Route path="/register/company" element={<RegisterCompany />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/trends" element={<TrendingPage />} />
-          <Route path="/posts/:id" element={<DetailPostPage />} />
+          <Route path="/posts/:postId" element={<DetailPostPage />} />
           <Route path="/users/:userId" element={<UserPage />} />
         </Routes>
       </div>

@@ -184,7 +184,7 @@ const api = (() => {
     }
     return data;
   }
-  async function editPost(data) {
+  async function editPost(editData) {
     const {
       id,
       file,
@@ -195,7 +195,11 @@ const api = (() => {
       endDate,
       maxParticipant,
       category,
-    } = data;
+    } = editData;
+
+    // Log the editData to ensure it's not empty
+    console.log('editData:', editData);
+
     const payload = new FormData();
     payload.append('file', file);
     payload.append('image', image);
@@ -207,17 +211,25 @@ const api = (() => {
     }
     payload.append('description', description);
     payload.append('category', category);
+
+    // Log the FormData entries
+    console.log(payload);
+
     const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
       method: 'PUT',
       body: payload,
     });
+
     const responseJson = await response.json();
     const { error } = responseJson;
+
     if (error) {
       throw new Error(error.message);
     }
+
     return responseJson;
   }
+
   async function deletePost(id) {
     const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
       method: 'DELETE',

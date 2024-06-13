@@ -3,6 +3,8 @@ import {
   faCheckCircle,
   faMapMarkerAlt,
   faCalendarAlt,
+  faBuilding,
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card, CardContent, CardMedia, Box, Typography } from '@mui/material';
@@ -11,6 +13,8 @@ import { Link } from 'react-router-dom';
 
 function VolunteerItem(props) {
   const { id, photo, name, headTitle, phone } = props;
+  const placeholderImage = 'https://via.placeholder.com/150'; // Placeholder image URL
+
   return (
     <Link to={`/users/${id}`}>
       <Card
@@ -27,11 +31,11 @@ function VolunteerItem(props) {
         <CardMedia
           component="img"
           loading="lazy"
-          src={photo}
+          src={photo || placeholderImage}
           alt={name}
           sx={{ objectFit: 'cover', height: 200 }}
         />
-        <CardContent sx={{ p: 2, flexGrow: 1 }}>
+        <CardContent sx={{ p: 2, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography
             variant="h6"
             component="h3"
@@ -41,7 +45,7 @@ function VolunteerItem(props) {
               whiteSpace: 'nowrap',
               fontWeight: 'bold',
             }}>
-            {name}
+            {headTitle}
           </Typography>
           <Box
             sx={{
@@ -49,14 +53,14 @@ function VolunteerItem(props) {
               alignItems: 'center',
               color: 'text.secondary',
               mb: 1,
+              gap: 1,
             }}>
-            <Typography variant="body2">{headTitle}</Typography>
             <FontAwesomeIcon
-              icon={faCheckCircle}
-              style={{ color: 'blue', marginLeft: 4 }}
+              icon={faBuilding}
             />
+            <Typography variant="body2" fontWeight="bold">{name}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box
               sx={{
                 display: 'flex',
@@ -64,7 +68,7 @@ function VolunteerItem(props) {
                 color: 'text.secondary',
               }}>
               <FontAwesomeIcon
-                icon={faMapMarkerAlt}
+                icon={faPhone}
                 style={{ color: 'gray' }}
               />
               <Typography variant="body2" sx={{ ml: 1 }}>
@@ -80,10 +84,14 @@ function VolunteerItem(props) {
 
 VolunteerItem.propTypes = {
   id: PropTypes.string.isRequired,
-  photo: PropTypes.string.isRequired,
+  photo: PropTypes.string,
   name: PropTypes.string.isRequired,
   headTitle: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
+};
+
+VolunteerItem.defaultProps = {
+  photo: '',
 };
 
 export default VolunteerItem;

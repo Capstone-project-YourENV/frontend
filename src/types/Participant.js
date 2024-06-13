@@ -7,7 +7,6 @@ const participantShape = {
   avatar: PropTypes.string.isRequired,
   headTitle: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  absent: PropTypes.string.isRequired,
 };
 
 export default participantShape;

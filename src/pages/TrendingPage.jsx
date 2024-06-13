@@ -87,9 +87,34 @@ function TrendPage() {
         <Grid container spacing={3}>
           {trends?.map((trend) => (
             <Grid item xs={12} sm={6} md={4} key={trend.id}>
-              {activeFilter === 'Event' && <EventItem />}
-              {activeFilter === 'Volunteer' && <VolunteerItem />}
-              {activeFilter === 'News' && <NewsItem />}
+              {activeFilter === 'Event' && (
+                <EventItem
+                  id={trend?.id}
+                  image={trend?.image}
+                  title={trend?.title}
+                  owner={trend?.owner}
+                  participants={trend?.participants}
+                  maxParticipants={trend?.maxParticipants}
+                />
+              )}
+              {activeFilter === 'Volunteer' && (
+                <VolunteerItem
+                  id={trend?.id}
+                  photo={trend?.profile?.photo}
+                  name={trend?.profile?.name}
+                  headTitle={trend?.profile?.headTitle}
+                  phone={trend?.profile?.phone}
+                />
+              )}
+              {activeFilter === 'News' && (
+                <NewsItem
+                  id={trend?.id}
+                  image={trend?.image}
+                  title={trend?.title}
+                  owner={trend?.owner}
+                  date={trend?.createdAt}
+                />
+              )}
             </Grid>
           ))}
         </Grid>

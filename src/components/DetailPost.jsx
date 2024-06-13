@@ -57,7 +57,7 @@ function DetailPost(props) {
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
-        {owner?.id !== authUser?.id && (
+        {owner?.id !== authUser?.id && authUser && (
           <Button
             sx={{
               alignItems: 'center',
@@ -120,7 +120,7 @@ function DetailPost(props) {
           flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           gap={2}
           color="textPrimary">
-          <Typography fontWeight="light" flex={1}>
+          <Typography fontWeight="600" flex={1}>
             {formatDate(startDate)} - {formatDate(endDate)}
           </Typography>
         </Box>
@@ -163,7 +163,7 @@ function DetailPost(props) {
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
-                {participants} / {maxParticipant} Participant
+                {participants?.length} / {maxParticipant} Participant
               </Typography>
             </Box>
             {authUser?.role === 'user' && (

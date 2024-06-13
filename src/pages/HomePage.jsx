@@ -23,15 +23,15 @@ function HomePage() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.data);
   const users = useSelector((state) => state.users);
+  console.table(posts);
 
   const eventsList = posts
-    ?.slice(0, 10)
-    .filter((post) => post.category === 'Event');
+    ?.filter((post) => post.category === 'Event')
+    .slice(0, 10);
   const newsList = posts
-    ?.slice(0, 10)
-    .filter((post) => post.category === 'News');
+    .filter((post) => post.category === 'News')
+    .slice(0, 10);
   const usersList = users?.slice(0, 6);
-
   useEffect(() => {
     dispatch(asyncHomePostsAndUsers());
   }, [dispatch]);
@@ -44,174 +44,6 @@ function HomePage() {
   } else if (isDesktop) {
     slidesPerView = 5;
   }
-  const volunteerSlides = [
-    {
-      id: 1,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 2,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-    {
-      id: 3,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 4,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-    {
-      id: 5,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 6,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-    {
-      id: 7,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 8,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-    {
-      id: 9,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 10,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-    {
-      id: 11,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      distance: '900m',
-      time: '14 / 30 hari',
-    },
-    {
-      id: 12,
-      image: './src/assets/card.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      distance: '1.5 km',
-      time: '24 / 30 hari',
-    },
-  ];
-
-  const donationSlides = [
-    {
-      id: 1,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      target: 'Rp 5.000.000',
-      percentage: '50%',
-    },
-    {
-      id: 2,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      target: 'Rp 10.000.000',
-      percentage: '25%',
-    },
-    {
-      id: 3,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      target: 'Rp 7.000.000',
-      percentage: '75%',
-    },
-    {
-      id: 4,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      target: 'Rp 3.000.000',
-      percentage: '100%',
-    },
-    {
-      id: 5,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Lazizmu Tlogomas',
-      target: 'Rp 6.000.000',
-      percentage: '40%',
-    },
-    {
-      id: 6,
-      image: './src/assets/card2.png',
-      title: 'Bersih Bersih Bersama Dishub Malang',
-      organization: 'Yayasan Abi Berkah',
-      target: 'Rp 8.000.000',
-      percentage: '80%',
-    },
-  ];
-
-  const newsSlides = [
-    {
-      id: 1,
-      image: './src/assets/news.png',
-      title: 'Pembagian Sedekah Jumat untuk Ojek Online di Dau',
-    },
-    {
-      id: 2,
-      image: './src/assets/news.png',
-      title: 'Sembako Barokah untuk Program Bakti Guru',
-    },
-    {
-      id: 3,
-      image: './src/assets/news.png',
-      title: 'Penyerahan Donasi untuk Korban Gempa',
-    },
-    // Add more news slides as needed
-  ];
 
   return (
     <>
@@ -293,9 +125,9 @@ function HomePage() {
               <SwiperSlide key={volunteer.id}>
                 <VolunteerItem
                   id={volunteer?.id}
-                  photo={volunteer?.image}
-                  name={volunteer?.name}
-                  headTitle={volunteer?.headTitle}
+                  photo={volunteer?.profile?.photo}
+                  name={volunteer?.profile?.name}
+                  headTitle={volunteer?.profile?.headTitle}
                   phone={volunteer?.profile?.phone}
                 />
               </SwiperSlide>
@@ -311,7 +143,14 @@ function HomePage() {
             className="rounded-lg">
             {eventsList?.map((slide) => (
               <SwiperSlide key={slide.id}>
-                <EventItem {...slide} />
+                <EventItem
+                  id={slide?.id}
+                  image={slide?.image}
+                  title={slide?.title}
+                  owner={slide?.owner}
+                  participants={slide?.participants}
+                  maxParticipants={slide?.maxParticipants}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -325,7 +164,13 @@ function HomePage() {
             className="rounded-lg">
             {newsList?.map((slide) => (
               <SwiperSlide className="w-full" key={slide.id}>
-                <NewsItem {...slide} />
+                <NewsItem
+                  id={slide?.id}
+                  image={slide?.image}
+                  title={slide?.title}
+                  owner={slide?.owner}
+                  date={slide?.createdAt}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
