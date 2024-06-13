@@ -343,7 +343,7 @@ const api = (() => {
   async function addComment(data) {
     const { postId, userId, content } = data;
     console.table(data);
-    const response = await _fetchWithAuth(`${BASE_URL}/comments/${postId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -361,6 +361,40 @@ const api = (() => {
     return responseJson;
   }
 
+  async function editComment(formData) {
+    const { postId, commentId, content } = formData;
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content,
+      }),
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function deleteComment(data) {
+    const { postId, commentId } = data;
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
   return {
     register,
     login,
@@ -382,6 +416,8 @@ const api = (() => {
     editProfileUser,
     deleteUser,
     addComment,
+    editComment,
+    deleteComment,
   };
 })();
 

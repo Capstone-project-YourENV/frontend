@@ -37,7 +37,6 @@ function DetailForumPage() {
   };
 
   const handleAddComment = async (comment) => {
-    console.log('comment', comment);
     const { error } = await dispatch(asyncAddComment(comment));
     if (!error) {
       dispatch(asyncReceivePostDetail(postId));

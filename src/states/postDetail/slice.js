@@ -48,7 +48,7 @@ const postDetailSlice = createSlice({
         return {
           ...state,
           comments: state.comments.filter(
-            (comment) => comment.id !== action.payload,
+            (comment) => comment.id !== action.payload.commentId,
           ),
         };
       },

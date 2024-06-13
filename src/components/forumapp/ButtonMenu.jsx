@@ -26,10 +26,11 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
 import { useDispatch } from 'react-redux';
+import useModal from '../../hooks/useModal';
 
 function ButtonMenu({ event, editPost, deletePost }) {
-  const [editModalOpened, setEditModalOpened] = useState(false);
-  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+  const [editModal, actionEditModal, setEditModal] = useModal(false);
+  const [deleteModal, actionDeleteModal, setDeleteModal] = useModal(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState('');
@@ -57,33 +58,19 @@ function ButtonMenu({ event, editPost, deletePost }) {
     },
   });
 
-  const handleOpenEditModal = () => {
-    setEditModalOpened(true);
-  };
-
-  const handleCloseEditModal = () => {
-    setEditModalOpened(false);
-  };
-
-  const handleOpenDeleteModal = () => {
-    setDeleteModalOpened(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setDeleteModalOpened(false);
-  };
-
   const handleSubmit = (data) => {
     const { error } = editPost(data);
     if (!error) {
-      handleCloseEditModal();
+      setEditModal(false);
     }
   };
 
   const handleDelete = (postId) => {
     // Handle delete logic here
     const { error } = deletePost(postId);
-    handleCloseDeleteModal();
+    if (!error) {
+      setDeleteModal(false);
+    }
   };
 
   const handleDrop = (files) => {
@@ -121,7 +108,7 @@ function ButtonMenu({ event, editPost, deletePost }) {
         <Menu.Dropdown>
           <Menu.Label>Action</Menu.Label>
           <Menu.Item
-            onClick={handleOpenEditModal}
+            onClick={actionEditModal}
             leftSection={
               <IconEdit style={{ width: '14px', height: '14px' }} />
             }>
@@ -129,7 +116,7 @@ function ButtonMenu({ event, editPost, deletePost }) {
           </Menu.Item>
           <Menu.Item
             color="red"
-            onClick={handleOpenDeleteModal}
+            onClick={actionDeleteModal}
             leftSection={
               <IconTrash style={{ width: '14px', height: '14px' }} />
             }>
@@ -139,8 +126,8 @@ function ButtonMenu({ event, editPost, deletePost }) {
       </Menu>
 
       <Modal
-        opened={editModalOpened}
-        onClose={handleCloseEditModal}
+        opened={editModal}
+        onClose={actionEditModal}
         title="Edit Post"
         centered>
         <form
@@ -267,7 +254,7 @@ function ButtonMenu({ event, editPost, deletePost }) {
                 borderRadius: '10px',
                 cursor: 'pointer',
               }}
-              boxShadow={'xs'}>
+              boxShadow="xs">
               <Group>
                 <Avatar
                   src={preview}
@@ -292,13 +279,13 @@ function ButtonMenu({ event, editPost, deletePost }) {
       </Modal>
 
       <Modal
-        opened={deleteModalOpened}
-        onClose={handleCloseDeleteModal}
+        opened={deleteModal}
+        onClose={actionDeleteModalClose}
         title="Confirm Deletion"
         centered>
         <Text>Are you sure you want to delete this post?</Text>
         <Group position="right" mt="md">
-          <Button variant="outline" onClick={handleCloseDeleteModal}>
+          <Button variant="outline" onClick={actionDeleteModal}>
             Cancel
           </Button>
           <Button color="red" onClick={() => handleDelete(event?.id)}>

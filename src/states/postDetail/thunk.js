@@ -1,6 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import fakeApi from '../../utils/fakeApi';
-import { addCommentPostDetail, clearPostDetail, receivePostDetail, updatePostDetail } from './slice';
+import {
+  addCommentPostDetail,
+  clearPostDetail,
+  deleteCommentPostDetail,
+  editCommentPostDetail,
+  receivePostDetail,
+  updatePostDetail,
+} from './slice';
 import api from '../../utils/api';
 import { deletePost } from '../posts/slice';
 
@@ -64,12 +71,12 @@ const asyncAddComment = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch, getState } = thunkAPI;
     try {
-      const post = await api.addComment({
+      const comment = await api.addComment({
         postId: getState().postDetail.id,
         userId: getState().authUser.id,
         content: data,
       });
-      dispatch(addCommentPostDetail(post));
+      dispatch(addCommentPostDetail(comment));
       return { error: null };
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -79,4 +86,52 @@ const asyncAddComment = createAsyncThunk(
   },
 );
 
-export { asyncReceivePostDetail, asyncEditPost, asyncDeletePost, asyncAddComment };
+const asyncEditComment = createAsyncThunk(
+  'editComment',
+  async (data, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const { commentId, content } = data;
+    try {
+      const comment = await api.editComment({
+        postId: getState().postDetail.id,
+        userId: getState().authUser.id,
+        commentId,
+        content,
+      });
+      dispatch(editCommentPostDetail(comment));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+const asyncDeleteComment = createAsyncThunk(
+  'deleteComment',
+  async (commentId, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    try {
+      await api.deleteComment({
+        postId: getState().postDetail.id,
+        commentId,
+      });
+      dispatch(deleteCommentPostDetail(commentId));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+export {
+  asyncReceivePostDetail,
+  asyncEditPost,
+  asyncDeletePost,
+  asyncAddComment,
+  asyncEditComment,
+  asyncDeleteComment,
+};
