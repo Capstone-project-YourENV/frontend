@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import fakeApi from '../../utils/fakeApi';
-import { clearPostDetail, receivePostDetail, updatePostDetail } from './slice';
+import { addCommentPostDetail, clearPostDetail, receivePostDetail, updatePostDetail } from './slice';
 import api from '../../utils/api';
 import { deletePost } from '../posts/slice';
 
@@ -59,4 +59,24 @@ const asyncDeletePost = createAsyncThunk(
   },
 );
 
-export { asyncReceivePostDetail, asyncEditPost, asyncDeletePost };
+const asyncAddComment = createAsyncThunk(
+  'addComment',
+  async (data, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    try {
+      const post = await api.addComment({
+        postId: getState().postDetail.id,
+        userId: getState().authUser.id,
+        content: data,
+      });
+      dispatch(addCommentPostDetail(post));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+export { asyncReceivePostDetail, asyncEditPost, asyncDeletePost, asyncAddComment };

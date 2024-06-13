@@ -9,9 +9,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
-import { useLocation } from 'react-router';
 
 function RegisterForm({ register, color }) {
   const [username, onUsernameChange] = useInput('');

@@ -29,7 +29,7 @@ const postSlice = createSlice({
     },
     deletePost: (state, action) => {
       const updatedPosts = state.data.filter(
-        (post) => post.id !== action.payload.id,
+        (post) => post.id !== action.payload,
       );
       state.data = updatedPosts;
     },
@@ -76,13 +76,13 @@ const postSlice = createSlice({
       })
       .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = action.payload.data;
+        state.data = [...state.data, ...action.payload.data];
         state.hasMore = action.payload.hasMore;
-        state.page = action.payload.page + 1;
+        state.page = action.payload.page + 1; // Increment page for next fetch
       })
       .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });

@@ -17,7 +17,7 @@ function CommentItem({ owner, createdAt, content }) {
         borderRadius: '10px',
       }}>
       <Box className="flex gap-2.5 max-md:flex-wrap flex-col sm:flex-row items-center">
-        <Avatar loading="lazy" src={owner?.avatar} alt={owner?.name} />
+        <Avatar loading="lazy" src={owner?.profile?.photo} alt={owner?.username} />
         <Box
           display="flex"
           flexDirection="column"
@@ -28,10 +28,10 @@ function CommentItem({ owner, createdAt, content }) {
             fontWeight="600"
             color="black"
             className="text-xl max-md:max-w-full">
-            {owner?.name}
+            {owner?.username}
           </Typography>
           <div className="text-sm text-zinc-500 max-md:max-w-full">
-            {owner?.headTitle}
+            {owner?.profile?.headTitle}
           </div>
         </Box>
         <Typography alignSelf="start" fontWeight="400" color="black">
@@ -39,7 +39,7 @@ function CommentItem({ owner, createdAt, content }) {
         </Typography>
       </Box>
       <Typography variant="body1" color="textSecondary">
-        {isExpanded ? content : `${content.substring(0, 100)}...`}
+        {isExpanded ? content : `${content?.substring(0, 100)}...`}
         <Button onClick={handleExpand} color="primary">
           {isExpanded ? 'Show less' : 'Show more'}
         </Button>

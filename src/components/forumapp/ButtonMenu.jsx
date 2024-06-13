@@ -26,7 +26,6 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
 import { useDispatch } from 'react-redux';
-import { asyncEditPost } from '../../states/posts/thunk';
 
 function ButtonMenu({ event, editPost, deletePost }) {
   const [editModalOpened, setEditModalOpened] = useState(false);

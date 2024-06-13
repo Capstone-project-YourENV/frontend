@@ -4,22 +4,37 @@ import { Link } from 'react-router-dom';
 
 function Event({ event }) {
   return (
-    <Link to={`/posts/${event.id}`}>
+    <Link to={`/posts/${event?.id}`}>
       <Card sx={{ mb: 2 }}>
         <CardMedia
           component="img"
           sx={{ height: '140px' }}
-          image={event.image}
-          alt={event.title}
+          image={event?.image}
+          alt={event?.title}
         />
         <CardContent>
-          <Typography variant="h5" fontWeight="bold">
-            {event.title}
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+            {event?.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {event.date}
+            {event?.date}
           </Typography>
-          <Typography variant="body2">{event.description}</Typography>
+          <Typography
+            variant="body2"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+            {event?.description}
+          </Typography>
         </CardContent>
       </Card>
     </Link>

@@ -84,7 +84,9 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
-        gap={2.5}>
+        gap={2.5}
+        alignItems="center" // Ensure items are aligned properly
+      >
         <Link to={`/users/${owner?.id}`}>
           <Avatar
             srcSet={owner?.profile?.photo}
@@ -110,7 +112,8 @@ function DetailPost(props) {
         <Typography
           variant="body1"
           color="textSecondary"
-          alignSelf="flex-start">
+          alignSelf="flex-start"
+          sx={{ marginLeft: 'auto' }}>
           {postedAt(createdAt)}
         </Typography>
       </Box>

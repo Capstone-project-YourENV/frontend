@@ -12,20 +12,6 @@ function DetailPostPage() {
   const { postId } = useParams();
   const postDetail = useSelector((state) => state.postDetail);
   const dispatch = useDispatch();
-  const fakeParticipants = [
-    {
-      id: '1',
-      username: 'Ers',
-      email: 'NQpP1@example.com',
-      role: 'company',
-      profile: {
-        name: 'Ervalsa Dwi Nanda',
-        photo: 'https://i.pravatar.cc/300',
-        headTitle: 'Software Engineer',
-        phone: '+62 xxx xxxx xxx',
-      },
-    },
-  ];
 
   useEffect(() => {
     dispatch(asyncReceivePostDetail(postId));
@@ -50,7 +36,7 @@ function DetailPostPage() {
           category={postDetail?.category}
         />
         {postDetail?.category === 'Event' && (
-          <ListParticipant participant={fakeParticipants} variant="secondary" />
+          <ListParticipant participant={postDetail?.participants} variant="secondary" />
         )}
       </Container>
       <Footer />

@@ -8,8 +8,12 @@ import ListParticipant from '../components/ListParticipant';
 import CreateComment from '../components/forumapp/CreateComment';
 import ListComment from '../components/forumapp/ListComment';
 import SidebarContent from '../components/forumapp/SidebarContent';
-import { asyncReceivePostDetail } from '../states/postDetail/thunk';
-import { asyncDeletePost, asyncEditPost } from '../states/posts/thunk';
+import {
+  asyncAddComment,
+  asyncDeletePost,
+  asyncEditPost,
+  asyncReceivePostDetail,
+} from '../states/postDetail/thunk';
 
 function DetailForumPage() {
   const authUser = useSelector((state) => state.authUser);
@@ -29,6 +33,14 @@ function DetailForumPage() {
     const { error } = await dispatch(asyncDeletePost(id));
     if (!error) {
       navigate('/');
+    }
+  };
+
+  const handleAddComment = async (comment) => {
+    console.log('comment', comment);
+    const { error } = await dispatch(asyncAddComment(comment));
+    if (!error) {
+      dispatch(asyncReceivePostDetail(postId));
     }
   };
 
@@ -56,17 +68,21 @@ function DetailForumPage() {
           editPost={handleEditPost}
           deletePost={handleDeletePost}
         />
-        {authUser?.role !== 'company' &&
-          postDetail?.owner?.id !== authUser?.id && (
-            <>
-              {postDetail?.participants?.length > 0 && (
-                <ListParticipant participant={postDetail?.participants} />
-              )}
-              <CreateComment />
-              {postDetail?.comments?.length > 0 && (
-                <ListComment comments={postDetail?.comments} />
-              )}
-            </>
+        {authUser?.role !== 'company' && (
+          <>
+            {/* Hanya pengguna dengan peran selain 'company' yang dapat melihat daftar peserta */}
+            {postDetail?.participants?.length > 0 && (
+              <ListParticipant participant={postDetail?.participants} />
+            )}
+
+            {/* Hanya pengguna dengan peran selain 'company' yang dapat membuat komentar */}
+            <CreateComment addComment={handleAddComment} />
+
+            {/* Hanya pengguna dengan peran selain 'company' yang dapat melihat komentar */}
+            {postDetail?.comments?.length > 0 && (
+              <ListComment comments={postDetail?.comments} />
+            )}
+          </>
         )}
       </MainbarForum>
     </LayoutForumApp>

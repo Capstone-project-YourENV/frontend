@@ -1,8 +1,15 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import React from 'react';
+import useInput from '../../hooks/useInput';
 
-function CreateComment() {
+function CreateComment({ addComment }) {
+  const [comment, onCommentChange, setComment] = useInput('');
+
+  const handleComment = () => {
+    addComment(comment);
+    setComment('');
+  };
   return (
     <Grid container gap="15px" display="flex" flexDirection="column">
       <Typography fontWeight="700" fontSize="20px">
@@ -13,8 +20,15 @@ function CreateComment() {
         className="w-full text-sm font-normal font-sans leading-normal p-3 rounded-xl rounded-br-none shadow-lg shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 bg-white  text-slate-900 focus-visible:outline-0 box-border"
         minRows={3}
         placeholder="Write your comment here...."
+        onChange={onCommentChange}
+        value={comment}
       />
-      <Button variant="contained" color="primary">Submit</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleComment}>
+        Submit
+      </Button>
     </Grid>
   );
 }

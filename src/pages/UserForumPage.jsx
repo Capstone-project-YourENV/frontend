@@ -10,6 +10,7 @@ import { asyncReceiveUserDetail } from '../states/userDetail/thunk';
 
 function UserForumPage() {
   const userDetail = useSelector((state) => state.userDetail);
+  const authUser = useSelector((state) => state.authUser);
   const { userId } = useParams();
 
   const dispatch = useDispatch();
@@ -24,9 +25,20 @@ function UserForumPage() {
 
   return (
     <LayoutForumApp>
-      <Header user={userDetail} />
-      <ListEvent title="Current Event" events={currentEvent} />
-      <ListEvent title="Past Event" events={userDetail?.recentEvents} />
+      <SidebarContent user={authUser} />
+      <MainbarForum>
+        <Header user={userDetail} />
+        <ListEvent title="Current Event" events={currentEvent} />
+        {userDetail?.role === 'company' && (
+          <ListEvent title="Past Event" events={userDetail?.posts} />
+        )}
+        {userDetail?.role === 'user' && (
+          <>
+            <ListEvent title="Past Event" events={userDetail?.recentEvents} />
+            <ListEvent title="News" events={userDetail?.posts} />
+          </>
+        )}
+      </MainbarForum>
     </LayoutForumApp>
   );
 }

@@ -173,6 +173,7 @@ const api = (() => {
     payload.append('endDate', endDate);
     payload.append('maxParticipant', maxParticipant);
     payload.append('category', category);
+
     const response = await _fetchWithAuth(`${BASE_URL}/posts`, {
       method: 'POST',
       body: payload,
@@ -197,37 +198,36 @@ const api = (() => {
       category,
     } = editData;
 
-    // Log the editData to ensure it's not empty
-    console.log('editData:', editData);
-
+    // Create FormData payload
     const payload = new FormData();
-    payload.append('file', file);
-    payload.append('image', image);
-    payload.append('title', title);
+    if (file) payload.append('file', file);
+    if (image) payload.append('image', image);
+    if (title) payload.append('title', title);
+    if (description) payload.append('description', description);
+    if (category) payload.append('category', category);
     if (category === 'Event') {
-      payload.append('startDate', startDate);
-      payload.append('endDate', endDate);
-      payload.append('maxParticipant', maxParticipant);
-    }
-    payload.append('description', description);
-    payload.append('category', category);
-
-    // Log the FormData entries
-    console.log(payload);
-
-    const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
-      method: 'PUT',
-      body: payload,
-    });
-
-    const responseJson = await response.json();
-    const { error } = responseJson;
-
-    if (error) {
-      throw new Error(error.message);
+      if (startDate) payload.append('startDate', startDate);
+      if (endDate) payload.append('endDate', endDate);
+      if (maxParticipant) payload.append('maxParticipant', maxParticipant);
     }
 
-    return responseJson;
+    try {
+      const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
+        method: 'PUT',
+        body: payload,
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      const responseJson = await response.json();
+      return responseJson;
+    } catch (err) {
+      console.error('Error updating post:', err.message);
+      throw err;
+    }
   }
 
   async function deletePost(id) {
@@ -340,6 +340,27 @@ const api = (() => {
     return responseJson;
   }
 
+  async function addComment(data) {
+    const { postId, userId, content } = data;
+    console.table(data);
+    const response = await _fetchWithAuth(`${BASE_URL}/comments/${postId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId,
+        content,
+      }),
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+
   return {
     register,
     login,
@@ -360,6 +381,7 @@ const api = (() => {
     getDetailUser,
     editProfileUser,
     deleteUser,
+    addComment,
   };
 })();
 
