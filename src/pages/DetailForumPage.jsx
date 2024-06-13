@@ -58,11 +58,15 @@ function DetailForumPage() {
         />
         {authUser?.role !== 'company' &&
           postDetail?.owner?.id !== authUser?.id && (
-            <MainbarForum>
-              <ListParticipant participant={postDetail?.participants} />
+            <>
+              {postDetail?.participants?.length > 0 && (
+                <ListParticipant participant={postDetail?.participants} />
+              )}
               <CreateComment />
-              <ListComment comments={postDetail?.comments} />
-            </MainbarForum>
+              {postDetail?.comments?.length > 0 && (
+                <ListComment comments={postDetail?.comments} />
+              )}
+            </>
         )}
       </MainbarForum>
     </LayoutForumApp>

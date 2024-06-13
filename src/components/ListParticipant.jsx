@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import ParticipantItem from './ParticipantItem';
 import ownerShape from '../types/Owner';
 
-function ListParticipant({ participant }) {
+function ListParticipant({ participant, variant }) {
   const groupParticipants = (participants, itemsPerGroup) => {
     const groups = [];
     for (let i = 0; i < participants?.length; i += itemsPerGroup) {
@@ -21,15 +21,13 @@ function ListParticipant({ participant }) {
         flexDirection="row"
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <Typography
           style={{
             fontSize: 20,
             fontWeight: '700',
             wordWrap: 'break-word',
-          }}
-        >
+          }}>
           Participant
         </Typography>
       </Grid>
@@ -39,13 +37,18 @@ function ListParticipant({ participant }) {
           slidesPerView={1}
           pagination={{ clickable: true }}
           navigation
-          className="rounded-lg"
-        >
+          className="rounded-lg">
           {groupedParticipants.map((group, index) => (
             <SwiperSlide key={index}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 my-1">
                 {group.map((item, idx) => (
-                  <ParticipantItem key={idx} {...item} />
+                  <ParticipantItem
+                    variant={variant}
+                    key={idx}
+                    name={item?.profile?.name}
+                    headTitle={item?.profile?.headTitle}
+                    avatar={item?.profile?.photo}
+                  />
                 ))}
               </div>
             </SwiperSlide>
@@ -58,6 +61,11 @@ function ListParticipant({ participant }) {
 
 ListParticipant.propTypes = {
   participant: PropTypes.shape(ownerShape).isRequired,
+  variant: PropTypes.oneOf(['primary', 'secondary']),
+};
+
+ListParticipant.defaultProps = {
+  variant: 'primary',
 };
 
 export default ListParticipant;

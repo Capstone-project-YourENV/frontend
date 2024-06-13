@@ -10,7 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ParticipantItem(props) {
-  const { name, headTitle, avatar, variant } = props;
+  const {
+    name,
+    headTitle,
+    avatar,
+    variant,
+  } = props;
   const theme = useTheme();
   const backgroundColor =
     variant === 'secondary' ? theme.palette.primary.main : 'white';
@@ -26,8 +31,9 @@ export default function ParticipantItem(props) {
           </Typography>
           <Typography
             color={
-              variant === 'secondary' ? theme.palette.primary.main : 'black'
-            }>
+              variant === 'secondary' ? theme.palette.softwhite : 'black'
+            }
+          >
             {headTitle}
           </Typography>
         </Grid>

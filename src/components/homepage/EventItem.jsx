@@ -52,7 +52,7 @@ function EventItem(props) {
               gap: 1,
             }}>
             <FontAwesomeIcon icon={faBuilding} />
-            <Typography variant="body2">{owner?.profile?.name}</Typography>
+            <Typography variant="body2" fontWeight="bold">{owner?.profile?.name}</Typography>
           </Box>
           <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
             <div

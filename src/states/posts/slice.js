@@ -13,55 +13,25 @@ const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    incrementPage(state) {
+    incrementPage: (state) => {
       state.page += 1;
     },
-    resetPosts(state) {
+    resetPosts: (state) => {
       state.data = [];
       state.page = 1;
       state.hasMore = true;
     },
-    receivePosts(state, action) {
-      return { ...state, data: action.payload };
+    receivePosts: (state, action) => {
+      state.data = [...state.data, ...action.payload];
     },
-    addPost: {
-      reducer(state, action) {
-        return { ...state, data: [action.payload.post, ...state.data] };
-      },
-      prepare(post) {
-        return { payload: { post } };
-      },
+    addPost: (state, action) => {
+      state.data.unshift(action.payload);
     },
-    updatePost: {
-      reducer(state, action) {
-        const updatedPosts = state.data.map((post) => {
-          if (post.id === action.payload.post.id) {
-            return action.payload.post;
-          }
-          return post;
-        });
-        return {
-          ...state,
-          data: updatedPosts,
-        };
-      },
-      prepare(post) {
-        return { payload: { post } };
-      },
-    },
-    deletePost: {
-      reducer(state, action) {
-        const updatedPosts = state.data.filter(
-          (post) => post.id !== action.payload.postId,
-        );
-        return {
-          ...state,
-          data: updatedPosts,
-        };
-      },
-      prepare(postId) {
-        return { payload: { postId } };
-      },
+    deletePost: (state, action) => {
+      const updatedPosts = state.data.filter(
+        (post) => post.id !== action.payload.id,
+      );
+      state.data = updatedPosts;
     },
     bookmarkPost: {
       reducer(state, action) {
@@ -69,18 +39,33 @@ const postSlice = createSlice({
           if (post.id === action.payload.postId) {
             return {
               ...post,
-              isBookmarked: !post.isBookmarked,
+              boorkmarks: action.payload.user,
             };
           }
           return post;
         });
-        return {
-          ...state,
-          data: updatedPosts,
-        };
+        state.data = updatedPosts;
       },
-      prepare(postId) {
-        return { payload: { postId } };
+      prepare(postId, user) {
+        return { payload: { postId, user } };
+      },
+    },
+
+    unbookmarkPost: {
+      reducer(state, action) {
+        const updatedPosts = state.data.map((post) => {
+          if (post.id === action.payload.postId) {
+            return {
+              ...post,
+              boorkmarks: post.boorkmarks.shift(action.payload.user),
+            };
+          }
+          return post;
+        });
+        state.data = updatedPosts;
+      },
+      prepare(postId, user) {
+        return { payload: { postId, user } };
       },
     },
   },
@@ -91,13 +76,13 @@ const postSlice = createSlice({
       })
       .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = [...state.data, ...action.payload.data];
+        state.data = action.payload.data;
         state.hasMore = action.payload.hasMore;
-        state.page = action.payload.page + 1; // Increment page for next fetch
+        state.page = action.payload.page + 1;
       })
       .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload || action.error.message;
+        state.error = action.error.message;
       });
   },
 });
@@ -106,11 +91,10 @@ export const {
   incrementPage,
   resetPosts,
   receivePosts,
-  forumPost,
   addPost,
-  updatePost,
   deletePost,
   bookmarkPost,
+  unbookmarkPost,
 } = postSlice.actions;
 
 export default postSlice.reducer;
