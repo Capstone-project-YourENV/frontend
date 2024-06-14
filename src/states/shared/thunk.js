@@ -45,9 +45,8 @@ const asyncForumPostsAndUsersByTrends = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      const response = await fakeApi.getPostsByTrends();
-      console.log(response);
-      const users = await fakeApi.getUsers();
+      const response = await api.getPostsTrends();
+      const users = await api.getAllUser();
       dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
     } catch (error) {
@@ -62,7 +61,7 @@ const asyncForumPostsAndUsersByUpcoming = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      const response = await fakeApi.getPostsByUpcoming();
+      const response = await api.getPostsUpcoming();
       const users = await fakeApi.getUsers();
       dispatch(receiveUsers(users));
       dispatch(receivePosts(response));

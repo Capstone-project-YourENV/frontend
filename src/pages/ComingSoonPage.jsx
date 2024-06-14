@@ -6,7 +6,7 @@ import SidebarContent from '../components/forumapp/SidebarContent';
 import ListPost from '../components/ListPost';
 import { asyncForumPostsAndUsersByUpcoming } from '../states/shared/thunk';
 
-function BookmarkPage() {
+function ComingSoonPage() {
   const authUser = useSelector((state) => state.authUser);
   const upcomingPosts = useSelector((state) => state.posts.data);
   const users = useSelector((state) => state.users);
@@ -24,10 +24,10 @@ function BookmarkPage() {
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Coming Soon" events={upcomingList} />
+        <ListPost title="Coming Soon" posts={upcomingList} />
       </MainbarForum>
     </LayoutForumApp>
   );
 }
 
-export default BookmarkPage;
+export default ComingSoonPage;

@@ -9,7 +9,7 @@ import AboutUsPage from './pages/AboutPage';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
 import CreateForumPage from './pages/CreateForumPage';
-import BookmarkPage from './pages/BookMarkPages';
+import BookmarkPage from './pages/BookMarkPage';
 import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilPage';
@@ -23,6 +23,7 @@ import { asyncUnsetAuthUser } from './states/authentication/thunk';
 import TrendingForumPage from './pages/TrendingForumPage';
 import MyPostPage from './pages/MyPostPage';
 import UserForumPage from './pages/UserForumPage';
+import RecentEventsPage from './pages/RecentEventsPage';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
@@ -75,6 +76,7 @@ function App() {
         <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
+        <Route path="/recents" element={<RecentEventsPage />} />
         <Route path="/users/:userId" element={<UserForumPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>

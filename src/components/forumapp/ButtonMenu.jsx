@@ -280,7 +280,7 @@ function ButtonMenu({ event, editPost, deletePost }) {
 
       <Modal
         opened={deleteModal}
-        onClose={actionDeleteModalClose}
+        onClose={actionDeleteModal}
         title="Confirm Deletion"
         centered>
         <Text>Are you sure you want to delete this post?</Text>

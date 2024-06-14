@@ -25,7 +25,7 @@ function BookmarkPage() {
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Bookmark" events={bookmarkList} />
+        <ListPost title="Bookmark" posts={bookmarkList} />
       </MainbarForum>
     </LayoutForumApp>
   );

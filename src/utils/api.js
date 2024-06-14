@@ -117,6 +117,21 @@ const api = (() => {
     return data;
   }
 
+  async function getPostsUpcoming() {
+    const response = await fetch(`${BASE_URL}/posts/upcoming`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
   async function getPostsBookmarks(userId) {
     const response = await _fetchWithAuth(
       `${BASE_URL}/posts/bookmarks/${userId}`,
@@ -343,16 +358,19 @@ const api = (() => {
   async function addComment(data) {
     const { postId, userId, content } = data;
     console.table(data);
-    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/${postId}/comments`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          content,
+        }),
       },
-      body: JSON.stringify({
-        userId,
-        content,
-      }),
-    });
+    );
     const responseJson = await response.json();
     const { error } = responseJson;
     if (error) {
@@ -363,15 +381,18 @@ const api = (() => {
 
   async function editComment(formData) {
     const { postId, commentId, content } = formData;
-    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments/${commentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/${postId}/comments/${commentId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content,
+        }),
       },
-      body: JSON.stringify({
-        content,
-      }),
-    });
+    );
     const responseJson = await response.json();
     const { data, error } = responseJson;
     if (error) {
@@ -382,12 +403,15 @@ const api = (() => {
 
   async function deleteComment(data) {
     const { postId, commentId } = data;
-    const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}/comments/${commentId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/${postId}/comments/${commentId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     const responseJson = await response.json();
     const { error } = responseJson;
     if (error) {
@@ -405,6 +429,7 @@ const api = (() => {
     getPostsHome,
     getPostsForum,
     getPostsTrends,
+    getPostsUpcoming,
     getPostsBookmarks,
     getDetailPost,
     createPost,

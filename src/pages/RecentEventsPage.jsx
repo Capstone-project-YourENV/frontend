@@ -1,23 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LayoutForumApp from '../layouts/LayoutForumApp';
-import SidebarContent from '../components/forumapp/SidebarContent';
 import MainbarForum from '../layouts/MainbarForum';
+import SidebarContent from '../components/forumapp/SidebarContent';
 import ListPost from '../components/ListPost';
-import { asyncForumPostsAndUsersByTrends } from '../states/shared/thunk';
+import { asyncForumPostsAndUsersByUpcoming } from '../states/shared/thunk';
 
-function TrendingForumPage() {
+function RecentEventsPage() {
   const authUser = useSelector((state) => state.authUser);
-  const trendingPost = useSelector((state) => state.posts.data);
+  const upcomingPosts = useSelector((state) => state.posts.data);
   const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(asyncForumPostsAndUsersByTrends());
+    dispatch(asyncForumPostsAndUsersByUpcoming());
   }, [dispatch]);
 
-  const trendList = trendingPost?.map((post) => ({
+  const recentEventsList = upcomingPosts?.map((post) => ({
     ...post,
     owner: users.find((user) => user.id === post.ownerId),
   }));
@@ -25,10 +24,10 @@ function TrendingForumPage() {
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Trending" posts={trendList} />
+        <ListPost title="Recent Events" posts={recentEventsList} />
       </MainbarForum>
     </LayoutForumApp>
   );
 }
 
-export default TrendingForumPage;
+export default RecentEventsPage;

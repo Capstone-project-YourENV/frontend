@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, Box } from '@mui/material';
 import PostByCategory from './PostByCategory';
 
-function ListPost({ title, events }) {
+function ListPost({ title, posts }) {
   return (
     <Grid width="100%" container gap="15px">
       <Grid
@@ -21,19 +21,19 @@ function ListPost({ title, events }) {
         </Typography>
       </Grid>
       <Box width="100%" display="flex" gap={2} flexDirection="column">
-        {events?.map((event) => {
+        {posts?.map((post) => {
           return (
             <PostByCategory
-              id={event?.id}
-              title={event?.title}
-              description={event?.description}
-              owner={event?.owner}
-              startDate={event?.startDate}
-              endDate={event?.endDate}
-              category={event?.category}
-              postImage={event?.image}
-              total={event?.maxParticipant}
-              registered={event?.totalParticipants}
+              id={post?.id}
+              title={post?.title}
+              description={post?.description}
+              owner={post?.owner}
+              startDate={post?.startDate}
+              endDate={post?.endDate}
+              category={post?.category}
+              postImage={post?.image}
+              maxParticipants={post?.maxParticipants}
+              participants={post?.participants}
             />
           );
         })}

@@ -15,12 +15,20 @@ import { Link } from 'react-router-dom';
 import ProfileOwner from '../ProfileOwner';
 import ownerShape from '../../types/Owner';
 import { formatDate, postedAt } from '../../utils/date';
+import Bookmark from './Bookmark';
 
 function Details({ description }) {
   return (
     <Box mt={2}>
-      <Typography variant="body1" color="textSecondary">
-        {`${description?.substring(0, 100)}...`}
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}>
+        {description}
       </Typography>
     </Box>
   );
@@ -112,16 +120,7 @@ function CardPost(props) {
                 </Typography>
               </Box>
             )}
-            <Box display="flex" gap={1.5}>
-              <IconButton onClick={handleBookmark}>
-                <BookmarkIcon
-                  sx={{ color: isBookmarked ? '#252525' : 'inherit' }}
-                />
-              </IconButton>
-              <Typography variant="body2" alignSelf="center">
-                Bookmark
-              </Typography>
-            </Box>
+            <Bookmark onClick={handleBookmark} isBookmark={isBookmarked} />
           </Box>
         </CardContent>
       </Card>

@@ -58,14 +58,26 @@ export default function Navbar({ authUser, signOut }) {
     setDrawerOpen(open);
   };
 
-  const navItems = [
-    { text: 'Beranda', link: '/' },
-    { text: 'Trends', link: '/trends' },
-    authUser
-      ? { text: 'Upcoming', link: '/comingsoon' }
-      : { text: 'About', link: '/about' },
-  ];
+  const getNavItems = () => {
+    const homeItem = { text: 'Beranda', link: '/' };
+    const trendsItem = { text: 'Trends', link: '/trends' };
 
+    const authItems = [];
+    if (authUser) {
+      if (authUser.role === 'user') {
+        authItems.push({ text: 'Upcoming', link: '/comingsoon' });
+        authItems.push({ text: 'Recents', link: '/recents' });
+      } else {
+        authItems.push({ text: 'Upcoming', link: '/comingsoon' });
+      }
+    } else {
+      authItems.push({ text: 'About', link: '/about' });
+    }
+
+    return [homeItem, trendsItem, ...authItems].filter(Boolean);
+  };
+
+  const navItems = getNavItems();
   return (
     <>
       <AppBar position="sticky" color="softwhite" style={{ zIndex: 200 }}>
@@ -99,7 +111,10 @@ export default function Navbar({ authUser, signOut }) {
             {authUser ? (
               <>
                 <IconButton onClick={handleMenuOpen} color="inherit">
-                  <Avatar alt={authUser?.profile?.name} src={authUser?.profile?.photo} />
+                  <Avatar
+                    alt={authUser?.profile?.name}
+                    src={authUser?.profile?.photo}
+                  />
                 </IconButton>
                 <Menu
                   anchorEl={anchorEl}

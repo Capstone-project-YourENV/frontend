@@ -8,9 +8,9 @@ import {
   Button,
 } from '@mui/material';
 import { FaUser, FaUserPlus } from 'react-icons/fa6';
-import useExpand from '../hooks/useExpand';
-import { formatDate } from '../utils/date';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../utils/date';
+import Bookmark from './forumapp/Bookmark';
 
 function AuthorDetails({ name }) {
   return (
@@ -21,23 +21,14 @@ function AuthorDetails({ name }) {
   );
 }
 
-function Stats({ registeredCount, totalCount }) {
+function Stats({ registeredCount, maxParticipants }) {
   return (
     <div className="flex gap-2 items-center">
       <FaUserPlus />
       <span className="text-sm">
-        {registeredCount} / {totalCount} Participant
+        {registeredCount} / {maxParticipants} Participant
       </span>
     </div>
-  );
-}
-
-function Bookmark() {
-  return (
-    <Button className="flex gap-1.5 whitespace-nowrap focus:outline-none">
-      <BookmarkBorder fontSize="small" className="shrink-0" />
-      <span className="my-auto">Bookmark</span>
-    </Button>
   );
 }
 
@@ -51,10 +42,14 @@ function PostByCategory(props) {
     endDate,
     category,
     postImage,
-    total,
-    registered,
+    maxParticipants,
+    participants,
   } = props;
-  const [isExpanded, handleExpand] = useExpand(false);
+  const [isBookmarked, setIsBookmarked] = React.useState(false);
+  const handleBookmark = (e) => {
+    e.preventDefault();
+    setIsBookmarked(!isBookmarked);
+  };
 
   return (
     <Link to={`/posts/${id}`}>
@@ -66,15 +61,21 @@ function PostByCategory(props) {
           alt={title}
           className="w-full aspect-[8.33] max-md:max-w-full"
         />
-        <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full">
+        <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full gap-1">
           <Typography
             variant="h5"
             component="h1"
             fontWeight="bold"
-            className="text-2xl leading-8 max-md:max-w-full">
+            className="text-2xl leading-8 max-md:max-w-full"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
             {title}
           </Typography>
-          <AuthorDetails name={owner?.username} />
+          <AuthorDetails name={owner?.profile?.name} />
           {category === 'Event' && (
             <Typography
               variant="body2"
@@ -86,17 +87,22 @@ function PostByCategory(props) {
           <Typography
             variant="body2"
             component="p"
-            className="mt-4 font-medium max-md:max-w-full">
-            {isExpanded ? description : `${description?.substring(0, 100)}...`}
-            <Button onClick={handleExpand} color="primary">
-              {isExpanded ? 'Show less' : 'Show more'}
-            </Button>
+            className="mt-4 font-medium max-md:max-w-full"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+            {description}
           </Typography>
           <div className="flex gap-5 pr-20 mt-4 text-base text-gray-700 max-md:flex-wrap max-md:pr-5">
             {category === 'Event' && (
-              <Stats registeredCount={registered} totalCount={total} />
+              <Stats
+                registeredCount={participants?.length}
+                maxParticipants={maxParticipants}
+              />
             )}
-            <Bookmark />
+            <Bookmark onClick={handleBookmark} isBookmark={isBookmarked} />
           </div>
         </CardContent>
       </Card>
