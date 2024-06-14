@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Container } from '@mui/material';
-import Header from '../components/Company/Header';
+import Header from '../components/User/Header';
 import ListEvent from '../components/ListEvent';
 import { asyncReceiveUserDetail } from '../states/userDetail/thunk';
 import Navbar from '../components/Navbar';

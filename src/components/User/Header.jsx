@@ -1,125 +1,110 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Avatar, Grid, Hidden } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  Grid,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import TagIcon from '@mui/icons-material/Tag';
 import EventIcon from '@mui/icons-material/Event';
 
-const Header = ({ company }) => {
+function Header({ user }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <Card sx={{ mb: 4, display: 'flex', alignItems: 'center', padding: 2 }}>
-      <Grid container alignItems="center">
-        <Grid item xs={12} md={2}>
+    <Card
+      sx={{
+        mb: 4,
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        alignItems: 'center',
+        padding: 2,
+        borderRadius: '20px',
+      }}>
+      <Grid container alignItems="center" justifyContent="center">
+        <Grid
+          item
+          xs={12}
+          md={2}
+          container
+          justifyContent={isMobile ? 'center' : 'flex-start'}>
           <Avatar
-            src={company.logo}
-            alt={company.name}
-            sx={{ width: 150, height: 150 }} 
+            src={user?.profile?.photo}
+            alt={user?.profile?.name}
+            sx={{ width: 150, height: 150 }}
           />
         </Grid>
         <Grid item xs={12} md={10}>
-          <CardContent>
-            <Typography variant="h5" style={{ fontFamily: 'Plus Jakarta Sans', fontWeight: 'bold' }}>{company.name}</Typography>
-            <Typography variant="subtitle1" style={{ fontFamily: 'Plus Jakarta Sans', fontWeight: 'bold' }}>{company.title}</Typography>
+          <CardContent sx={{ textAlign: isMobile ? 'center' : 'left' }}>
+            <Typography
+              variant="h5"
+              sx={{ fontFamily: 'Plus Jakarta Sans', fontWeight: 'bold' }}>
+              {user?.profile?.name}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontFamily: 'Plus Jakarta Sans', fontWeight: '600' }}>
+              {user?.profile?.headTitle}
+            </Typography>
             <Box mt={2}>
-              <Grid container spacing={1} alignItems="center">
-                <Hidden smDown>
-                  <Grid item xs={6}>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item>
-                        <EmailIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.email}</Typography>
-                      </Grid>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item xs={12} sm={6}>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <EmailIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
+                        {user?.email}
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Hidden>
-                <Hidden mdUp>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item>
-                        <EmailIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.email}</Typography>
-                      </Grid>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <PhoneIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
+                        {user?.profile?.phone}
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Hidden>
-                <Hidden smDown>
-                  <Grid item xs={6}>
-                    <Grid container spacing={1} alignItems="center" >
-                      <Grid item>
-                        <PhoneIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.phone}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Hidden>
-                <Hidden mdUp>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1} alignItems="center" >
-                      <Grid item>
-                        <PhoneIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.phone}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Hidden>
+                </Grid>
               </Grid>
-              <Grid container spacing={1} alignItems="center" mt={1}>
-                <Hidden smDown>
-                  <Grid item xs={6}>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item>
-                        <LocationOnIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.location}</Typography>
-                      </Grid>
+              <Grid container spacing={2} justifyContent="center" mt={1}>
+                <Grid item xs={12} sm={6}>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <TagIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
+                        {user?.username}
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Hidden>
-                <Hidden mdUp>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item>
-                        <LocationOnIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.location}</Typography>
-                      </Grid>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <EventIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
+                        {user?.posts?.length} Event
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Hidden>
-                <Hidden smDown>
-                  <Grid item xs={6}>
-                    <Grid container spacing={1} alignItems="center" >
-                      <Grid item>
-                        <EventIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.events} Event</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Hidden>
-                <Hidden mdUp>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1} alignItems="center" >
-                      <Grid item>
-                        <EventIcon />
-                      </Grid>
-                      <Grid item>
-                        <Typography style={{ fontFamily: 'Plus Jakarta Sans' }}>{company.events} Event</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Hidden>
+                </Grid>
               </Grid>
             </Box>
           </CardContent>
@@ -127,6 +112,6 @@ const Header = ({ company }) => {
       </Grid>
     </Card>
   );
-};
+}
 
 export default Header;

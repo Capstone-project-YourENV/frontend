@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
-import Event from './Company/Event';
+import Event from './User/PostItem';
 
 function ListEvent({ title, events }) {
   const getGridSize = (length) => {

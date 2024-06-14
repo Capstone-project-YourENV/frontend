@@ -2,15 +2,15 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-function PostItem({ event }) {
+function PostItem({ post }) {
   return (
-    <Link to={`/posts/${event?.id}`}>
+    <Link to={`/posts/${post?.id}`}>
       <Card sx={{ mb: 2 }}>
         <CardMedia
           component="img"
           sx={{ height: '140px' }}
-          image={event?.image}
-          alt={event?.title}
+          image={post?.image}
+          alt={post?.title}
         />
         <CardContent>
           <Typography
@@ -21,10 +21,10 @@ function PostItem({ event }) {
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
             }}>
-            {event?.title}
+            {post?.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {event?.date}
+            {post?.date}
           </Typography>
           <Typography
             variant="body2"
@@ -33,7 +33,7 @@ function PostItem({ event }) {
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
             }}>
-            {event?.description}
+            {post?.description}
           </Typography>
         </CardContent>
       </Card>

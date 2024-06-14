@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import LayoutForumApp from '../layouts/LayoutForumApp';
 import SidebarContent from '../components/forumapp/SidebarContent';
-import Header from '../components/Company/Header';
+import Header from '../components/User/Header';
 import ListPost from '../components/ListPost';
 import MainbarForum from '../layouts/MainbarForum';
 import { asyncReceiveUserDetail } from '../states/userDetail/thunk';
+import ListEvent from '../components/ListEvent';
 
 function UserForumPage() {
   const userDetail = useSelector((state) => state.userDetail);
@@ -28,9 +29,9 @@ function UserForumPage() {
       <SidebarContent user={authUser} />
       <MainbarForum>
         <Header user={userDetail} />
-        <ListPost title="Current Event" posts={currentEvent} />
+        <ListEvent title="Current Event" events={currentEvent} />
         {userDetail?.role === 'company' && (
-          <ListPost title="Past Event" posts={userDetail?.posts} />
+          <ListEvent title="Past Event" events={userDetail?.posts} />
         )}
         {userDetail?.role === 'user' && (
           <>
