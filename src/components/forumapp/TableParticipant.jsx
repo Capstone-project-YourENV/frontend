@@ -19,17 +19,6 @@ const columns = [
     accessorKey: 'email',
     header: 'Email',
   },
-  {
-    accessorKey: 'createdAt',
-    header: 'Join Date',
-  },
-  {
-    accessorKey: 'absent',
-    header: 'Absent',
-    Cell: ({ cell }) => (
-      <AbsentButton title={cell.getValue()} imageUrl={cell.getValue()} />
-    ),
-  },
 ];
 function AbsentButton({ imageUrl, title }) {
   const [opened, setOpened] = useState(false);

@@ -12,7 +12,7 @@ import {
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TagIcon from '@mui/icons-material/Tag';
-import EventIcon from '@mui/icons-material/Event';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
 function Header({ user }) {
   const theme = useTheme();
@@ -96,11 +96,11 @@ function Header({ user }) {
                 <Grid item xs={12} sm={6}>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
-                      <EventIcon />
+                      <PostAddIcon />
                     </Grid>
                     <Grid item>
                       <Typography sx={{ fontFamily: 'Plus Jakarta Sans' }}>
-                        {user?.posts?.length} Event
+                        {user?.posts?.length} Post
                       </Typography>
                     </Grid>
                   </Grid>

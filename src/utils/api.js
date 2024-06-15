@@ -132,16 +132,13 @@ const api = (() => {
     return data;
   }
 
-  async function getPostsBookmarks(userId) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/posts/bookmarks/${userId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+  async function getPostsBookmarks() {
+    const response = await _fetchWithAuth(`${BASE_URL}/posts/bookmarks`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
     const responseJson = await response.json();
     const { data, error } = responseJson;
     if (error) {
@@ -174,7 +171,7 @@ const api = (() => {
       file,
       startDate,
       endDate,
-      maxParticipant,
+      maxParticipants,
       category,
     } = postData;
 
@@ -186,7 +183,7 @@ const api = (() => {
     payload.append('description', description);
     payload.append('startDate', startDate);
     payload.append('endDate', endDate);
-    payload.append('maxParticipant', maxParticipant);
+    payload.append('maxParticipants', maxParticipants);
     payload.append('category', category);
 
     const response = await _fetchWithAuth(`${BASE_URL}/posts`, {
@@ -202,16 +199,17 @@ const api = (() => {
   }
   async function editPost(editData) {
     const {
-      id,
+      postId,
       file,
       title,
       description,
       image,
       startDate,
       endDate,
-      maxParticipant,
+      maxParticipants,
       category,
     } = editData;
+    console.table(editData);
 
     // Create FormData payload
     const payload = new FormData();
@@ -223,11 +221,11 @@ const api = (() => {
     if (category === 'Event') {
       if (startDate) payload.append('startDate', startDate);
       if (endDate) payload.append('endDate', endDate);
-      if (maxParticipant) payload.append('maxParticipant', maxParticipant);
+      if (maxParticipants) payload.append('maxParticipants', maxParticipants);
     }
 
     try {
-      const response = await _fetchWithAuth(`${BASE_URL}/posts/${id}`, {
+      const response = await _fetchWithAuth(`${BASE_URL}/posts/${postId}`, {
         method: 'PUT',
         body: payload,
       });
@@ -238,7 +236,8 @@ const api = (() => {
       }
 
       const responseJson = await response.json();
-      return responseJson;
+      const { data } = responseJson;
+      return data;
     } catch (err) {
       console.error('Error updating post:', err.message);
       throw err;
@@ -274,6 +273,21 @@ const api = (() => {
     }
     return data;
   }
+  async function getRecentEvents(userId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/events/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
   async function getOwnProfile() {
     const response = await _fetchWithAuth(`${BASE_URL}/users/me`, {
       method: 'GET',
@@ -283,11 +297,11 @@ const api = (() => {
     });
 
     const responseJson = await response.json();
-    const { status, msg, message } = responseJson;
-    if (msg || status !== 'success') {
-      throw new Error(msg || message);
+    const { data, error } = responseJson;
+
+    if (error) {
+      throw new Error(error);
     }
-    const { data } = responseJson;
     return data;
   }
   async function getAllUser() {
@@ -319,18 +333,39 @@ const api = (() => {
     return data;
   }
 
-  async function editProfileUser(userId, user) {
-    const { username, name, headTitle, phone, photo } = user;
-    const payload = new FormData();
-    payload.append('file', photo);
-    payload.append('title', username);
-    payload.append('description', name);
-    payload.append('category', headTitle);
-    payload.append('category', phone);
-
-    const response = await _fetchWithAuth(`${BASE_URL}/users/${userId}`, {
+  async function editProfileUser(data) {
+    const { username, name, headTitle, phone, email } = data;
+    const response = await _fetchWithAuth(`${BASE_URL}/users`, {
       method: 'PUT',
-      body: payload,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        name,
+        email,
+        headTitle,
+        phone,
+      }),
+    });
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+  async function changePassword(data) {
+    const { oldPassword, newPassword } = data;
+    const response = await _fetchWithAuth(`${BASE_URL}/users/password`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        oldPassword,
+        newPassword,
+      }),
     });
     const responseJson = await response.json();
     const { error } = responseJson;
@@ -340,8 +375,8 @@ const api = (() => {
     return responseJson;
   }
 
-  async function deleteUser(userId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/users/${userId}`, {
+  async function deleteUserByAuth() {
+    const response = await _fetchWithAuth(`${BASE_URL}/users`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -356,8 +391,7 @@ const api = (() => {
   }
 
   async function addComment(data) {
-    const { postId, userId, content } = data;
-    console.table(data);
+    const { postId, content } = data;
     const response = await _fetchWithAuth(
       `${BASE_URL}/posts/${postId}/comments`,
       {
@@ -366,7 +400,6 @@ const api = (() => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId,
           content,
         }),
       },
@@ -419,6 +452,84 @@ const api = (() => {
     }
     return responseJson;
   }
+
+  async function joinEvent(dataParticipant) {
+    const { eventId } = dataParticipant;
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/events/${eventId}/join`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const responseJson = await response.json();
+    const { error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return responseJson;
+  }
+
+  async function leaveEvent(dataParticipant) {
+    const { eventId } = dataParticipant;
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/events/${eventId}/leave`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function addBookmark(dataPost) {
+    const { postId } = dataPost;
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/${postId}/bookmarks`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
+  async function removeBookmark(dataPost) {
+    const { postId } = dataPost;
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/posts/${postId}/bookmarks`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const responseJson = await response.json();
+    const { data, error } = responseJson;
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
   return {
     register,
     login,
@@ -431,6 +542,7 @@ const api = (() => {
     getPostsTrends,
     getPostsUpcoming,
     getPostsBookmarks,
+    getRecentEvents,
     getDetailPost,
     createPost,
     editPost,
@@ -439,10 +551,15 @@ const api = (() => {
     getAllUser,
     getDetailUser,
     editProfileUser,
-    deleteUser,
+    changePassword,
+    deleteUserByAuth,
     addComment,
     editComment,
     deleteComment,
+    joinEvent,
+    leaveEvent,
+    addBookmark,
+    removeBookmark,
   };
 })();
 

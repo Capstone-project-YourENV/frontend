@@ -6,29 +6,22 @@ import ChangePassword from '../components/Profile/ChangePassword';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncUnsetAuthUser } from '../states/authentication/thunk';
 import { useNavigate } from 'react-router';
+import {
+  asyncChangePassword,
+  asyncDeleteUserByAuth,
+  asyncUpdateProfile,
+} from '../states/users/thunk';
+import DeleteAccount from '../components/Profile/DeleteAccount';
 
 function ProfilePage() {
   const [activeComponent, setActiveComponent] = useState('profile');
-  // const [profile, setProfile] = useState({
-  //   avatar: 'https://i.pravatar.cc/300',
-  //   name: 'Ervalsa Dwi Nanda',
-  //   title: 'Energie',
-  //   email: 'yourname@gmail.com',
-  //   phone: '+62 xxx xxxx xxx',
-  // });
   const authUser = useSelector((state) => state.authUser);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleUpdateProfile = (name, title, email, phone) => {
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      name,
-      title,
-      email,
-      phone,
-    }));
+  const handleUpdateProfile = async (data) => {
+    await dispatch(asyncUpdateProfile(data));
   };
 
   const handleSignOut = () => {
@@ -37,29 +30,40 @@ function ProfilePage() {
     navigate('/');
   };
 
+  const handleChangePassword = async (data) => {
+    await dispatch(asyncChangePassword(data));
+  };
+
+  const handleDeleteAccount = async () => {
+    await dispatch(asyncDeleteUserByAuth());
+    navigate('/');
+  };
+
   const renderComponent = () => {
     switch (activeComponent) {
       case 'profile':
         return (
           <ProfileDetails
-            avatar={authUser?.photo}
+            avatar={authUser?.profile?.photo}
             username={authUser?.username}
             name={authUser?.profile?.name}
-            title={authUser?.profile?.headTitle}
+            headTitle={authUser?.profile?.headTitle}
             email={authUser?.email}
             phone={authUser?.profile?.phone}
             onUpdate={handleUpdateProfile}
           />
         );
       case 'password':
-        return <ChangePassword />;
+        return <ChangePassword changePassword={handleChangePassword} />;
+      case 'delete':
+        return <DeleteAccount deleteAccount={handleDeleteAccount} />;
       default:
         return (
           <ProfileDetails
-            avatar={authUser?.photo}
+            avatar={authUser?.profile?.photo}
             username={authUser?.username}
             name={authUser?.profile?.name}
-            title={authUser?.profile?.headTitle}
+            headTitle={authUser?.profile?.headTitle}
             email={authUser?.email}
             phone={authUser?.profile?.phone}
             onUpdate={handleUpdateProfile}
@@ -71,16 +75,15 @@ function ProfilePage() {
   return (
     <Container
       sx={{
-        marginTop: 4,
+        my: 5,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
         minHeight: '100vh',
       }}>
-      <Grid container spacing={3} justifyContent="center">
+      <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <ProfileSidebar
-            avatar={authUser?.photo}
+            avatar={authUser?.profile?.photo}
             username={authUser?.username}
             title={authUser?.profile?.headTitle}
             setActiveComponent={setActiveComponent}
@@ -88,9 +91,7 @@ function ProfilePage() {
           />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Paper sx={{ padding: 2, minHeight: '400px', width: '100%' }}>
-            {renderComponent()}
-          </Paper>
+          <Paper sx={{ padding: 2, width: '100%' }}>{renderComponent()}</Paper>
         </Grid>
       </Grid>
     </Container>

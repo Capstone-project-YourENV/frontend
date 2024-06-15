@@ -1,11 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import fakeApi from '../../utils/fakeApi';
 import {
+  addBookmarkPostDetail,
   addCommentPostDetail,
   clearPostDetail,
   deleteCommentPostDetail,
   editCommentPostDetail,
+  joinParticipantEvent,
+  leaveParticipantEvent,
   receivePostDetail,
+  removeBookmarkPostDetail,
   updatePostDetail,
 } from './slice';
 import api from '../../utils/api';
@@ -28,18 +32,26 @@ const asyncReceivePostDetail = createAsyncThunk(
 
 const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
   const { dispatch, getState } = thunkAPI;
-  const { title, description, image, startDate, endDate, maxParticipant } =
-    data;
+  const {
+    title,
+    description,
+    category,
+    image,
+    startDate,
+    endDate,
+    maxParticipants,
+  } = data;
   try {
     console.log(data);
     const post = await api.editPost({
-      id: getState().postDetail.id,
+      postId: getState().postDetail.id,
       title,
+      category,
       description,
       image,
       startDate,
       endDate,
-      maxParticipant,
+      maxParticipants,
     });
     dispatch(updatePostDetail(post));
     return { error: null };
@@ -73,7 +85,6 @@ const asyncAddComment = createAsyncThunk(
     try {
       const comment = await api.addComment({
         postId: getState().postDetail.id,
-        userId: getState().authUser.id,
         content: data,
       });
       dispatch(addCommentPostDetail(comment));
@@ -94,7 +105,6 @@ const asyncEditComment = createAsyncThunk(
     try {
       const comment = await api.editComment({
         postId: getState().postDetail.id,
-        userId: getState().authUser.id,
         commentId,
         content,
       });
@@ -127,6 +137,73 @@ const asyncDeleteComment = createAsyncThunk(
   },
 );
 
+const asyncJoinEvent = createAsyncThunk(
+  'joinEvent',
+  async (eventId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.joinEvent({
+        eventId,
+      });
+      dispatch(joinParticipantEvent(response));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+const asyncLeaveEvent = createAsyncThunk(
+  'leaveEvent',
+  async (eventId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.leaveEvent({
+        eventId,
+      });
+      dispatch(leaveParticipantEvent(response));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+const asyncAddBookmarkPostDetail = createAsyncThunk(
+  'asyncAddBookmark',
+  async (postId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.addBookmark({ postId });
+      dispatch(addBookmarkPostDetail(response));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+const asyncRemoveBookmarkPostDetail = createAsyncThunk(
+  'asyncDeleteBookmark',
+  async (postId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.removeBookmark({ postId });
+      dispatch(removeBookmarkPostDetail(response));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
 export {
   asyncReceivePostDetail,
   asyncEditPost,
@@ -134,4 +211,8 @@ export {
   asyncAddComment,
   asyncEditComment,
   asyncDeleteComment,
+  asyncJoinEvent,
+  asyncLeaveEvent,
+  asyncAddBookmarkPostDetail,
+  asyncRemoveBookmarkPostDetail,
 };

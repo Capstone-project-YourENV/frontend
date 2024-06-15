@@ -30,17 +30,19 @@ import useModal from '../../hooks/useModal';
 function CommentItem({ id, owner, createdAt, content }) {
   const authUser = useSelector((state) => state.authUser);
   const [isExpanded, handleExpand] = useExpand(false);
-  const [editModal, actionEditModal] = useModal(false);
-  const [deleteModal, actionDeleteModal] = useModal(false);
+  const [editModal, actionEditModal, setEditModal] = useModal(false);
+  const [deleteModal, actionDeleteModal, setDeleteModal] = useModal(false);
   const [comment, onChangeComment] = useInput(content);
   const dispatch = useDispatch();
 
   const handleEditComment = () => {
     dispatch(asyncEditComment({ commentId: id, content: comment }));
+    setEditModal(false);
   };
 
   const handleDeleteComment = () => {
     dispatch(asyncDeleteComment(id));
+    setDeleteModal(false);
   };
 
   return (
@@ -104,10 +106,7 @@ function CommentItem({ id, owner, createdAt, content }) {
           </Box>
         </Box>
         <Typography variant="body1" color="textSecondary">
-          {isExpanded ? content : `${content?.substring(0, 100)}...`}
-          <Button onClick={handleExpand} color="primary">
-            {isExpanded ? 'Show less' : 'Show more'}
-          </Button>
+          {content}
         </Typography>
       </Card>
 
@@ -141,17 +140,14 @@ function CommentItem({ id, owner, createdAt, content }) {
         centered>
         <Box display="flex" flexDirection="column" gap={2}>
           <Text>Are you sure you want to delete this post?</Text>
-          <Group position="right" mt="md">
-            <Button variant="outline" onClick={actionDeleteModal}>
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+            <Button onClick={actionDeleteModal} variant="outline">
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleDeleteComment}>
-              Delete
+            <Button onClick={handleDeleteComment} color="primary">
+              Confirm
             </Button>
-          </Group>
+          </Box>
         </Box>
       </MantineModal>
     </>

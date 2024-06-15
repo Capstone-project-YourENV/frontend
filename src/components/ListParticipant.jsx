@@ -45,9 +45,10 @@ function ListParticipant({ participant, variant }) {
                   <ParticipantItem
                     variant={variant}
                     key={idx}
-                    name={item?.profile?.name}
-                    headTitle={item?.profile?.headTitle}
-                    avatar={item?.profile?.photo}
+                    id={item?.owner?.id}
+                    name={item?.owner?.profile?.name}
+                    headTitle={item?.owner?.profile?.headTitle}
+                    avatar={item?.owner?.profile?.photo}
                   />
                 ))}
               </div>

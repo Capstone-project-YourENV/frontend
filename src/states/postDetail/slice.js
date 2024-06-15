@@ -83,14 +83,14 @@ const postDetailSlice = createSlice({
     addBookmarkPostDetail(state, action) {
       return {
         ...state,
-        bookmarks: action.payload,
+        bookmarks: [action.payload, ...state.bookmarks],
       };
     },
     removeBookmarkPostDetail(state, action) {
       return {
         ...state,
         bookmarks: state.bookmarks.filter(
-          (bookmark) => bookmark.id !== action.payload,
+          (bookmark) => bookmark.userId !== action.payload.userId,
         ),
       };
     },

@@ -14,23 +14,20 @@ function RegisterCompany() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (e, data) => {
+    e.preventDefault();
     const { username, email, password, role = 'company' } = data;
-    try {
-      const { error } = await dispatch(
-        asyncRegisterUser({
-          username,
-          email,
-          password,
-          role,
-        }),
-      );
+    const { error } = await dispatch(
+      asyncRegisterUser({
+        username,
+        email,
+        password,
+        role,
+      }),
+    );
 
-      if (!error) {
-        navigate('/login');
-      }
-    } catch (error) {
-      navigate('/register/company');
+    if (!error) {
+      navigate('/login');
     }
   };
 

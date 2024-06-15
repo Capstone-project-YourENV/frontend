@@ -37,7 +37,7 @@ function PostForm({ addPost }) {
       category: 'News',
       startDate: null,
       endDate: null,
-      maxParticipant: null,
+      maxParticipants: null,
     },
     validate: {
       title: (value) =>
@@ -70,6 +70,19 @@ function PostForm({ addPost }) {
     form.setFieldValue('category', newCategory);
   };
 
+  const handleSubmit = async (values) => {
+    const startDate = values.startDate ? values.startDate.toISOString() : null;
+    const endDate = values.endDate ? values.endDate.toISOString() : null;
+
+    const postData = {
+      ...values,
+      startDate,
+      endDate,
+    };
+
+    await addPost(postData);
+  };
+
   return (
     <>
       <Card sx={{ padding: 4 }}>
@@ -81,7 +94,7 @@ function PostForm({ addPost }) {
             flexDirection: 'column',
             gap: 3,
           }}
-          onSubmit={form.onSubmit((values) => addPost(values))}>
+          onSubmit={form.onSubmit(handleSubmit)}>
           <Typography
             fontWeight="600"
             fontSize="26px"
@@ -140,7 +153,7 @@ function PostForm({ addPost }) {
                 placeholder="Participate"
                 allowDecimal={false}
                 allowNegative={false}
-                {...form.getInputProps('maxParticipant')}
+                {...form.getInputProps('maxParticipants')}
               />
             </>
           )}

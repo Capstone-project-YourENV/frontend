@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
 import {
-  Typography,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  Modal,
+  Group,
+  Text,
+  TextInput,
   Divider,
-  TextField,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+  Title,
+  Box,
+  rem,
+  useMantineTheme,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconPhone } from '@tabler/icons-react';
 
-const theme = createTheme({
-  typography: {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
-  },
-});
-
-const ProfileDetails = ({ username, name, title, email, phone, onUpdate }) => {
+function ProfileDetails({ username, name, headTitle, email, phone, onUpdate }) {
+  const theme = useMantineTheme();
+  const formEdit = useForm({
+    initialValues: { username, name, headTitle, email, phone },
+    validate: {
+      username: (value) => (value ? null : 'Username cannot be empty'),
+      name: (value) =>
+        value.length < 3 ? 'Name must be at least 3 letters' : null,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
   const [open, setOpen] = useState(false);
-  const [updatedName, setUpdatedName] = useState(name);
-  const [updatedTitle, setUpdatedTitle] = useState(title);
-  const [updatedEmail, setUpdatedEmail] = useState(email);
-  const [updatedPhone, setUpdatedPhone] = useState(phone);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -33,108 +35,124 @@ const ProfileDetails = ({ username, name, title, email, phone, onUpdate }) => {
     setOpen(false);
   };
 
-  const handleUpdate = () => {
-    onUpdate(updatedName, updatedTitle, updatedEmail, updatedPhone);
+  const handleUpdate = (data) => {
+    onUpdate(data);
     handleClose();
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'Bold' }}>
-          Profile
-        </Typography>
-        <Divider sx={{ marginBottom: 2 }} />
+    <Box>
+      <Title
+        order={3}
+        style={{ fontWeight: 'bold', marginBottom: theme.spacing.sm }}>
+        Profile
+      </Title>
+      <Divider style={{ marginBottom: theme.spacing.md }} />
 
-        <div style={{ marginTop: 20 }}>
-          <Typography variant="body1" sx={{ marginBottom: 2 }}>
-            Username: {username}
-          </Typography>
-          <Divider />
-          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
-            Name: {name}
-          </Typography>
-          <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
-            Head Title: {title}
-          </Typography>
-          <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
-            Email Account: {email}
-          </Typography>
-          <Divider />
-          <Typography variant="body1" sx={{ marginBottom: 2, marginTop: 2 }}>
-            Mobile Phone: {phone}
-          </Typography>
-          <Divider />
-        </div>
+      <Box style={{ marginTop: theme.spacing.md }}>
+        <Text style={{ marginBottom: theme.spacing.sm }}>
+          Username: {username}
+        </Text>
+        <Divider />
+        <Text
+          style={{
+            marginTop: theme.spacing.sm,
+            marginBottom: theme.spacing.sm,
+          }}>
+          Name: {name}
+        </Text>
+        <Divider />
+        <Text
+          style={{
+            marginBottom: theme.spacing.sm,
+            marginTop: theme.spacing.sm,
+          }}>
+          Head Title: {headTitle}
+        </Text>
+        <Divider />
+        <Text
+          style={{
+            marginBottom: theme.spacing.sm,
+            marginTop: theme.spacing.sm,
+          }}>
+          Email Account: {email}
+        </Text>
+        <Divider />
+        <Text
+          style={{
+            marginBottom: theme.spacing.sm,
+            marginTop: theme.spacing.sm,
+          }}>
+          Mobile Phone: {phone}
+        </Text>
+        <Divider />
+      </Box>
 
-        <Button
-          variant="contained"
-          sx={{
-            marginTop: 3,
-            backgroundColor: '#75A47F',
-            '&:hover': {
-              backgroundColor: '#618b68',
-            },
-          }}
-          onClick={handleClickOpen}
-          fullWidth>
-          Change Profile
-        </Button>
+      <Button
+        style={{
+          marginTop: theme.spacing.lg,
+          backgroundColor: '#75A47F',
+          width: '100%',
+        }}
+        onClick={handleOpen}>
+        Change Profile
+      </Button>
 
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Update Profile</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Update your profile details below:
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Name"
-              fullWidth
-              variant="outlined"
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              label="Head Title"
-              fullWidth
-              variant="outlined"
-              value={updatedTitle}
-              onChange={(e) => setUpdatedTitle(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              label="Email Account"
-              fullWidth
-              variant="outlined"
-              value={updatedEmail}
-              onChange={(e) => setUpdatedEmail(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              label="Mobile Phone"
-              fullWidth
-              variant="outlined"
-              value={updatedPhone}
-              onChange={(e) => setUpdatedPhone(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="secondary">
+      <Modal
+        opened={open}
+        onClose={handleClose}
+        title="Update Profile"
+        centered>
+        <form onSubmit={formEdit.onSubmit((values) => handleUpdate(values))}>
+          <Text>Update your profile details below:</Text>
+          <TextInput
+            mt="md"
+            label="Username"
+            withAsterisk
+            {...formEdit.getInputProps('username')}
+          />
+          <TextInput
+            mt="md"
+            label="Name"
+            withAsterisk
+            {...formEdit.getInputProps('name')}
+          />
+          <TextInput
+            mt="md"
+            label="Head Title"
+            {...formEdit.getInputProps('headTitle')}
+          />
+          <TextInput
+            mt="md"
+            label="Email Account"
+            withAsterisk
+            {...formEdit.getInputProps('email')}
+          />
+          <TextInput
+            mt="md"
+            label="Mobile Phone"
+            leftSection={
+              <IconPhone style={{ width: rem(18), height: rem(18) }} />
+            }
+            {...formEdit.getInputProps('phone')}
+            onKeyPress={(event) => {
+              if (!/[+\d]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
+          <Group position="right" mt="md">
+            <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button onClick={handleUpdate} color="primary">
+            <Button type="submit" color="blue">
               Update
             </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </ThemeProvider>
+          </Group>
+        </form>
+      </Modal>
+    </Box>
   );
-};
+}
 
 export default ProfileDetails;

@@ -10,31 +10,15 @@ import ListComment from '../components/forumapp/ListComment';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import {
   asyncAddComment,
-  asyncDeletePost,
-  asyncEditPost,
   asyncReceivePostDetail,
 } from '../states/postDetail/thunk';
+import TableParticipant from '../components/forumapp/TableParticipant';
 
 function DetailForumPage() {
   const authUser = useSelector((state) => state.authUser);
   const postDetail = useSelector((state) => state.postDetail);
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleEditPost = async (data) => {
-    const { error } = await dispatch(asyncEditPost(data));
-    if (!error) {
-      dispatch(asyncReceivePostDetail(postId));
-    }
-  };
-
-  const handleDeletePost = async (id) => {
-    const { error } = await dispatch(asyncDeletePost(id));
-    if (!error) {
-      navigate('/');
-    }
-  };
 
   const handleAddComment = async (comment) => {
     const { error } = await dispatch(asyncAddComment(comment));
@@ -64,10 +48,9 @@ function DetailForumPage() {
           startDate={postDetail?.startDate}
           endDate={postDetail?.endDate}
           category={postDetail?.category}
-          editPost={handleEditPost}
-          deletePost={handleDeletePost}
+          bookmarks={postDetail?.bookmarks}
         />
-        {authUser?.role !== 'company' && (
+        {authUser?.role !== 'company' ? (
           <>
             {/* Hanya pengguna dengan peran selain 'company' yang dapat melihat daftar peserta */}
             {postDetail?.participants?.length > 0 && (
@@ -81,6 +64,16 @@ function DetailForumPage() {
             {postDetail?.comments?.length > 0 && (
               <ListComment comments={postDetail?.comments} />
             )}
+          </>
+        ) : (
+          <>
+            {postDetail?.owner?.id === authUser?.id &&
+              postDetail?.participants?.length > 0 && (
+                <TableParticipant
+                  title="Participants"
+                  data={postDetail?.participants}
+                />
+              )}
           </>
         )}
       </MainbarForum>

@@ -43,6 +43,7 @@ function EventItem({ title, url }) {
 
 function RecentEvents({ events }) {
   const navigate = useNavigate();
+  console.log(events);
   return (
     <Card
       sx={{
@@ -63,8 +64,8 @@ function RecentEvents({ events }) {
         {events?.map((event, index) => (
           <EventItem
             key={index}
-            url={() => navigate(`/posts/${event.id}`)}
-            title={event.title}
+            url={() => navigate(`/posts/${event?.posts?.id}`)}
+            title={event?.posts?.title}
           />
         ))}
       </CardContent>

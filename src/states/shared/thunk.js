@@ -26,8 +26,6 @@ const asyncForumPostsAndUsers = createAsyncThunk(
     try {
       console.log(page);
       const response = await api.getPostsForum(page);
-      const users = await api.getAllUser();
-      dispatch(receiveUsers(users));
       return {
         data: response.data,
         hasMore: response.data.length > 0, // Adjust this according to your API response
@@ -46,8 +44,6 @@ const asyncForumPostsAndUsersByTrends = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const response = await api.getPostsTrends();
-      const users = await api.getAllUser();
-      dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
     } catch (error) {
       alert(error.message);
@@ -62,8 +58,6 @@ const asyncForumPostsAndUsersByUpcoming = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const response = await api.getPostsUpcoming();
-      const users = await fakeApi.getUsers();
-      dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
     } catch (error) {
       alert(error.message);
@@ -78,8 +72,6 @@ const asyncForumPostsAndUsersBookmark = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const response = await api.getPostsBookmarks(userId);
-      const users = await api.getAllUser();
-      dispatch(receiveUsers(users));
       dispatch(receivePosts(response));
     } catch (error) {
       alert(error.message);
@@ -94,8 +86,20 @@ const asyncForumMyPosts = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const response = await api.getMyPosts(userId);
-      const users = await fakeApi.getUsers();
-      dispatch(receiveUsers(users));
+      dispatch(receivePosts(response));
+    } catch (error) {
+      alert(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+const asyncForumRecentEvents = createAsyncThunk(
+  'asyncForumRecentEvents',
+  async (eventId, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.getRecentEvents(eventId);
       dispatch(receivePosts(response));
     } catch (error) {
       alert(error.message);
@@ -111,4 +115,5 @@ export {
   asyncForumPostsAndUsersByUpcoming,
   asyncForumPostsAndUsersBookmark,
   asyncForumMyPosts,
+  asyncForumRecentEvents,
 };

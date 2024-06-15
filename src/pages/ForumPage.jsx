@@ -61,8 +61,10 @@ function ForumPage() {
               startDate={post?.startDate}
               endDate={post?.endDate}
               createdAt={post?.createdAt}
-              totalParticipants={post?.totalParticipants}
+              totalParticipants={post?.participants?.length}
               maxParticipant={post?.maxParticipants}
+              bookmarks={post?.bookmarks}
+              authUser={authUser}
             />
           ))}
         </InfiniteScroll>

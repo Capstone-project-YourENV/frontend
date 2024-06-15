@@ -11,7 +11,7 @@ function MyPostPage() {
   const authUser = useSelector((state) => state.authUser);
 
   const dispatch = useDispatch();
-
+  console.log(myPost);
   useEffect(() => {
     dispatch(asyncForumMyPosts(authUser.id));
   }, [dispatch]);

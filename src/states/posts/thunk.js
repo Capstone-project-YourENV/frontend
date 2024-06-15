@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addPost, deletePost } from './slice';
-import fakeApi from '../../utils/fakeApi';
+import {
+  addBookmarkPost,
+  addPost,
+  removeBookmarkPost,
+} from './slice';
 import api from '../../utils/api';
 
 const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
@@ -10,19 +13,18 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
     image,
     startDate,
     endDate,
-    maxParticipant,
+    maxParticipants,
     category,
   } = data;
-  const { getState, dispatch } = thunkAPI;
+  const { dispatch } = thunkAPI;
   try {
     const post = await api.createPost({
-      ownerId: getState().authUser.id,
       title,
       description,
       image,
       startDate,
       endDate,
-      maxParticipant,
+      maxParticipants,
       category,
     });
     dispatch(addPost(post));
@@ -34,6 +36,37 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
   }
 });
 
+const asyncAddBookmarkPost = createAsyncThunk(
+  'addBookmarkPost',
+  async (postId, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    try {
+      const response = await api.addBookmark({ postId });
+      dispatch(addBookmarkPost(postId, response));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
 
+const asyncRemoveBookmarkPost = createAsyncThunk(
+  'removeBookmarkPost',
+  async (payload, thunkAPI) => {
+    const { postId, userId } = payload;
+    const { dispatch, getState } = thunkAPI;
+    try {
+      await api.removeBookmark({ postId });
+      dispatch(removeBookmarkPost(postId, userId));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
 
-export { asyncAddPost };
+export { asyncAddPost, asyncAddBookmarkPost, asyncRemoveBookmarkPost };

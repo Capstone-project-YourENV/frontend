@@ -33,13 +33,14 @@ const postSlice = createSlice({
       );
       state.data = updatedPosts;
     },
-    bookmarkPost: {
+    addBookmarkPost: {
       reducer(state, action) {
+        console.log(action.payload);
         const updatedPosts = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
-              boorkmarks: action.payload.user,
+              bookmarks: [action.payload.user, ...post.bookmarks],
             };
           }
           return post;
@@ -51,21 +52,23 @@ const postSlice = createSlice({
       },
     },
 
-    unbookmarkPost: {
+    removeBookmarkPost: {
       reducer(state, action) {
         const updatedPosts = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
-              boorkmarks: post.boorkmarks.shift(action.payload.user),
+              bookmarks: post.bookmarks.filter(
+                (bookmark) => bookmark.userId !== action.payload.userId,
+              ),
             };
           }
           return post;
         });
         state.data = updatedPosts;
       },
-      prepare(postId, user) {
-        return { payload: { postId, user } };
+      prepare(postId, userId) {
+        return { payload: { postId, userId } };
       },
     },
   },
@@ -93,8 +96,8 @@ export const {
   receivePosts,
   addPost,
   deletePost,
-  bookmarkPost,
-  unbookmarkPost,
+  addBookmarkPost,
+  removeBookmarkPost,
 } = postSlice.actions;
 
 export default postSlice.reducer;

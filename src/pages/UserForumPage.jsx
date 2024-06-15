@@ -20,24 +20,37 @@ function UserForumPage() {
     dispatch(asyncReceiveUserDetail(userId));
   }, [dispatch]);
 
-  const currentEvent = userDetail?.recentEvents
+  const userPosts = userDetail?.posts;
+
+  // Filter dan sortir events
+  const currentEvent = userPosts
+    ?.filter((post) => post.category === 'Event')
     ?.sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 2);
+
+  // Filter events
+  const eventsList = userPosts
+    ?.filter((post) => post.category === 'Event')
+    ?.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  // Filter news
+  const newsList = userPosts
+    ?.filter((post) => post.category === 'News')
+    ?.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
         <Header user={userDetail} />
-        <ListEvent title="Current Event" events={currentEvent} />
-        {userDetail?.role === 'company' && (
-          <ListEvent title="Past Event" events={userDetail?.posts} />
-        )}
-        {userDetail?.role === 'user' && (
+        {userDetail?.role === 'company' ? (
           <>
-            <ListPost title="Past Event" posts={userDetail?.recentEvents} />
-            <ListPost title="News" posts={userDetail?.posts} />
+            <ListEvent title="Current Event" events={currentEvent} />
+            <ListEvent title="Past Event" events={eventsList} />
+            <ListEvent title="News" events={newsList} />
           </>
+        ) : (
+          <ListPost title="News" posts={userPosts} />
         )}
       </MainbarForum>
     </LayoutForumApp>

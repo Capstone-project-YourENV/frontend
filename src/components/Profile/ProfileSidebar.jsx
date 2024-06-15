@@ -10,6 +10,7 @@ import {
   Card,
 } from '@mui/material';
 import { AccountCircle, VpnKey, ExitToApp } from '@mui/icons-material';
+import { IconTrashFilled } from '@tabler/icons-react';
 
 function ProfileSidebar({
   avatar,
@@ -18,7 +19,6 @@ function ProfileSidebar({
   setActiveComponent,
   onSignOut,
 }) {
-  console.log('username:', username);
   return (
     <Card>
       <List>
@@ -40,6 +40,12 @@ function ProfileSidebar({
             <VpnKey />
           </ListItemIcon>
           <ListItemText primary="Change Password" />
+        </ListItem>
+        <ListItem button onClick={() => setActiveComponent('delete')}>
+          <ListItemIcon>
+            <IconTrashFilled />
+          </ListItemIcon>
+          <ListItemText primary="Delete Account" />
         </ListItem>
         <ListItem button>
           <ListItemIcon>

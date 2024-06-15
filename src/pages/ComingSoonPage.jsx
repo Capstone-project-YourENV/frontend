@@ -9,22 +9,17 @@ import { asyncForumPostsAndUsersByUpcoming } from '../states/shared/thunk';
 function ComingSoonPage() {
   const authUser = useSelector((state) => state.authUser);
   const upcomingPosts = useSelector((state) => state.posts.data);
-  const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(asyncForumPostsAndUsersByUpcoming());
   }, [dispatch]);
 
-  const upcomingList = upcomingPosts?.map((post) => ({
-    ...post,
-    owner: users.find((user) => user.id === post.ownerId),
-  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Coming Soon" posts={upcomingList} />
+        <ListPost title="Coming Soon" posts={upcomingPosts} />
       </MainbarForum>
     </LayoutForumApp>
   );

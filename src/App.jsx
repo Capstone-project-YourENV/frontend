@@ -12,7 +12,7 @@ import CreateForumPage from './pages/CreateForumPage';
 import BookmarkPage from './pages/BookMarkPage';
 import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
-import ProfilPage from './pages/ProfilPage';
+import ProfilPage from './pages/ProfilePage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
 import DetailPostPage from './pages/DetailPostPage';

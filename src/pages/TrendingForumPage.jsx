@@ -9,7 +9,6 @@ import { asyncForumPostsAndUsersByTrends } from '../states/shared/thunk';
 function TrendingForumPage() {
   const authUser = useSelector((state) => state.authUser);
   const trendingPost = useSelector((state) => state.posts.data);
-  const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
@@ -17,15 +16,11 @@ function TrendingForumPage() {
     dispatch(asyncForumPostsAndUsersByTrends());
   }, [dispatch]);
 
-  const trendList = trendingPost?.map((post) => ({
-    ...post,
-    owner: users.find((user) => user.id === post.ownerId),
-  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Trending" posts={trendList} />
+        <ListPost title="Trending" posts={trendingPost} />
       </MainbarForum>
     </LayoutForumApp>
   );
