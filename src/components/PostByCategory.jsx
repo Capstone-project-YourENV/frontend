@@ -51,6 +51,7 @@ function PostByCategory(props) {
     participants,
     bookmarks,
   } = props;
+  const [imageError, setImageError] = React.useState(false);
   const authUser = useSelector((state) => state.authUser);
   const dispatch = useDispatch();
   const isBookmarkPost = bookmarks?.some(
@@ -66,16 +67,21 @@ function PostByCategory(props) {
     }
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <Link to={`/posts/${id}`}>
       <Card className="flex flex-col self-stretch text-sm leading-5 bg-white rounded-lg text-zinc-800">
-        {postImage && (
+        {postImage && !imageError && (
           <CardMedia
             component="img"
             loading="lazy"
             image={postImage}
             alt={title}
             className="w-full aspect-[8.33] max-md:max-w-full"
+            onError={handleImageError}
           />
         )}
         <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full gap-1">

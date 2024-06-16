@@ -35,7 +35,7 @@ function FilterButtons({ activeFilter, setActiveFilter }) {
 }
 
 function TrendPage() {
-  const [activeFilter, setActiveFilter] = useState('Event'); // Menggunakan string tunggal untuk filter
+  const [activeFilter, setActiveFilter] = useState('Event');
   const dispatch = useDispatch();
   const trendsPosts = useSelector((state) => state.posts.data);
   const trendsUsers = useSelector((state) => state.users);
@@ -46,24 +46,6 @@ function TrendPage() {
 
   const trendsEvent = trendsPosts.filter((post) => post.category === 'Event');
   const trendsNews = trendsPosts.filter((post) => post.category === 'News');
-
-  let trends;
-  switch (activeFilter) {
-    case 'Event':
-      trends = trendsEvent;
-      break;
-    case 'Volunteer':
-      trends = trendsUsers;
-      break;
-    case 'News':
-      trends = trendsNews;
-      break;
-    case 'Users':
-      trends = trendsUsers;
-      break;
-    default:
-      trends = trendsEvent;
-  }
 
   return (
     <>
@@ -84,20 +66,26 @@ function TrendPage() {
           activeFilter={activeFilter}
           setActiveFilter={setActiveFilter}
         />
-        <Grid container spacing={3}>
-          {trends?.map((trend) => (
-            <Grid item xs={12} sm={6} md={4} key={trend.id}>
-              {activeFilter === 'Event' && (
+        {activeFilter === 'Event' && (
+          <Grid container spacing={3}>
+            {trendsEvent.map((trend) => (
+              <Grid item xs={12} sm={6} md={4} key={trend.id}>
                 <EventItem
-                  id={trend?.id}
-                  image={trend?.image}
-                  title={trend?.title}
-                  owner={trend?.owner}
-                  participants={trend?.participants}
-                  maxParticipants={trend?.maxParticipants}
+                  id={trend.id}
+                  image={trend.image}
+                  title={trend.title}
+                  owner={trend.owner}
+                  participants={trend.participants}
+                  maxParticipants={trend.maxParticipants}
                 />
-              )}
-              {activeFilter === 'Volunteer' && (
+              </Grid>
+            ))}
+          </Grid>
+        )}
+        {activeFilter === 'Volunteer' && (
+          <Grid container spacing={3}>
+            {trendsUsers.map((trend) => (
+              <Grid item xs={12} sm={6} md={4} key={trend.id}>
                 <VolunteerItem
                   id={trend?.id}
                   photo={trend?.profile?.photo}
@@ -105,8 +93,14 @@ function TrendPage() {
                   headTitle={trend?.profile?.headTitle}
                   phone={trend?.profile?.phone}
                 />
-              )}
-              {activeFilter === 'News' && (
+              </Grid>
+            ))}
+          </Grid>
+        )}
+        {activeFilter === 'News' && (
+          <Grid container spacing={3}>
+            {trendsNews.map((trend) => (
+              <Grid item xs={12} sm={6} md={4} key={trend.id}>
                 <NewsItem
                   id={trend?.id}
                   image={trend?.image}
@@ -114,10 +108,10 @@ function TrendPage() {
                   owner={trend?.owner}
                   date={trend?.createdAt}
                 />
-              )}
-            </Grid>
-          ))}
-        </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Container>
       <Footer />
     </>

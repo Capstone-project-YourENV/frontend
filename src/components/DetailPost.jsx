@@ -41,11 +41,9 @@ function DetailPost(props) {
     endDate,
     createdAt,
     description,
-    maxParticipant,
+    maxParticipants,
     participants,
     bookmarks,
-    editPost,
-    deletePost,
   } = props;
 
   const [isExpanded, handleExpand] = useExpand(false);
@@ -58,7 +56,7 @@ function DetailPost(props) {
   const [actionType, setActionType] = useState('');
   const dispatch = useDispatch();
 
-  const isEventFull = participants?.length >= maxParticipant;
+  const isEventFull = participants?.length >= maxParticipants;
   const isEventEnded = new Date(endDate) < new Date();
   const isUserParticipating = participants?.some(
     (participant) => participant?.userId === authUser?.id,
@@ -248,7 +246,7 @@ function DetailPost(props) {
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
-                {participants?.length} / {maxParticipant} Participant
+                {participants?.length} / {maxParticipants} Participant
               </Typography>
             </Box>
             {authUser?.role === 'user' && (
@@ -307,7 +305,7 @@ DetailPost.propTypes = {
   endDate: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  maxParticipant: PropTypes.number,
+  maxParticipants: PropTypes.number,
   participants: PropTypes.arrayOf(
     PropTypes.shape({
       userId: PropTypes.string,
@@ -326,7 +324,7 @@ DetailPost.defaultProps = {
   image: '',
   startDate: '',
   endDate: '',
-  maxParticipant: 0,
+  maxParticipants: 0,
   participants: [],
   bookmarks: [],
   authUser: null,

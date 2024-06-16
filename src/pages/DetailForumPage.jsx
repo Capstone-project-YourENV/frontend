@@ -41,7 +41,7 @@ function DetailForumPage() {
           title={postDetail?.title}
           image={postDetail?.image}
           description={postDetail?.description}
-          maxParticipant={postDetail?.maxParticipants}
+          maxParticipants={postDetail?.maxParticipants}
           participants={postDetail?.participants}
           owner={postDetail?.owner}
           createdAt={postDetail?.createdAt}

@@ -4,16 +4,20 @@ import {
   CardMedia,
   Grid,
   Typography,
+  Box,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { postedAt } from '../../utils/date';
 import ownerShape from '../../types/Owner';
 import { Link } from 'react-router-dom';
 
 function NewsItem({ id, image, title, date, owner }) {
+  const [imageLoaded, setImageLoaded] = useState(true); // State to track image load status
 
-  const placeholderImage = 'https://via.placeholder.com/150'; // Placeholder image URL
+  const handleImageError = () => {
+    setImageLoaded(false); // Set state to false if image fails to load
+  };
 
   return (
     <Link to={`/posts/${id}`}>
@@ -27,17 +31,32 @@ function NewsItem({ id, image, title, date, owner }) {
           borderRadius: 2,
           border: '1px solid',
           borderColor: 'grey.200',
-        }}
-      >
-        <CardMedia
-          component="img"
-          loading="lazy"
-          image={image || placeholderImage}
-          alt={title}
-          sx={{
-            height: 200,
-          }}
-        />
+        }}>
+        {imageLoaded && image ? (
+          <CardMedia
+            component="img"
+            loading="lazy"
+            image={image}
+            alt={title}
+            sx={{
+              height: 200,
+            }}
+            onError={handleImageError} // Handle image load error
+          />
+        ) : (
+          <Box
+            sx={{
+              height: 200,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'grey.200', // Background color when image is not loaded
+            }}>
+            <Typography variant="h6" color="text.secondary">
+              {title}
+            </Typography>
+          </Box>
+        )}
         <CardContent sx={{ flexGrow: 1, p: 2 }}>
           <Grid>
             <Typography variant="body2" fontWeight="200">
@@ -50,8 +69,7 @@ function NewsItem({ id, image, title, date, owner }) {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-              }}
-            >
+              }}>
               {title}
             </Typography>
             <Typography variant="body2">{owner?.username}</Typography>
@@ -63,6 +81,7 @@ function NewsItem({ id, image, title, date, owner }) {
 }
 
 NewsItem.propTypes = {
+  id: PropTypes.string.isRequired,
   image: PropTypes.string,
   title: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
