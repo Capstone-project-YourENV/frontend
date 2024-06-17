@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function Copyright(props) {
   return (
@@ -11,7 +12,7 @@ export default function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="/">
+      <Link color="inherit" to="/">
         Comment
         {' '}
       </Link>

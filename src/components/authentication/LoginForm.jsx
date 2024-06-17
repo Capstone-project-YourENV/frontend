@@ -5,12 +5,12 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  Link,
   TextField,
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
+import { Link } from 'react-router-dom';
 
 function LoginForm({ login }) {
   const [email, onEmailChange] = useInput(
@@ -92,13 +92,9 @@ function LoginForm({ login }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={(
-          <Checkbox
-            value="remember"
-            color="success"
-            inputRef={rememberCheck}
-          />
-        )}
+        control={
+          <Checkbox value="remember" color="success" inputRef={rememberCheck} />
+        }
         label="Remember Password"
         sx={{ color: 'softwhite' }}
       />
@@ -111,23 +107,25 @@ function LoginForm({ login }) {
       </Button>
       <Grid container justifyContent="center">
         <Grid item display="flex" flexDirection="rows" gap="10px">
-          <Link
-            href="/"
+          <Typography
+            component={Link}
+            to="/"
             variant="body2"
             color="softwhite"
             fontWeight="600">
             Home
-          </Link>
+          </Typography>
           <Typography variant="body2" color="softwhite" fontWeight="600">
             Or
           </Typography>
-          <Link
-            href="/register/user"
+          <Typography
+            component={Link}
+            to="/register/user"
             variant="body2"
             color="softwhite"
             fontWeight="600">
             Sign Up
-          </Link>
+          </Typography>
         </Grid>
       </Grid>
     </Box>

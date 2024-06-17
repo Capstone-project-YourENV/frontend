@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
@@ -108,26 +99,28 @@ function RegisterForm({ register, color }) {
       </Button>
       <Grid container justifyContent="center">
         <Grid item display="flex" flexDirection="rows" gap="10px">
-          <Link
-            href="/login"
+          <Typography
+            component={Link}
+            to="/login"
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
             fontWeight="600">
             Sign In
-          </Link>
+          </Typography>
           <Typography
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
             fontWeight="600">
             Or
           </Typography>
-          <Link
-            href={lastPath === 'user' ? '/register/company' : '/register/user'}
+          <Typography
+            component={Link}
+            to={lastPath === 'user' ? '/register/company' : '/register/user'}
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
             fontWeight="600">
             {lastPath === 'user' ? 'Join Official' : 'Join Participant'}
-          </Link>
+          </Typography>
         </Grid>
       </Grid>
     </Box>

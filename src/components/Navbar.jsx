@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-  Link,
   Grid,
   useTheme,
   useMediaQuery,
@@ -16,19 +15,20 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
+import { useLocation, Link } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import ButtonAuthentication from './authentication/ButtonAuthentication';
-import { useLocation } from 'react-router';
 
 function NavItem({ text, isActive, link }) {
   return (
-    <Link
+    <Typography
+      component={Link}
       fontWeight="500"
-      href={link}
+      to={link}
       underline="none"
       color={isActive ? 'green' : 'inherit'}>
       {text}
-    </Link>
+    </Typography>
   );
 }
 
@@ -82,7 +82,7 @@ export default function Navbar({ authUser, signOut }) {
     <>
       <AppBar position="sticky" color="softwhite" style={{ zIndex: 200 }}>
         <Toolbar className="justify-between px-4 max-md:px-2">
-          <Link href="/" underline="none">
+          <Link to="/">
             <Typography
               variant="h6"
               color="green"
@@ -123,19 +123,19 @@ export default function Navbar({ authUser, signOut }) {
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    href="/profile">
+                    to="/profile">
                     Profile
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    href="/mypost">
+                    to="/mypost">
                     My Post
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    href="/bookmarks">
+                    to="/bookmarks">
                     Bookmarks
                   </MenuItem>
                   <MenuItem onClick={signOut}>Sign Out</MenuItem>
@@ -143,14 +143,14 @@ export default function Navbar({ authUser, signOut }) {
               </>
             ) : (
               <>
-                <Link href="/register/user">
+                <Link to="/register/user">
                   <ButtonAuthentication
                     text="Register"
                     styleType="primary"
                     variant="outlined"
                   />
                 </Link>
-                <Link href="/login">
+                <Link to="/login">
                   <ButtonAuthentication text="Login" styleType="primary" />
                 </Link>
               </>
@@ -194,12 +194,12 @@ export default function Navbar({ authUser, signOut }) {
             ) : (
               <>
                 <ListItem button>
-                  <Link href="/register/user">
+                  <Link to="/register/user">
                     <ListItemText primary="Register" />
                   </Link>
                 </ListItem>
                 <ListItem button>
-                  <Link href="/login">
+                  <Link to="/login">
                     <ListItemText primary="Login" />
                   </Link>
                 </ListItem>
