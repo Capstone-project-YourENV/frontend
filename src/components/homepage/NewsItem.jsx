@@ -7,10 +7,10 @@ import {
   Box,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { postedAt } from '../../utils/date';
 import ownerShape from '../../types/Owner';
-import { Link } from 'react-router-dom';
 
 function NewsItem({ id, image, title, date, owner }) {
   const [imageLoaded, setImageLoaded] = useState(true); // State to track image load status

@@ -1,11 +1,11 @@
+import React, { useState } from 'react';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ownerShape from '../../types/Owner';
 import participantShape from '../../types/Participant';
-import { Link } from 'react-router-dom';
 
 function EventItem(props) {
   const { id, image, title, owner, maxParticipants, participants } = props;
