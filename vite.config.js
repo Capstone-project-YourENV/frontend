@@ -8,10 +8,4 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
-  rewrites: [
-    {
-      source: '/(.*)',
-      destination: '/',
-    },
-  ],
 });
