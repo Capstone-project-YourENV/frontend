@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -10,7 +11,7 @@ function Footer() {
         position: 'relative',
         marginTop: '50px',
       }}>
-      <div className="container mx-auto px-4 flex flex-wrap justify-between items-center relative">
+      <div className="container mx-auto px-4 flex flex-wrap justify-between  relative">
         <div className="w-full sm:w-1/3 mb-6">
           <img
             src={Logo}
@@ -39,26 +40,34 @@ function Footer() {
         <div className="w-full sm:w-1/6 mb-6">
           <h4 className="font-bold mb-2">NAVIGASI</h4>
           <ul>
-            <li>Kebijakan Privasi</li>
-            <li>Syarat dan Kebijakan</li>
-            <li>Kebijakan Refund</li>
-            <li>Daftar Volunteer</li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/trends">Trends</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/register/company">Join Volunteer</Link>
+            </li>
           </ul>
         </div>
-        <div className="w-full sm:w-1/6 mb-6">
-          <h4 className="font-bold mb-2">IKUTI KAMI</h4>
+        <div className="w-full sm:w-1/6 mb-6 text-end">
+          <h4 className="font-bold mb-2">Make Event about Environmental</h4>
           <ul>
-            <li>instagram</li>
-            <li>X</li>
-            <li>Tiktok</li>
+            <li>
+              <Link to="/register/company">Join Volunteer</Link>
+            </li>
           </ul>
         </div>
-        <div className="w-full sm:w-1/6 mb-6">
+        <div className="w-full sm:w-1/4 mb-6 text-end">
           <h4 className="font-bold mb-2">Hubungi Kami</h4>
           <ul>
-            <li>Jalan Contoh No. 123</li>
-            <li>Email: contoh@example.com</li>
-            <li>Telepon: 08123456789</li>
+            <li>Jl. Batik Kumeli no 50 Bandung, Indonesia</li>
+            <li>Email: C624-PS085@dicoding.org</li>
+            <li>Telepon: 085156989516</li>
           </ul>
         </div>
       </div>

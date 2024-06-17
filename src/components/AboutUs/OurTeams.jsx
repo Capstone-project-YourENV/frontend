@@ -3,7 +3,7 @@ import { Avatar } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import team1 from '../../assets/team3.jpg';
+import team1 from '../../assets/team1.jpg';
 import team2 from '../../assets/team2.jpg';
 import team3 from '../../assets/team3.jpg';
 

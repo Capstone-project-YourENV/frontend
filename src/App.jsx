@@ -70,7 +70,7 @@ function App() {
           path="/events/:id/participant"
           element={<JoinParticipantPage />}
         />
-        <Route path="/events/:id/absent" element={<AbsentPage />} />
+        {/* <Route path="/events/:id/absent" element={<AbsentPage />} /> */}
         <Route path="/create" element={<CreateForumPage />} />
         <Route path="/mypost" element={<MyPostPage />} />
         <Route path="/bookmarks" element={<BookmarkPage />} />

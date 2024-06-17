@@ -59,7 +59,7 @@ export default function Navbar({ authUser, signOut }) {
   };
 
   const getNavItems = () => {
-    const homeItem = { text: 'Beranda', link: '/' };
+    const homeItem = { text: 'Home', link: '/' };
     const trendsItem = { text: 'Trends', link: '/trends' };
 
     const authItems = [];
