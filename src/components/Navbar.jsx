@@ -15,7 +15,8 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
-import { useLocation, Link } from 'react-router';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import ButtonAuthentication from './authentication/ButtonAuthentication';
 
