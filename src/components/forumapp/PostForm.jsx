@@ -19,7 +19,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { useToggle } from '@mantine/hooks';
-import { randomId } from '@mantine/hooks';
+import { useSelector } from 'react-redux';
 
 function PostForm({ addPost }) {
   const [category, toggleCategory] = useToggle(['News', 'Event']);
@@ -27,9 +27,9 @@ function PostForm({ addPost }) {
   const [preview, setPreview] = useState(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [fileName, setFileName] = useState('');
+  const authUser = useSelector((state) => state.authUser);
 
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
       title: '',
       description: '',
@@ -37,7 +37,7 @@ function PostForm({ addPost }) {
       category: 'News',
       startDate: null,
       endDate: null,
-      maxParticipant: null,
+      maxParticipants: null,
     },
     validate: {
       title: (value) =>
@@ -50,16 +50,9 @@ function PostForm({ addPost }) {
   });
 
   const handleDrop = (files) => {
+    console.log('Dropping:', files);
     setLoading(true);
-    const randomName = randomId();
-    const fileExtension = files[0].name.split('.').pop();
-    const newName = `${randomName}.${fileExtension}`;
-
-    form.setFieldValue('image', {
-      ...files[0],
-      name: newName,
-    });
-
+    form.setFieldValue('image', files[0]);
     form.setFieldError('image', null); // Clear any existing errors on drop
     setPreview(URL.createObjectURL(files[0]));
     setFileName(files[0].name);
@@ -67,7 +60,7 @@ function PostForm({ addPost }) {
   };
 
   const handleReject = (files) => {
-    console.log('rejected files', files);
+    console.log('Rejecting:', files);
     form.setFieldError('image', 'File size exceeds 5MB or invalid file type');
   };
 
@@ -76,17 +69,32 @@ function PostForm({ addPost }) {
     const newCategory = category === 'News' ? 'Event' : 'News';
     form.setFieldValue('category', newCategory);
   };
+
+  const handleSubmit = async (values) => {
+    const startDate = values.startDate ? values.startDate.toISOString() : null;
+    const endDate = values.endDate ? values.endDate.toISOString() : null;
+
+    const postData = {
+      ...values,
+      startDate,
+      endDate,
+    };
+
+    await addPost(postData);
+  };
+
   return (
     <>
       <Card sx={{ padding: 4 }}>
         <Box
           component="form"
+          encType="multipart/form-data"
           sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: 3,
           }}
-          onSubmit={form.onSubmit((values) => addPost(values))}>
+          onSubmit={form.onSubmit(handleSubmit)}>
           <Typography
             fontWeight="600"
             fontSize="26px"
@@ -99,7 +107,6 @@ function PostForm({ addPost }) {
           <TextInput
             label="Title"
             placeholder="Title..."
-            key={form.key('title')}
             {...form.getInputProps('title')}
           />
 
@@ -108,16 +115,17 @@ function PostForm({ addPost }) {
             label="Description"
             autosize
             minRows={4}
-            key={form.key('description')}
             {...form.getInputProps('description')}
           />
 
-          <Switch
-            color={category === 'Event' ? 'green' : 'gray'}
-            label={category}
-            onClick={handleToggleCategory}
-            checked={category === 'Event'}
-          />
+          {authUser?.role === 'company' && (
+            <Switch
+              color={category === 'Event' ? 'green' : 'gray'}
+              label={category}
+              onClick={handleToggleCategory}
+              checked={category === 'Event'}
+            />
+          )}
 
           {category === 'Event' && (
             <>
@@ -128,7 +136,6 @@ function PostForm({ addPost }) {
                   label="Start date"
                   placeholder="Start Date"
                   valueFormat="DD MMM YYYY"
-                  key={form.key('startDate')}
                   {...form.getInputProps('startDate')}
                 />
                 <DatePickerInput
@@ -137,7 +144,6 @@ function PostForm({ addPost }) {
                   label="End date"
                   placeholder="End Date"
                   valueFormat="DD MMM YYYY"
-                  key={form.key('endDate')}
                   {...form.getInputProps('endDate')}
                 />
               </SimpleGrid>
@@ -147,8 +153,7 @@ function PostForm({ addPost }) {
                 placeholder="Participate"
                 allowDecimal={false}
                 allowNegative={false}
-                key={form.key('maxParticipant')}
-                {...form.getInputProps('maxParticipant')}
+                {...form.getInputProps('maxParticipants')}
               />
             </>
           )}
@@ -157,9 +162,8 @@ function PostForm({ addPost }) {
             onDrop={handleDrop}
             onReject={handleReject}
             maxSize={5 * 1024 ** 2}
-            loading={loading === true}
+            loading={loading}
             accept={IMAGE_MIME_TYPE}
-            key={form.key('image')}
             {...form.getInputProps('image')}
             style={{
               borderColor: form.errors.image ? 'red' : undefined,
@@ -232,15 +236,9 @@ function PostForm({ addPost }) {
                 cursor: 'pointer',
               }}
               boxShadow={'xs'}
-              onClick={() => setModalOpened(true)}
-            >
+              onClick={() => setModalOpened(true)}>
               <Group>
-                <Avatar
-                  src={preview}
-                  alt="Profile of Darlene Robertson"
-                  size="xl"
-                  radius="xl"
-                />
+                <Avatar src={preview} alt="Preview" size="xl" radius="xl" />
                 <div>
                   <Text size="xl" weight={500}>
                     {fileName}

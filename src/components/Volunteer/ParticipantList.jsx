@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Grid, Avatar, Paper, useMediaQuery } from '@mui/material';
+import { Box, Typography, Grid, Avatar, Paper, useMediaQuery, Container } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const ParticipantList = ({ participants }) => {
@@ -16,7 +16,7 @@ const ParticipantList = ({ participants }) => {
   const groupedParticipants = groupParticipants(participants, 4);
 
   return (
-    <Box padding={2} sx={{ ...(isMobile ? {} : { marginLeft: '70px' }) }}>
+    <Container>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>Participants</Typography>
       <Swiper
         spaceBetween={20}
@@ -47,7 +47,7 @@ const ParticipantList = ({ participants }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </Box>
+    </Container>
   );
 };
 

@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
 
@@ -16,6 +17,9 @@ function RegisterForm({ register, color }) {
   const [username, onUsernameChange] = useInput('');
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
+  const location = useLocation();
+  const paths = location.pathname.split('/');
+  const lastPath = paths[paths.length - 1];
   return (
     <Box
       component="form"
@@ -88,11 +92,13 @@ function RegisterForm({ register, color }) {
         onChange={onPasswordChange}
         autoComplete="current-password"
       />
-      <FormControlLabel
-        control={<Checkbox value="remember" color="success" />}
-        label="Remember Password"
-        sx={{ color: { color } }}
-      />
+      <Typography
+        textAlign="center"
+        color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
+        fontSize="12px">
+        By signing up, you agree to the Terms of Service and Privacy Policy,
+        including Cookie Use.
+      </Typography>
       <Button
         type="submit"
         fullWidth
@@ -100,14 +106,27 @@ function RegisterForm({ register, color }) {
         style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
         Register
       </Button>
-      <Grid container>
-        <Grid item>
+      <Grid container justifyContent="center">
+        <Grid item display="flex" flexDirection="rows" gap="10px">
           <Link
             href="/login"
             variant="body2"
-            sx={{ color: { color } }}
+            color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
             fontWeight="600">
-            Have an account? Login
+            Sign In
+          </Link>
+          <Typography
+            variant="body2"
+            color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
+            fontWeight="600">
+            Or
+          </Typography>
+          <Link
+            href={lastPath === 'user' ? '/register/company' : '/register/user'}
+            variant="body2"
+            color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
+            fontWeight="600">
+            {lastPath === 'user' ? 'Join Official' : 'Join Participant'}
           </Link>
         </Grid>
       </Grid>

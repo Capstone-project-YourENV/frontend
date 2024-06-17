@@ -7,8 +7,7 @@ import MainbarForum from '../layouts/MainbarForum';
 import CreatePost from '../components/forumapp/CreatePost';
 import CardPost from '../components/forumapp/CardPost';
 import SidebarContent from '../components/forumapp/SidebarContent';
-import { asyncForumPostAndUsers } from '../states/shared/thunk';
-import { incrementPage } from '../states/posts/slice';
+import { asyncForumPostsAndUsers } from '../states/shared/thunk';
 
 function ForumPage() {
   const authUser = useSelector((state) => state.authUser);
@@ -16,28 +15,19 @@ function ForumPage() {
   const page = useSelector((state) => state.posts.page);
   const hasMore = useSelector((state) => state.posts.hasMore);
   const posts = useSelector((state) => state.posts.data);
-  const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   const loadMorePosts = useCallback(() => {
     if (status === 'loading' || !hasMore) return;
-    dispatch(incrementPage());
-    dispatch(asyncForumPostAndUsers(page));
+    dispatch(asyncForumPostsAndUsers(page));
   }, [status, hasMore, page, dispatch]);
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(asyncForumPostAndUsers(page));
+      dispatch(asyncForumPostsAndUsers(page));
     }
   }, [status, page, dispatch]);
-
-  const listPost = posts?.map((post) => ({
-    ...post,
-    owner: users.find((user) => user.id === post.ownerId),
-  }));
-
-  console.log(listPost);
 
   return (
     <LayoutForumApp>
@@ -59,7 +49,7 @@ function ForumPage() {
               {status === 'loading' ? 'Loading...' : 'No more data'}
             </p>
           }>
-          {listPost?.map((post, index) => (
+          {posts?.map((post, index) => (
             <CardPost
               key={index}
               id={post?.id}
@@ -71,8 +61,10 @@ function ForumPage() {
               startDate={post?.startDate}
               endDate={post?.endDate}
               createdAt={post?.createdAt}
-              totalParticipants={post?.totalParticipants}
-              maxParticipant={post?.maxParticipant}
+              totalParticipants={post?.participants?.length}
+              maxParticipant={post?.maxParticipants}
+              bookmarks={post?.bookmarks}
+              authUser={authUser}
             />
           ))}
         </InfiniteScroll>

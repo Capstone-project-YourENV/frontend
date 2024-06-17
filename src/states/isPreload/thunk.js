@@ -6,7 +6,7 @@ import { setIsPreload } from './slice';
 const asyncPreloadProcess = createAsyncThunk(
   'asyncPreloadProcess',
   async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
+    const { dispatch, getState } = thunkAPI;
     try {
       const authUser = await api.getOwnProfile();
       dispatch(setAuthUser(authUser));

@@ -7,6 +7,8 @@ import LoginForm from '../components/authentication/LoginForm';
 import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 import { asyncSetAuthUser } from '../states/authentication/thunk';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 export default function LoginPage() {
   const theme = useTheme();

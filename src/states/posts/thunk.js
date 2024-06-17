@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addPost, deletePost, updatePost } from './slice';
-import fakeApi from '../../utils/fakeApi';
+import { addBookmarkPost, addPost, removeBookmarkPost } from './slice';
 import api from '../../utils/api';
+import { notifications } from '@mantine/notifications';
 
 const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
   const {
@@ -10,7 +10,7 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
     image,
     startDate,
     endDate,
-    maxParticipant,
+    maxParticipants,
     category,
   } = data;
   const { dispatch } = thunkAPI;
@@ -18,36 +18,19 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
     const post = await api.createPost({
       title,
       description,
-      image: image.name,
-      startDate,
-      endDate,
-      maxParticipant,
-      category,
-    });
-    dispatch(addPost(post));
-    return { error: null };
-  } catch (error) {
-    thunkAPI.rejectWithValue(error);
-    alert(error.message);
-    throw error;
-  }
-});
-
-const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
-  const { id, title, description, image, startDate, endDate, maxParticipant } =
-    data;
-  const { dispatch } = thunkAPI;
-  try {
-    const post = await api.editPost({
-      id,
-      title,
-      description,
       image,
       startDate,
       endDate,
-      maxParticipant,
+      maxParticipants,
+      category,
     });
-    dispatch(updatePost(post));
+    notifications.show({
+      title: post.msg,
+      description: post.msg,
+      type: post.status,
+      color: 'green',
+    });
+    dispatch(addPost(post.data));
     return { error: null };
   } catch (error) {
     thunkAPI.rejectWithValue(error);
@@ -56,13 +39,19 @@ const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
   }
 });
 
-const asyncDeletePost = createAsyncThunk(
-  'deletePost',
+const asyncAddBookmarkPost = createAsyncThunk(
+  'addBookmarkPost',
   async (postId, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      await api.deletePost(postId);
-      dispatch(deletePost(postId));
+      const response = await api.addBookmark({ postId });
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
+      dispatch(addBookmarkPost(postId, response));
       return { error: null };
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -72,4 +61,27 @@ const asyncDeletePost = createAsyncThunk(
   },
 );
 
-export { asyncAddPost, asyncEditPost, asyncDeletePost };
+const asyncRemoveBookmarkPost = createAsyncThunk(
+  'removeBookmarkPost',
+  async (payload, thunkAPI) => {
+    const { postId, userId } = payload;
+    const { dispatch } = thunkAPI;
+    try {
+      const response = await api.removeBookmark({ postId });
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
+      dispatch(removeBookmarkPost(postId, userId));
+      return { error: null };
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+      alert(error.message);
+      throw error;
+    }
+  },
+);
+
+export { asyncAddPost, asyncAddBookmarkPost, asyncRemoveBookmarkPost };

@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
-import Event from './Company/Event';
+import PostItem from './User/PostItem';
 
 function ListEvent({ title, events }) {
   const getGridSize = (length) => {
@@ -13,11 +13,11 @@ function ListEvent({ title, events }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="h6" fontWeight="bold">{title}</Typography>
       </Grid>
       {events?.map((event, index) => (
         <Grid key={index} item xs={12} sm={getGridSize(events?.length)}>
-          <Event event={event} />
+          <PostItem post={event} />
         </Grid>
       ))}
     </Grid>

@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  IconButton,
-  Grid,
-} from '@mui/material';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { FaUserPlus } from 'react-icons/fa6';
+import React from 'react';
+import { Box, Card, CardContent, Typography, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { FaUserPlus } from 'react-icons/fa6';
+import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../../states/posts/thunk';
 import ProfileOwner from '../ProfileOwner';
-import useExpand from '../../hooks/useExpand';
 import ownerShape from '../../types/Owner';
 import { formatDate, postedAt } from '../../utils/date';
+import Bookmark from './Bookmark';
 
 function Details({ description }) {
-  const [isExpanded, handleExpand] = useExpand(false);
   return (
     <Box mt={2}>
-      <Typography variant="body1" color="textSecondary">
-        {`${description.substring(0, 100)}...`}
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {description}
       </Typography>
     </Box>
   );
@@ -30,6 +30,7 @@ function Details({ description }) {
 
 function CardPost(props) {
   const {
+    authUser,
     id,
     title,
     owner,
@@ -41,12 +42,21 @@ function CardPost(props) {
     createdAt,
     totalParticipants,
     maxParticipant,
+    bookmarks,
   } = props;
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const handleBookmark = (event) => {
-    event.preventDefault();
-    setIsBookmarked(!isBookmarked);
+  const dispatch = useDispatch();
+  const isBookmarkPost = bookmarks?.some(
+    (postMark) => postMark?.userId === authUser?.id,
+  );
+
+  const handleBookmark = async (e) => {
+    e.preventDefault();
+    if (isBookmarkPost) {
+      await dispatch(asyncRemoveBookmarkPost({ postId: id, userId: authUser.id }));
+    } else {
+      await dispatch(asyncAddBookmarkPost(id));
+    }
   };
 
   return (
@@ -58,12 +68,14 @@ function CardPost(props) {
             flexDirection="row"
             gap="20px"
             justifyContent="space-between"
-            alignItems="center">
+            alignItems="center"
+          >
             <Typography
               variant="h5"
               fontWeight="bold"
               color="textPrimary"
-              alignSelf="start">
+              alignSelf="start"
+            >
               {title}
             </Typography>
             <Typography variant="body2" color="textSecondary">
@@ -71,13 +83,16 @@ function CardPost(props) {
             </Typography>
           </Grid>
 
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            mt={1.5}
-            alignSelf="start">
-            {formatDate(startDate)} - {formatDate(endDate)}
-          </Typography>
+          {category === 'Event' && (
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              mt={1.5}
+              alignSelf="start"
+            >
+              {formatDate(startDate)} - {formatDate(endDate)}
+            </Typography>
+          )}
           <ProfileOwner
             name={owner?.profile?.name}
             headTitle={owner?.profile?.headTitle}
@@ -103,26 +118,17 @@ function CardPost(props) {
             pr={{ xs: 5, md: 20 }}
             mt={2}
             flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-            color="textSecondary">
+            color="textSecondary"
+          >
             {category === 'Event' && (
               <Box display="flex" gap={2} alignItems="center">
                 <FaUserPlus />
                 <Typography variant="body2" alignSelf="center">
-                  {totalParticipants} / {maxParticipant}
-                  Participant
+                  {totalParticipants} / {maxParticipant} Participant
                 </Typography>
               </Box>
             )}
-            <Box display="flex" gap={1.5}>
-              <IconButton onClick={handleBookmark}>
-                <BookmarkIcon
-                  sx={{ color: isBookmarked ? '#252525' : 'inherit' }}
-                />
-              </IconButton>
-              <Typography variant="body2" alignSelf="center">
-                Bookmark
-              </Typography>
-            </Box>
+            <Bookmark onClick={handleBookmark} isBookmark={isBookmarkPost} />
           </Box>
         </CardContent>
       </Card>
@@ -135,13 +141,19 @@ Details.propTypes = {
 };
 
 CardPost.propTypes = {
+  authUser: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   owner: PropTypes.shape(ownerShape).isRequired,
+  category: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   image: PropTypes.string,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
+  totalParticipants: PropTypes.number.isRequired,
+  maxParticipant: PropTypes.number.isRequired,
+  bookmarks: PropTypes.array.isRequired,
 };
 
 CardPost.defaultProps = {

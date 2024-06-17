@@ -1,16 +1,12 @@
 import * as React from 'react';
-import { BookmarkBorder } from '@mui/icons-material';
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Button,
-} from '@mui/material';
+import PropTypes from 'prop-types';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { FaUser, FaUserPlus } from 'react-icons/fa6';
-import useExpand from '../hooks/useExpand';
-import { formatDate } from '../utils/date';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../utils/date';
+import Bookmark from './forumapp/Bookmark';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../states/posts/thunk';
 
 function AuthorDetails({ name }) {
   return (
@@ -21,25 +17,25 @@ function AuthorDetails({ name }) {
   );
 }
 
-function Stats({ registeredCount, totalCount }) {
+AuthorDetails.propTypes = {
+  name: PropTypes.string.isRequired,
+};
+
+function Stats({ registeredCount, maxParticipants }) {
   return (
     <div className="flex gap-2 items-center">
       <FaUserPlus />
       <span className="text-sm">
-        {registeredCount} / {totalCount} Participant
+        {registeredCount} / {maxParticipants} Participant
       </span>
     </div>
   );
 }
 
-function Bookmark() {
-  return (
-    <Button className="flex gap-1.5 whitespace-nowrap focus:outline-none">
-      <BookmarkBorder fontSize="small" className="shrink-0" />
-      <span className="my-auto">Bookmark</span>
-    </Button>
-  );
-}
+Stats.propTypes = {
+  registeredCount: PropTypes.number.isRequired,
+  maxParticipants: PropTypes.number.isRequired,
+};
 
 function PostByCategory(props) {
   const {
@@ -51,57 +47,118 @@ function PostByCategory(props) {
     endDate,
     category,
     postImage,
-    total,
-    registered,
+    maxParticipants,
+    participants,
+    bookmarks,
   } = props;
-  const [isExpanded, handleExpand] = useExpand(false);
+  const [imageError, setImageError] = React.useState(false);
+  const authUser = useSelector((state) => state.authUser);
+  const dispatch = useDispatch();
+  const isBookmarkPost = bookmarks?.some(
+    (postMark) => postMark?.userId === authUser?.id,
+  );
+
+  const handleBookmark = async (e) => {
+    e.preventDefault();
+    if (isBookmarkPost) {
+      await dispatch(asyncRemoveBookmarkPost({ postId: id, userId: authUser.id }));
+    } else {
+      await dispatch(asyncAddBookmarkPost(id));
+    }
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <Link to={`/posts/${id}`}>
-      <Card className="flex flex-col self-stretch text-sm leading-5 bg-white rounded-lg max-w-[984px] text-zinc-800">
-        <CardMedia
-          component="img"
-          loading="lazy"
-          image={postImage}
-          alt={title}
-          className="w-full aspect-[8.33] max-md:max-w-full"
-        />
-        <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full">
+      <Card className="flex flex-col self-stretch text-sm leading-5 bg-white rounded-lg text-zinc-800">
+        {postImage && !imageError && (
+          <CardMedia
+            component="img"
+            loading="lazy"
+            image={postImage}
+            alt={title}
+            className="w-full aspect-[8.33] max-md:max-w-full"
+            onError={handleImageError}
+          />
+        )}
+        <CardContent className="flex flex-col p-6 w-full max-md:px-5 max-md:max-w-full gap-1">
           <Typography
             variant="h5"
             component="h1"
             fontWeight="bold"
-            className="text-2xl leading-8 max-md:max-w-full">
+            className="text-2xl leading-8 max-md:max-w-full"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
             {title}
           </Typography>
-          <AuthorDetails name={owner?.username} />
+          <AuthorDetails name={owner?.profile?.name} />
           {category === 'Event' && (
             <Typography
               variant="body2"
               component="time"
-              className="mt-2 font-semibold text-gray-500 max-md:max-w-full">
+              className="mt-2 font-semibold text-gray-500 max-md:max-w-full"
+            >
               {formatDate(startDate)} - {formatDate(endDate)}
             </Typography>
           )}
           <Typography
             variant="body2"
             component="p"
-            className="mt-4 font-medium max-md:max-w-full">
-            {isExpanded ? description : `${description?.substring(0, 100)}...`}
-            <Button onClick={handleExpand} color="primary">
-              {isExpanded ? 'Show less' : 'Show more'}
-            </Button>
+            className="mt-4 font-medium max-md:max-w-full"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {description}
           </Typography>
           <div className="flex gap-5 pr-20 mt-4 text-base text-gray-700 max-md:flex-wrap max-md:pr-5">
             {category === 'Event' && (
-              <Stats registeredCount={registered} totalCount={total} />
+              <Stats registeredCount={participants?.length} maxParticipants={maxParticipants} />
             )}
-            <Bookmark />
+            <Bookmark onClick={handleBookmark} isBookmark={isBookmarkPost} />
           </div>
         </CardContent>
       </Card>
     </Link>
   );
 }
+
+PostByCategory.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  owner: PropTypes.shape({
+    profile: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  category: PropTypes.string.isRequired,
+  postImage: PropTypes.string,
+  maxParticipants: PropTypes.number,
+  participants: PropTypes.arrayOf(
+    PropTypes.shape({
+      userId: PropTypes.string,
+    }),
+  ),
+};
+
+PostByCategory.defaultProps = {
+  startDate: null,
+  endDate: null,
+  postImage: null,
+  maxParticipants: 0,
+  participants: [],
+};
 
 export default PostByCategory;

@@ -160,7 +160,6 @@ const fakeApi = (() => {
       const eventBookmark = posts.filter((post) =>
         post.bookmarks.includes(userId),
       );
-      console.log(eventBookmark);
       setTimeout(() => {
         if (eventBookmark.length > 0) {
           resolve(eventBookmark);

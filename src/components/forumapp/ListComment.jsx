@@ -24,7 +24,7 @@ export default function ListComment({ comments }) {
           Comment
         </Typography>
       </Grid>
-      <Box width="100%">
+      <Box width="100%" display="flex" flexDirection="column" gap="15px">
         {comments?.map((comment) => <CommentItem {...comment} />)}
       </Box>
     </Grid>

@@ -20,7 +20,7 @@ function ListHomepage({ title, children }) {
         >
           {title}
         </Typography>
-        <Link href="/login">Lihat Semua</Link>
+        <Link href="/trends">Lihat Semua</Link>
       </Grid>
       <Box width="100%">{children}</Box>
     </Grid>

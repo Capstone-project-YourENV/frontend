@@ -6,7 +6,7 @@ import FAQ from '../components/AboutUs/FAQ';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const AboutPage = () => {
+function AboutPage() {
   return (
     <div className="min-h-screen ">
       <Navbar />
@@ -17,6 +17,6 @@ const AboutPage = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default AboutPage;

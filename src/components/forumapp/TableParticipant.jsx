@@ -12,23 +12,20 @@ import participantShape from '../../types/Participant';
 
 const columns = [
   {
-    accessorKey: 'name',
+    accessorKey: 'owner.profile.name',
     header: 'Full Name',
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'owner.profile.headTitle',
+    header: 'Head Title',
+  },
+  {
+    accessorKey: 'owner.email',
     header: 'Email',
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Join Date',
-  },
-  {
-    accessorKey: 'absent',
-    header: 'Absent',
-    Cell: ({ cell }) => (
-      <AbsentButton title={cell.getValue()} imageUrl={cell.getValue()} />
-    ),
+    accessorKey: 'owner.profile.phone',
+    header: 'Phone',
   },
 ];
 function AbsentButton({ imageUrl, title }) {
@@ -51,7 +48,8 @@ function TableParticipant({ title, data }) {
     columns,
     data,
     enableFacetedValues: true,
-    enableRowSelection: true,
+    enableRowNumbers: true,
+    // enableRowSelection: true,
     initialState: {
       pagination: { pageSize: 5, pageIndex: 0 },
       showGlobalFilter: true,
@@ -66,42 +64,10 @@ function TableParticipant({ title, data }) {
     },
     positionToolbarAlertBanner: 'bottom',
     paginationDisplayMode: 'pages',
-    renderTopToolbar: ({ table }) => {
-      const handleActivate = () => {
-        table.getSelectedRowModel().flatRows.map((row) => {
-          alert('activating ' + row.getValue('name'));
-        });
-      };
-
-      return (
-        <Flex p="md" justify="space-between">
-          <Flex gap="xs">
-            {/* import MRT sub-components */}
-            <MRT_GlobalFilterTextInput table={table} />
-            {/* <MRT_ToggleFiltersButton table={table} /> */}
-          </Flex>
-          <Flex style={{ gap: '8px' }}>
-            <Button
-              color="green"
-              disabled={
-                !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
-              }
-              onClick={handleActivate}
-              variant="filled">
-              <FaCheck />
-              Approve
-            </Button>
-          </Flex>
-        </Flex>
-      );
-    },
   });
   return (
     <Box style={{ gap: '15px', display: 'flex', flexDirection: 'column' }}>
-      <Text size="lg" fw={700} style={{ color: '#75A47F' }}>
-        List Participant
-      </Text>
-      <Text style={{ fontSize: '26px', fontWeight: 'bold' }}>{title}</Text>
+      <Text size="lg" fw={700} style={{ color: '#75A47F' }}>{title}</Text>
       <MantineReactTable table={table} />
     </Box>
   );

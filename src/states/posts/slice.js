@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncForumPostAndUsers } from '../shared/thunk';
+import { asyncForumPostsAndUsers } from '../shared/thunk';
 
 const initialState = {
   data: [],
@@ -13,88 +13,76 @@ const postSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    incrementPage(state) {
+    incrementPage: (state) => {
       state.page += 1;
     },
-    resetPosts(state) {
+    resetPosts: (state) => {
       state.data = [];
       state.page = 1;
       state.hasMore = true;
     },
-    receivePosts(state, action) {
-      return { ...state, data: action.payload };
+    receivePosts: (state, action) => {
+      state.data = [...state.data, ...action.payload];
     },
-    addPost: {
-      reducer(state, action) {
-        return [action.payload.post, ...state.data];
-      },
-      prepare(post) {
-        return { payload: { post } };
-      },
+    addPost: (state, action) => {
+      state.data.unshift(action.payload);
     },
-    updatePost: {
-      reducer(state, action) {
-        const updatedPosts = state.data.map((post) => {
-          if (post.id === action.payload.post.id) {
-            return action.payload.post;
-          }
-          return post;
-        });
-        return {
-          ...state,
-          data: updatedPosts,
-        };
-      },
-      prepare(post) {
-        return { payload: { post } };
-      },
+    deletePost: (state, action) => {
+      const updatedPosts = state.data.filter(
+        (post) => post.id !== action.payload,
+      );
+      state.data = updatedPosts;
     },
-    deletePost: {
-      reducer(state, action) {
-        const updatedPosts = state.data.filter(
-          (post) => post.id !== action.payload.postId,
-        );
-        return {
-          ...state,
-          data: updatedPosts,
-        };
-      },
-      prepare(postId) {
-        return { payload: { postId } };
-      },
-    },
-    bookmarkPost: {
+    addBookmarkPost: {
       reducer(state, action) {
         const updatedPosts = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
-              isBookmarked: !post.isBookmarked,
+              bookmarks: [action.payload.user.data, ...post.bookmarks],
             };
           }
           return post;
         });
-        return {
-          ...state,
-          data: updatedPosts,
-        };
+        state.data = updatedPosts;
       },
-      prepare(postId) {
-        return { payload: { postId } };
+      prepare(postId, user) {
+        return { payload: { postId, user } };
+      },
+    },
+
+    removeBookmarkPost: {
+      reducer(state, action) {
+        const updatedPosts = state.data.map((post) => {
+          if (post.id === action.payload.postId) {
+            return {
+              ...post,
+              bookmarks: post.bookmarks.filter(
+                (bookmark) => bookmark.userId !== action.payload.userId,
+              ),
+            };
+          }
+          return post;
+        });
+        state.data = updatedPosts;
+      },
+      prepare(postId, userId) {
+        return { payload: { postId, userId } };
       },
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(asyncForumPostAndUsers.pending, (state) => {
+      .addCase(asyncForumPostsAndUsers.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(asyncForumPostAndUsers.fulfilled, (state, action) => {
+      .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = [...state.data, ...action.payload];
+        state.data = [...state.data, ...action.payload.data];
         state.hasMore = action.payload.hasMore;
+        state.page = action.payload.page + 1; // Increment page for next fetch
       })
-      .addCase(asyncForumPostAndUsers.rejected, (state, action) => {
+      .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message;
       });
@@ -105,11 +93,10 @@ export const {
   incrementPage,
   resetPosts,
   receivePosts,
-  forumPost,
   addPost,
-  updatePost,
   deletePost,
-  bookmarkPost,
+  addBookmarkPost,
+  removeBookmarkPost,
 } = postSlice.actions;
 
 export default postSlice.reducer;

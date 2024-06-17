@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   Box,
   Button,
@@ -13,14 +13,36 @@ import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
 
 function LoginForm({ login }) {
-  const [email, onEmailChange] = useInput('');
-  const [password, onPasswordChange] = useInput('');
+  const [email, onEmailChange] = useInput(
+    localStorage.getItem('comment-email') || '',
+  );
+  const [password, onPasswordChange] = useInput(
+    localStorage.getItem('comment-password') || '',
+  );
+  const rememberCheck = useRef(null);
+
+  function remember() {
+    if (rememberCheck.current.checked) {
+      localStorage.setItem('comment-email', email);
+      localStorage.setItem('comment-password', password);
+    } else {
+      localStorage.removeItem('comment-email');
+      localStorage.removeItem('comment-password');
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    remember();
+    login(e, { email, password });
+  }
+
   return (
     <Box
       component="form"
       width="100%"
       noValidate
-      onSubmit={(e) => login(e,{ email, password })}
+      onSubmit={handleSubmit}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
@@ -70,7 +92,13 @@ function LoginForm({ login }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={<Checkbox value="remember" color="success" />}
+        control={(
+          <Checkbox
+            value="remember"
+            color="success"
+            inputRef={rememberCheck}
+          />
+        )}
         label="Remember Password"
         sx={{ color: 'softwhite' }}
       />
@@ -81,14 +109,24 @@ function LoginForm({ login }) {
         style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
         Login
       </Button>
-      <Grid container>
-        <Grid item>
+      <Grid container justifyContent="center">
+        <Grid item display="flex" flexDirection="rows" gap="10px">
+          <Link
+            href="/"
+            variant="body2"
+            color="softwhite"
+            fontWeight="600">
+            Home
+          </Link>
+          <Typography variant="body2" color="softwhite" fontWeight="600">
+            Or
+          </Typography>
           <Link
             href="/register/user"
             variant="body2"
             color="softwhite"
             fontWeight="600">
-            Doesn’t have an account? Sign Up
+            Sign Up
           </Link>
         </Grid>
       </Grid>

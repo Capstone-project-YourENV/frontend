@@ -1,21 +1,41 @@
-import { Button, Grid, Typography } from '@mui/material';
-import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { Button, Typography } from '@mui/material';
 import React from 'react';
+import { useForm } from '@mantine/form';
+import { Textarea } from '@mantine/core';
 
-function CreateComment() {
+function CreateComment({ addComment }) {
+  const formComment = useForm({
+    initialValues: {
+      content: '',
+    },
+    validate: {
+      content: (value) => (value ? null : 'Comment cannot be empty'),
+    },
+  });
+
+  const handleComment = (e) => {
+    e.preventDefault();
+    const isValid = formComment.validate();
+    if (isValid.hasErrors) return; // Don't add comment if there are validation errors
+
+    addComment(formComment.values.content);
+    formComment.reset();
+  };
+
   return (
-    <Grid container gap="15px" display="flex" flexDirection="column">
-      <Typography fontWeight="700" fontSize="20px">
-        Create Comment
-      </Typography>
-      <TextareaAutosize
-        aria-label="minimum height"
-        className="w-full text-sm font-normal font-sans leading-normal p-3 rounded-xl rounded-br-none shadow-lg shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 bg-white  text-slate-900 focus-visible:outline-0 box-border"
+    <>
+      <Textarea
+        label="Create Comment"
+        autosize
         minRows={3}
-        placeholder="Write your comment here...."
+        placeholder="Write your comment here..."
+        error={formComment.errors.content}
+        {...formComment.getInputProps('content')}
       />
-      <Button variant="contained" color="primary">Submit</Button>
-    </Grid>
+      <Button variant="contained" color="primary" onClick={handleComment}>
+        Submit
+      </Button>
+    </>
   );
 }
 

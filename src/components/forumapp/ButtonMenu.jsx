@@ -25,15 +25,21 @@ import { useForm } from '@mantine/form';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import useModal from '../../hooks/useModal';
+import { BookmarkBorder, BookmarkOutlined } from '@mui/icons-material';
 
-function ButtonMenuCompany({ event, handleEdit }) {
-  const [editModalOpened, setEditModalOpened] = useState(false);
-  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark }) {
+  const [editModal, actionEditModal, setEditModal] = useModal(false);
+  const [deleteModal, actionDeleteModal, setDeleteModal] = useModal(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState('');
 
-  console.log(event);
+  // Convert ISO strings to Date objects for Mantine DateInput
+  const startDate = event?.startDate ? new Date(event.startDate) : null;
+  const endDate = event?.endDate ? new Date(event.endDate) : null;
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -41,47 +47,36 @@ function ButtonMenuCompany({ event, handleEdit }) {
       description: event?.description,
       image: event?.image,
       category: event?.category,
-      startDate: event?.startDate,
-      endDate: event?.endDate,
-      maxParticipant: event?.maxParticipant,
+      startDate: startDate,
+      endDate: endDate,
+      maxParticipants: event?.maxParticipants,
     },
 
     validate: {
-      title: (value) =>
-        value.length < 3 ? 'Title must be at least 3 letters' : null,
-      description: (value) =>
-        value.length > 2500
-          ? 'Description must be at most 2500 characters'
-          : null,
+      title: (value) => (value.length < 3 ? 'Title must be at least 3 letters' : null),
+      description: (value) => (value.length > 2500 ? 'Description must be at most 2500 characters' : null),
     },
   });
 
-  const handleOpenEditModal = () => {
-    setEditModalOpened(true);
+  const handleSubmit = (data) => {
+    // Convert Date objects back to ISO strings
+    const transformedData = {
+      ...data,
+      startDate: data.startDate ? data.startDate.toISOString() : null,
+      endDate: data.endDate ? data.endDate.toISOString() : null,
+    };
+
+    const { error } = editPost(transformedData);
+    if (!error) {
+      setEditModal(false);
+    }
   };
 
-  const handleCloseEditModal = () => {
-    setEditModalOpened(false);
-  };
-
-  const handleOpenDeleteModal = () => {
-    setDeleteModalOpened(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setDeleteModalOpened(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    handleEdit();
-    handleCloseEditModal();
-  };
-
-  const handleDelete = () => {
-    // Handle delete logic here
-    handleCloseDeleteModal();
+  const handleDelete = (postId) => {
+    const { error } = deletePost(postId);
+    if (!error) {
+      setDeleteModal(false);
+    }
   };
 
   const handleDrop = (files) => {
@@ -95,7 +90,7 @@ function ButtonMenuCompany({ event, handleEdit }) {
       name: newName,
     });
 
-    form.setFieldError('image', null); // Clear any existing errors on drop
+    form.setFieldError('image', null);
     setPreview(URL.createObjectURL(files[0]));
     setFileName(files[0].name);
     setLoading(false);
@@ -119,31 +114,43 @@ function ButtonMenuCompany({ event, handleEdit }) {
         <Menu.Dropdown>
           <Menu.Label>Action</Menu.Label>
           <Menu.Item
-            onClick={handleOpenEditModal}
+            onClick={handleBookmark}
             leftSection={
-              <IconEdit style={{ width: '14px', height: '14px' }} />
-            }>
+              isBookmark ? (
+                <BookmarkIcon style={{ width: '14px', height: '14px' }} />
+              ) : (
+                <BookmarkBorder style={{ width: '14px', height: '14px' }} />
+              )
+            }
+          >
+            Bookmark
+          </Menu.Item>
+          <Menu.Item
+            onClick={actionEditModal}
+            leftSection={<IconEdit style={{ width: '14px', height: '14px' }} />}
+          >
             Edit Post
           </Menu.Item>
           <Menu.Item
             color="red"
-            onClick={handleOpenDeleteModal}
-            leftSection={
-              <IconTrash style={{ width: '14px', height: '14px' }} />
-            }>
+            onClick={actionDeleteModal}
+            leftSection={<IconTrash style={{ width: '14px', height: '14px' }} />}
+          >
             Delete Post
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
 
       <Modal
-        opened={editModalOpened}
-        onClose={handleCloseEditModal}
+        opened={editModal}
+        onClose={actionEditModal}
         title="Edit Post"
-        centered>
+        centered
+      >
         <form
-          onSubmit={handleSubmit}
-          style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          onSubmit={form.onSubmit((values) => handleSubmit(values))}
+          style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
+        >
           <TextInput
             label="Post Title"
             placeholder="Enter post title"
@@ -161,26 +168,24 @@ function ButtonMenuCompany({ event, handleEdit }) {
           {event?.category === 'Event' && (
             <>
               <DateInput
-                value={form.key('startDate')}
                 {...form.getInputProps('startDate')}
                 key={form.key('startDate')}
-                label="Date input"
-                placeholder="Date input"
+                label="Start Date"
+                placeholder="Select start date"
               />
               <DateInput
-                value={form.key('endDate')}
                 {...form.getInputProps('endDate')}
                 key={form.key('endDate')}
-                label="Date input"
-                placeholder="Date input"
+                label="End Date"
+                placeholder="Select end date"
               />
               <NumberInput
-                label="Max Participant"
-                placeholder="Enter max participant"
+                label="Max Participants"
+                placeholder="Enter max participants"
                 min={1}
                 max={100}
-                key={form.key('maxParticipant')}
-                {...form.getInputProps('maxParticipant')}
+                key={form.key('maxParticipants')}
+                {...form.getInputProps('maxParticipants')}
               />
             </>
           )}
@@ -197,12 +202,9 @@ function ButtonMenuCompany({ event, handleEdit }) {
             {...form.getInputProps('image')}
             style={{
               borderColor: form.errors.image ? 'red' : undefined,
-            }}>
-            <Group
-              justify="center"
-              gap="xl"
-              mih={220}
-              style={{ pointerEvents: 'none' }}>
+            }}
+          >
+            <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
               <Dropzone.Accept>
                 <IconUpload
                   style={{
@@ -239,19 +241,14 @@ function ButtonMenuCompany({ event, handleEdit }) {
                   Drag images here or click to select files
                 </Text>
                 <Text size="sm" color="dimmed" inline mt={7}>
-                  Attach as many files as you like, each file should not exceed
-                  5MB
+                  Attach as many files as you like, each file should not exceed 5MB
                 </Text>
               </div>
             </Group>
           </Dropzone>
 
           {form.errors.image && (
-            <Notification
-              color="red"
-              title="Upload Error"
-              disallowClose
-              mt="md">
+            <Notification color="red" title="Upload Error" disallowClose mt="md">
               {form.errors.image}
             </Notification>
           )}
@@ -265,14 +262,10 @@ function ButtonMenuCompany({ event, handleEdit }) {
                 borderRadius: '10px',
                 cursor: 'pointer',
               }}
-              boxShadow={'xs'}>
+              boxShadow="xs"
+            >
               <Group>
-                <Avatar
-                  src={preview}
-                  alt="Profile of Darlene Robertson"
-                  size="xl"
-                  radius="xl"
-                />
+                <Avatar src={preview} alt="Profile of Darlene Robertson" size="xl" radius="xl" />
                 <div>
                   <Text size="xl" weight={500}>
                     {fileName}
@@ -282,7 +275,7 @@ function ButtonMenuCompany({ event, handleEdit }) {
             </Box>
           )}
           <Group position="center" mt="md">
-            <Button type="submit" style={{ width: '100%' }}>
+            <Button type="submit" style={{ width: '100%', backgroundColor: '#75A47F' }}>
               Edit
             </Button>
           </Group>
@@ -290,16 +283,17 @@ function ButtonMenuCompany({ event, handleEdit }) {
       </Modal>
 
       <Modal
-        opened={deleteModalOpened}
-        onClose={handleCloseDeleteModal}
+        opened={deleteModal}
+        onClose={actionDeleteModal}
         title="Confirm Deletion"
-        centered>
+        centered
+      >
         <Text>Are you sure you want to delete this post?</Text>
-        <Group position="right" mt="md">
-          <Button variant="outline" onClick={handleCloseDeleteModal}>
+        <Group justify="end" mt="md">
+          <Button variant="outline" color="green" onClick={actionDeleteModal}>
             Cancel
           </Button>
-          <Button color="red" onClick={handleDelete}>
+          <Button color="red" onClick={() => handleDelete(event?.id)}>
             Delete
           </Button>
         </Group>
@@ -308,4 +302,4 @@ function ButtonMenuCompany({ event, handleEdit }) {
   );
 }
 
-export default ButtonMenuCompany;
+export default ButtonMenu;

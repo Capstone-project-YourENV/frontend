@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest --no-watch"
+    "test": "vitest --no-watch",
+    "e2e": "start-server-and-test dev http://localhost:5173 cy:run",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -20,6 +23,8 @@
     "@mantine/dates": "^7.10.0",
     "@mantine/dropzone": "^7.10.0",
     "@mantine/form": "^7.10.1",
+    "@mantine/hooks": "^7.10.2",
+    "@mantine/notifications": "^7.10.2",
     "@mui/base": "^5.0.0-beta.40",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
@@ -47,6 +52,7 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "autoprefixer": "^10.4.19",
+    "cypress": "^13.11.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-react": "^7.34.1",
@@ -54,6 +60,7 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "jsdom": "^24.0.0",
     "postcss": "^8.4.38",
+    "start-server-and-test": "^2.0.4",
     "tailwindcss": "^3.4.3",
     "vitest": "^1.6.0"
   }

@@ -9,10 +9,10 @@ import AboutUsPage from './pages/AboutPage';
 import ForumPage from './pages/ForumPage';
 import DetailForumPage from './pages/DetailForumPage';
 import CreateForumPage from './pages/CreateForumPage';
-import BookmarkPage from './pages/BookMarkPages';
+import BookmarkPage from './pages/BookMarkPage';
 import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
-import ProfilPage from './pages/ProfilPage';
+import ProfilPage from './pages/ProfilePage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
 import AbsentPage from './pages/AbsentPage';
 import DetailPostPage from './pages/DetailPostPage';
@@ -22,6 +22,8 @@ import Navbar from './components/Navbar';
 import { asyncUnsetAuthUser } from './states/authentication/thunk';
 import TrendingForumPage from './pages/TrendingForumPage';
 import MyPostPage from './pages/MyPostPage';
+import UserForumPage from './pages/UserForumPage';
+import RecentEventsPage from './pages/RecentEventsPage';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
@@ -52,7 +54,8 @@ function App() {
           <Route path="/register/company" element={<RegisterCompany />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/trends" element={<TrendingPage />} />
-          <Route path="/posts/:id" element={<DetailPostPage />} />
+          <Route path="/posts/:postId" element={<DetailPostPage />} />
+          <Route path="/users/:userId" element={<UserPage />} />
         </Routes>
       </div>
     );
@@ -67,13 +70,14 @@ function App() {
           path="/events/:id/participant"
           element={<JoinParticipantPage />}
         />
-        <Route path="/events/:id/absent" element={<AbsentPage />} />
+        {/* <Route path="/events/:id/absent" element={<AbsentPage />} /> */}
         <Route path="/create" element={<CreateForumPage />} />
         <Route path="/mypost" element={<MyPostPage />} />
         <Route path="/bookmarks" element={<BookmarkPage />} />
         <Route path="/trends" element={<TrendingForumPage />} />
         <Route path="/comingsoon" element={<ComingSoonPage />} />
-        <Route path="/users/:userId" element={<UserPage />} />
+        <Route path="/recents" element={<RecentEventsPage />} />
+        <Route path="/users/:userId" element={<UserForumPage />} />
         <Route path="/profile" element={<ProfilPage />} />
       </Routes>
     </>

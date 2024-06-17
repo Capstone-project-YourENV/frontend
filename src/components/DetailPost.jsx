@@ -1,16 +1,37 @@
-import React from 'react';
-import { Box, Typography, Avatar, Button, Grid, Card } from '@mui/material';
-import { BookmarkAddOutlined } from '@mui/icons-material';
+import React, { useState } from 'react';
+import {
+  Box,
+  Typography,
+  Avatar,
+  Button,
+  Grid,
+  Card,
+} from '@mui/material';
 import { FaUserPlus } from 'react-icons/fa6';
+import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
-import { useLocation } from 'react-router';
 import { formatDate, postedAt } from '../utils/date';
-import ButtonMenuCompany from './forumapp/ButtonMenuCompany';
+import ButtonMenu from './forumapp/ButtonMenu';
+import Bookmark from './forumapp/Bookmark';
+import {
+  asyncAddBookmarkPostDetail,
+  asyncDeletePost,
+  asyncEditPost,
+  asyncJoinEvent,
+  asyncLeaveEvent,
+  asyncReceivePostDetail,
+  asyncRemoveBookmarkPostDetail,
+} from '../states/postDetail/thunk';
 
 function DetailPost(props) {
   const {
+    id,
     authUser,
     category,
     title,
@@ -20,28 +41,91 @@ function DetailPost(props) {
     endDate,
     createdAt,
     description,
-    maxParticipant,
+    maxParticipants,
     participants,
+    bookmarks,
   } = props;
-  console.log(props);
+
   const [isExpanded, handleExpand] = useExpand(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const paths = location.pathname.split('/');
   const lastPath = paths[paths.length - 1];
+
+  const [modalOpen, { open, close }] = useDisclosure(false);
+  const [actionType, setActionType] = useState('');
+  const dispatch = useDispatch();
+
+  const isEventFull = participants?.length >= maxParticipants;
+  const isEventEnded = new Date(endDate) < new Date();
+  const isUserParticipating = participants?.some(
+    (participant) => participant?.userId === authUser?.id,
+  );
+  const isBookmarkPost = bookmarks?.some(
+    (postMark) => postMark?.userId === authUser?.id,
+  );
+
+  const handleEditPost = async (data) => {
+    await dispatch(asyncEditPost(data));
+  };
+
+  const handleDeletePost = async () => {
+    const { error } = await dispatch(asyncDeletePost(id));
+    if (!error) {
+      navigate('/');
+    }
+  };
+
+  const handleBookmark = async (e) => {
+    e.preventDefault();
+    if (isBookmarkPost) {
+      await dispatch(asyncRemoveBookmarkPostDetail(id));
+    } else {
+      await dispatch(asyncAddBookmarkPostDetail(id));
+    }
+  };
+
+  const handleJoinClick = () => {
+    setActionType('join');
+    open();
+  };
+
+  const handleLeaveClick = () => {
+    setActionType('leave');
+    open();
+  };
+
+  const handleConfirm = async () => {
+    if (actionType === 'join') {
+      const { error } = await dispatch(asyncJoinEvent(id));
+      if (!error) {
+        dispatch(asyncReceivePostDetail(id));
+      }
+    } else if (actionType === 'leave') {
+      const { error } = await dispatch(asyncLeaveEvent(id));
+      if (!error) {
+        dispatch(asyncReceivePostDetail(id));
+      }
+    }
+    close();
+  };
+
   return (
     <Grid gap={2} display="flex" flexDirection="column">
       {lastPath === 'absent' ? (
         <Typography
           fontWeight="bold"
           color="softbrown"
-          textTransform="capitalize">
+          textTransform="capitalize"
+        >
           Absent Event
         </Typography>
       ) : (
         <Typography
           fontWeight="bold"
           color="softbrown"
-          textTransform="capitalize">
+          textTransform="capitalize"
+        >
           {category}
         </Typography>
       )}
@@ -50,26 +134,23 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         gap={2}
-        color="textPrimary">
+        color="textPrimary"
+      >
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
-        {authUser?.role === 'user' && (
-          <Button
-            sx={{
-              alignItems: 'center',
-              textAlign: 'center',
-              display: 'flex',
-              gap: 1,
-              color: 'black',
-            }}>
-            <BookmarkAddOutlined />
-            <Typography variant="body1">Bookmark</Typography>
-          </Button>
+        {owner?.id !== authUser?.id && authUser && (
+          <Bookmark isBookmark={isBookmarkPost} onClick={handleBookmark} />
         )}
 
-        {authUser?.role === 'company' && owner?.id === authUser?.id && (
-          <ButtonMenuCompany event={props} />
+        {owner?.id === authUser?.id && (
+          <ButtonMenu
+            event={props}
+            editPost={handleEditPost}
+            deletePost={handleDeletePost}
+            handleBookmark={handleBookmark}
+            isBookmark={isBookmarkPost}
+          />
         )}
       </Box>
 
@@ -77,39 +158,50 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
-        gap={2.5}>
-        <Avatar
-          srcSet={owner?.profile?.photo}
-          alt={owner?.profile?.name}
-          sx={{ width: 56, height: 56, borderRadius: '50%' }}
-        />
-        <Box
-          display="flex"
-          flexDirection="column"
-          flex={1}
-          justifyContent="center"
-          py={1}>
-          <Typography variant="h5" fontWeight="bold">
-            {owner?.profile?.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {owner?.profile?.headTitle}
-          </Typography>
-        </Box>
+        gap={2.5}
+        alignItems="center"
+      >
+        <Link to={`/users/${owner?.id}`}>
+          <Avatar
+            srcSet={owner?.profile?.photo}
+            alt={owner?.profile?.name}
+            sx={{ width: 56, height: 56, borderRadius: '50%' }}
+          />
+        </Link>
+        <Link to={`/users/${owner?.id}`}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            flex={1}
+            justifyContent="center"
+            py={1}
+          >
+            <Typography variant="h5" fontWeight="bold">
+              {owner?.profile?.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {owner?.profile?.headTitle}
+            </Typography>
+          </Box>
+        </Link>
         <Typography
           variant="body1"
           color="textSecondary"
-          alignSelf="flex-start">
+          alignSelf="flex-start"
+          sx={{ marginLeft: 'auto' }}
+        >
           {postedAt(createdAt)}
         </Typography>
       </Box>
+
       {category === 'Event' && (
         <Box
           display="flex"
           flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           gap={2}
-          color="textPrimary">
-          <Typography fontWeight="light" flex={1}>
+          color="textPrimary"
+        >
+          <Typography fontWeight="600" flex={1}>
             {formatDate(startDate)} - {formatDate(endDate)}
           </Typography>
         </Box>
@@ -134,7 +226,8 @@ function DetailPost(props) {
           boxShadow: 1,
           flexDirection: 'column',
           borderRadius: '10px',
-        }}>
+        }}
+      >
         <Typography variant="body1" color="textSecondary">
           {isExpanded ? description : `${description?.substring(0, 100)}...`}
           <Button onClick={handleExpand} color="primary">
@@ -148,31 +241,95 @@ function DetailPost(props) {
             display="flex"
             flexWrap={{ xs: 'wrap', md: 'nowrap' }}
             justifyContent="space-between"
-            gap={5}>
+            gap={5}
+          >
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
-                {participants} / {maxParticipant} Participant
+                {participants?.length} / {maxParticipants} Participant
               </Typography>
             </Box>
             {authUser?.role === 'user' && (
-              <Button variant="contained" color="primary">
-                Join Event
+              <Button
+                variant="contained"
+                color={isUserParticipating ? 'error' : 'primary'}
+                onClick={
+                  isUserParticipating ? handleLeaveClick : handleJoinClick
+                }
+                disabled={
+                  !isUserParticipating && (isEventFull || isEventEnded)
+                }
+              >
+                {isUserParticipating ? 'Leave Event' : 'Join Event'}
               </Button>
             )}
           </Grid>
         )}
       </Card>
+
+      <Modal
+        opened={modalOpen}
+        onClose={close}
+        title="Confirm Action"
+        centered
+      >
+        <Typography>
+          {actionType === 'join'
+            ? 'Are you sure you want to join this event?'
+            : 'Are you sure you want to leave this event?'}
+        </Typography>
+        <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+          <Button onClick={close} variant="outline">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm} color="primary">
+            Confirm
+          </Button>
+        </Box>
+      </Modal>
     </Grid>
   );
 }
 
 DetailPost.propTypes = {
-  category: PropTypes.oneOf(['event', 'news']).isRequired,
+  id: PropTypes.string.isRequired,
+  authUser: PropTypes.shape({
+    id: PropTypes.string,
+    role: PropTypes.string,
+  }),
+  category: PropTypes.oneOf(['Event', 'News']).isRequired,
   title: PropTypes.string.isRequired,
+  image: PropTypes.string,
   owner: PropTypes.shape(ownerShape).isRequired,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  maxParticipants: PropTypes.number,
+  participants: PropTypes.arrayOf(
+    PropTypes.shape({
+      userId: PropTypes.string,
+    }),
+  ),
+  bookmarks: PropTypes.arrayOf(
+    PropTypes.shape({
+      userId: PropTypes.string,
+    }),
+  ),
+  editPost: PropTypes.func,
+  deletePost: PropTypes.func,
+};
+
+DetailPost.defaultProps = {
+  image: '',
+  startDate: '',
+  endDate: '',
+  maxParticipants: 0,
+  participants: [],
+  bookmarks: [],
+  authUser: null,
+  editPost: () => {},
+  deletePost: () => {},
 };
 
 export default DetailPost;

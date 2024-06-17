@@ -4,6 +4,7 @@ import CardUser from './CardUser';
 import RecentEvents from './RecentEvent';
 
 function SidebarContent({ user }) {
+  const listRecentEvent = user?.recentEvents?.slice(0, 5);
   return (
     <SidebarForum>
       <CardUser
@@ -12,7 +13,7 @@ function SidebarContent({ user }) {
         headTitle={user?.profile?.headTitle}
       />
       {user?.recentEvents?.length > 0 && (
-        <RecentEvents events={user?.recentEvents} />
+        <RecentEvents events={listRecentEvent} />
       )}
     </SidebarForum>
   );
