@@ -35,12 +35,11 @@ const postSlice = createSlice({
     },
     addBookmarkPost: {
       reducer(state, action) {
-        console.log(action.payload);
         const updatedPosts = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
-              bookmarks: [action.payload.user, ...post.bookmarks],
+              bookmarks: [action.payload.user.data, ...post.bookmarks],
             };
           }
           return post;

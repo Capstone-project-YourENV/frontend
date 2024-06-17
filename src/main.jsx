@@ -5,9 +5,11 @@ import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
+import '@mantine/notifications/styles.css';
 import App from './App';
 import './styles/index.css';
 import theme from './styles/ConfigurationMUI';
@@ -19,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <MantineProvider>
         <BrowserRouter>
           <StrictMode>
+            <Notifications position="top-center" zIndex={1000} autoClose={3000} />
             <CssBaseline />
             <App />
           </StrictMode>

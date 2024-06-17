@@ -1,10 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  addBookmarkPost,
-  addPost,
-  removeBookmarkPost,
-} from './slice';
+import { addBookmarkPost, addPost, removeBookmarkPost } from './slice';
 import api from '../../utils/api';
+import { notifications } from '@mantine/notifications';
 
 const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
   const {
@@ -27,7 +24,13 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
       maxParticipants,
       category,
     });
-    dispatch(addPost(post));
+    notifications.show({
+      title: post.msg,
+      description: post.msg,
+      type: post.status,
+      color: 'green',
+    });
+    dispatch(addPost(post.data));
     return { error: null };
   } catch (error) {
     thunkAPI.rejectWithValue(error);
@@ -39,9 +42,15 @@ const asyncAddPost = createAsyncThunk('addPost', async (data, thunkAPI) => {
 const asyncAddBookmarkPost = createAsyncThunk(
   'addBookmarkPost',
   async (postId, thunkAPI) => {
-    const { dispatch, getState } = thunkAPI;
+    const { dispatch } = thunkAPI;
     try {
       const response = await api.addBookmark({ postId });
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
       dispatch(addBookmarkPost(postId, response));
       return { error: null };
     } catch (error) {
@@ -56,9 +65,15 @@ const asyncRemoveBookmarkPost = createAsyncThunk(
   'removeBookmarkPost',
   async (payload, thunkAPI) => {
     const { postId, userId } = payload;
-    const { dispatch, getState } = thunkAPI;
+    const { dispatch } = thunkAPI;
     try {
-      await api.removeBookmark({ postId });
+      const response = await api.removeBookmark({ postId });
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
       dispatch(removeBookmarkPost(postId, userId));
       return { error: null };
     } catch (error) {

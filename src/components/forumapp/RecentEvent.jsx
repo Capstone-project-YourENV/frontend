@@ -43,7 +43,6 @@ function EventItem({ title, url }) {
 
 function RecentEvents({ events }) {
   const navigate = useNavigate();
-  console.log(events);
   return (
     <Card
       sx={{

@@ -1,6 +1,7 @@
+export const BASE_URL = 'https://comment.yourcodeapp.com/api';
+export const BASE_URL_FILE = 'https://comment.yourcodeapp.com/';
 const api = (() => {
-  // const BASE_URL = 'https://comment.yourcodeapp.com/api';
-  const BASE_URL = 'http://localhost:5000/api';
+  // const BASE_URL = 'http://localhost:5000/api';
 
   function putAcessToken(token) {
     localStorage.setItem('accessToken', token);
@@ -41,8 +42,7 @@ const api = (() => {
       throw new Error(errorMessage);
     }
 
-    const { data } = responseJson;
-    return data;
+    return responseJson;
   }
 
   async function login({ email, password }) {
@@ -63,8 +63,7 @@ const api = (() => {
       const errorMessage = errors.map((error) => error.msg).join('\n');
       throw new Error(errorMessage);
     }
-    const { token } = responseJson;
-    return token;
+    return responseJson;
   }
   async function getPostsHome() {
     const response = await fetch(`${BASE_URL}/home/`, {
@@ -191,11 +190,11 @@ const api = (() => {
       body: payload,
     });
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
   async function editPost(editData) {
     const {
@@ -209,7 +208,6 @@ const api = (() => {
       maxParticipants,
       category,
     } = editData;
-    console.table(editData);
 
     // Create FormData payload
     const payload = new FormData();
@@ -236,8 +234,7 @@ const api = (() => {
       }
 
       const responseJson = await response.json();
-      const { data } = responseJson;
-      return data;
+      return responseJson;
     } catch (err) {
       console.error('Error updating post:', err.message);
       throw err;
@@ -427,11 +424,11 @@ const api = (() => {
       },
     );
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
 
   async function deleteComment(data) {
@@ -485,11 +482,11 @@ const api = (() => {
     );
 
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
 
   async function addBookmark(dataPost) {
@@ -504,11 +501,11 @@ const api = (() => {
       },
     );
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
 
   async function removeBookmark(dataPost) {
@@ -523,11 +520,11 @@ const api = (() => {
       },
     );
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
 
   return {

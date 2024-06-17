@@ -23,7 +23,6 @@ function HomePage() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.data);
   const users = useSelector((state) => state.users);
-  console.table(posts);
 
   const eventsList = posts
     ?.filter((post) => post.category === 'Event')

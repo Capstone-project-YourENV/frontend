@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import fakeApi from '../../utils/fakeApi';
 import { receiveUsers } from '../users/slice';
 import { receivePosts } from '../posts/slice';
 import api from '../../utils/api';
@@ -24,7 +23,6 @@ const asyncForumPostsAndUsers = createAsyncThunk(
   async (page, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      console.log(page);
       const response = await api.getPostsForum(page);
       return {
         data: response.data,

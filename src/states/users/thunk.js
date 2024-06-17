@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { notifications } from '@mantine/notifications';
 import api from '../../utils/api';
 import { setAuthUser, unsetAuthUser } from '../authentication/slice';
 
@@ -6,11 +7,21 @@ const asyncRegisterUser = createAsyncThunk(
   'registerUser',
   async (data, thunkAPI) => {
     try {
-      console.table(data);
-      await api.register(data);
+      const response = await api.register(data);
+      notifications.show({
+        title: response.message,
+        description: response.message,
+        type: response.status,
+        color: 'green',
+      });
       return { error: null };
     } catch (error) {
-      alert(error.message);
+      notifications.show({
+        title: error.message,
+        description: error.message,
+        type: error.status,
+        color: 'red',
+      });
       throw error;
     }
   },
@@ -22,11 +33,22 @@ const asyncUpdateProfile = createAsyncThunk(
     const { dispatch } = thunkAPI;
     try {
       const response = await api.editProfileUser(data);
-      console.log(response.data);
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
       dispatch(setAuthUser(response.data));
       return { error: null };
     } catch (error) {
-      alert(error.message);
+      thunkAPI.rejectWithValue(error);
+      notifications.show({
+        title: error.message,
+        description: error.message,
+        type: error.status,
+        color: 'red',
+      });
       throw error;
     }
   },
@@ -36,12 +58,23 @@ const asyncChangePassword = createAsyncThunk(
   'asyncChangePassword',
   async (data, thunkAPI) => {
     try {
-      const { msg } = await api.changePassword(data);
-      if (msg) {
-        alert(msg);
+      const response = await api.changePassword(data);
+      if (response.msg) {
+        notifications.show({
+          title: response.msg,
+          description: response.msg,
+          type: response.status,
+          color: 'green',
+        });
       }
     } catch (error) {
-      alert(error.message);
+      thunkAPI.rejectWithValue(error);
+      notifications.show({
+        title: error.message,
+        description: error.message,
+        type: error.status,
+        color: 'red',
+      });
       throw error;
     }
   },
@@ -52,13 +85,30 @@ const asyncDeleteUserByAuth = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      await api.deleteUserByAuth();
+      const response = await api.deleteUserByAuth();
+      notifications.show({
+        title: response.msg,
+        description: response.msg,
+        type: response.status,
+        color: 'green',
+      });
       dispatch(unsetAuthUser());
     } catch (error) {
-      alert(error.message);
+      thunkAPI.rejectWithValue(error);
+      notifications.show({
+        title: error.message,
+        description: error.message,
+        type: error.status,
+        color: 'red',
+      });
       throw error;
     }
   },
 );
 
-export { asyncRegisterUser, asyncUpdateProfile, asyncChangePassword, asyncDeleteUserByAuth };
+export {
+  asyncRegisterUser,
+  asyncUpdateProfile,
+  asyncChangePassword,
+  asyncDeleteUserByAuth,
+};
