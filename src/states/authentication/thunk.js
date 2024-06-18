@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import { setAuthUser, unsetAuthUser } from './slice';
-import fakeApi from '../../utils/fakeApi';
 import { notifications } from '@mantine/notifications';
 
 const asyncSetAuthUser = createAsyncThunk(
@@ -21,7 +20,12 @@ const asyncSetAuthUser = createAsyncThunk(
       });
       dispatch(setAuthUser(authUser));
     } catch (error) {
-      alert(error.message);
+      notifications.show({
+        title: error.message,
+        description: error.message,
+        status: 'error',
+        color: 'red',
+      });
       throw error;
     }
   },

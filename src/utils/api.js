@@ -1,5 +1,5 @@
 export const BASE_URL = 'https://comment.yourcodeapp.com/api';
-export const BASE_URL_FILE = 'https://comment.yourcodeapp.com/';
+export const URL_APP_FILE = 'https://comment.yourcodeapp.com/assets/';
 const api = (() => {
   // const BASE_URL = 'http://localhost:5000/api';
 
@@ -73,11 +73,11 @@ const api = (() => {
       },
     });
     const responseJson = await response.json();
-    const { data, error } = responseJson;
+    const { error } = responseJson;
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    return responseJson;
   }
   async function getPostsForum(page) {
     const response = await _fetchWithAuth(

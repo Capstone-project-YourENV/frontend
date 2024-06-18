@@ -7,8 +7,7 @@ import LoginForm from '../components/authentication/LoginForm';
 import AuthenticationHeader from '../components/authentication/AuthenticationHeader';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 import { asyncSetAuthUser } from '../states/authentication/thunk';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import loginPicture from '../assets/login-picture.png';
 
 export default function LoginPage() {
   const theme = useTheme();
@@ -42,7 +41,7 @@ export default function LoginPage() {
             loading="lazy"
             style={{ width: '512px', height: '512px', margin: 'auto' }}
             alt="Login picture."
-            src="./src/assets/login-picture.png"
+            src={loginPicture}
           />
         </Grid>
       )}

@@ -8,9 +8,9 @@ const asyncHomePostsAndUsers = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      const { posts, users } = await api.getPostsHome();
-      dispatch(receivePosts(posts));
-      dispatch(receiveUsers(users));
+      const response = await api.getPostsHome();
+      dispatch(receivePosts(response.data.posts));
+      dispatch(receiveUsers(response.data.users));
     } catch (error) {
       alert(error.message);
       return thunkAPI.rejectWithValue(error.message);

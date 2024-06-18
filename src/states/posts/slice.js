@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncForumPostsAndUsers } from '../shared/thunk';
+import {
+  asyncForumPostsAndUsers,
+  asyncHomePostsAndUsers,
+} from '../shared/thunk';
 
 const initialState = {
   data: [],
@@ -22,7 +25,9 @@ const postSlice = createSlice({
       state.hasMore = true;
     },
     receivePosts: (state, action) => {
-      state.data = [...state.data, ...action.payload];
+      state.page = 1;
+      state.status = 'idle';
+      state.data = action.payload;
     },
     addPost: (state, action) => {
       state.data.unshift(action.payload);

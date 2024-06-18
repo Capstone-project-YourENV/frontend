@@ -7,6 +7,7 @@ import Copyright from '../components/Copyright';
 import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 import { asyncRegisterUser } from '../states/users/thunk';
+import registerPicture from '../assets/register-picture.png';
 
 function RegisterUser() {
   const theme = useTheme();
@@ -56,7 +57,7 @@ function RegisterUser() {
             loading="lazy"
             style={{ width: '512px', height: '512px', margin: 'auto' }}
             alt="Register picture."
-            src="/src/assets/register-picture.png"
+            src={registerPicture}
           />
         </Grid>
       )}

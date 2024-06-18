@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ownerShape from '../../types/Owner';
 import participantShape from '../../types/Participant';
+import { URL_APP_FILE } from '../../utils/api';
 
 function EventItem(props) {
   const { id, image, title, owner, maxParticipants, participants } = props;
@@ -31,7 +32,7 @@ function EventItem(props) {
           <CardMedia
             component="img"
             loading="lazy"
-            src={image}
+            src={URL_APP_FILE + image}
             alt={title}
             className="w-full h-48 object-cover rounded-t-lg"
             style={{ objectFit: 'cover', height: '192px', width: '100%' }}
@@ -72,7 +73,9 @@ function EventItem(props) {
               gap: 1,
             }}>
             <FontAwesomeIcon icon={faBuilding} />
-            <Typography variant="body2" fontWeight="bold">{owner?.profile?.name}</Typography>
+            <Typography variant="body2" fontWeight="bold">
+              {owner?.profile?.name}
+            </Typography>
           </Box>
           <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
             <div

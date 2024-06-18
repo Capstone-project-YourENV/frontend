@@ -7,6 +7,7 @@ import { formatDate } from '../utils/date';
 import Bookmark from './forumapp/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../states/posts/thunk';
+import { URL_APP_FILE } from '../utils/api';
 
 function AuthorDetails({ name }) {
   return (
@@ -78,7 +79,7 @@ function PostByCategory(props) {
           <CardMedia
             component="img"
             loading="lazy"
-            image={postImage}
+            image={URL_APP_FILE + postImage}
             alt={title}
             className="w-full aspect-[8.33] max-md:max-w-full"
             onError={handleImageError}
