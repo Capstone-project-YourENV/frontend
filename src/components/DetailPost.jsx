@@ -28,6 +28,7 @@ import {
   asyncReceivePostDetail,
   asyncRemoveBookmarkPostDetail,
 } from '../states/postDetail/thunk';
+import { URL_APP_FILE } from '../utils/api';
 
 function DetailPost(props) {
   const {
@@ -211,7 +212,7 @@ function DetailPost(props) {
         <Box
           component="img"
           loading="lazy"
-          src={image}
+          src={URL_APP_FILE + image}
           alt={title}
           width="100%"
           height="350px"

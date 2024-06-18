@@ -16,16 +16,11 @@ function BookmarkPage() {
   useEffect(() => {
     dispatch(asyncForumPostsAndUsersBookmark(authUser.id));
   }, [dispatch]);
-
-  const bookmarkList = postsBookmark?.map((post) => ({
-    ...post,
-    owner: users.find((user) => user.id === post.ownerId),
-  }));
   return (
     <LayoutForumApp>
       <SidebarContent user={authUser} />
       <MainbarForum>
-        <ListPost title="Bookmark" posts={bookmarkList} />
+        <ListPost title="Bookmark" posts={postsBookmark} />
       </MainbarForum>
     </LayoutForumApp>
   );

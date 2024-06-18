@@ -26,10 +26,10 @@ function HomePage() {
 
   const eventsList = posts
     ?.filter((post) => post.category === 'Event')
-    .slice(0, 10);
+    ?.slice(0, 10);
   const newsList = posts
-    .filter((post) => post.category === 'News')
-    .slice(0, 10);
+    ?.filter((post) => post.category === 'News')
+    ?.slice(0, 10);
   const usersList = users?.slice(0, 6);
   useEffect(() => {
     dispatch(asyncHomePostsAndUsers());

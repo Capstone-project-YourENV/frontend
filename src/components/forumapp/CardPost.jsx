@@ -9,6 +9,7 @@ import ProfileOwner from '../ProfileOwner';
 import ownerShape from '../../types/Owner';
 import { formatDate, postedAt } from '../../utils/date';
 import Bookmark from './Bookmark';
+import { URL_APP_FILE } from '../../utils/api';
 
 function Details({ description }) {
   return (
@@ -104,7 +105,7 @@ function CardPost(props) {
             <Box
               component="img"
               loading="lazy"
-              src={image}
+              src={URL_APP_FILE + image}
               alt={title}
               width="100%"
               height="350px"

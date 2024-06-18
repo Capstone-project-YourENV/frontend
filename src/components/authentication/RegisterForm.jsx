@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
+import { Link } from 'react-router-dom';
 
 function RegisterForm({ register, color }) {
   const [username, onUsernameChange] = useInput('');

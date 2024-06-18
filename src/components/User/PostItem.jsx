@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { URL_APP_FILE } from '../../utils/api';
 
 function PostItem({ post }) {
   const [imageError, setImageError] = useState(false);
@@ -16,7 +17,7 @@ function PostItem({ post }) {
           <CardMedia
             component="img"
             sx={{ height: '140px' }}
-            image={post?.image}
+            image={URL_APP_FILE + post?.image}
             alt={post?.title}
             onError={handleImageError}
           />
