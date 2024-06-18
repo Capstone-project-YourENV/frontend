@@ -45,7 +45,7 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
     mode: 'uncontrolled',
     initialValues: {
       title: event?.title,
-      description: parse(event?.description),
+      description: event.description,
       image: event?.image,
       category: event?.category,
       startDate: startDate,
