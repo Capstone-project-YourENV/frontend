@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FaUserPlus } from 'react-icons/fa6';
+import parse from 'html-react-parser';
 import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../../states/posts/thunk';
 import ProfileOwner from '../ProfileOwner';
 import ownerShape from '../../types/Owner';
@@ -23,7 +24,7 @@ function Details({ description }) {
           whiteSpace: 'nowrap',
         }}
       >
-        {description}
+        {description && parse(description)}
       </Typography>
     </Box>
   );

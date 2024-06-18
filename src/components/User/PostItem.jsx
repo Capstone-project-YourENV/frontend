@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import parse from 'html-react-parser';
 import { URL_APP_FILE } from '../../utils/api';
 
 function PostItem({ post }) {
@@ -43,7 +44,7 @@ function PostItem({ post }) {
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
             }}>
-            {post?.description}
+            {parse(post?.description)}
           </Typography>
         </CardContent>
       </Card>

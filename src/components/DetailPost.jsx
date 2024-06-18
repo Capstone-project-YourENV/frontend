@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Avatar,
-  Button,
-  Grid,
-  Card,
-} from '@mui/material';
+import { Box, Typography, Avatar, Button, Grid, Card } from '@mui/material';
 import { FaUserPlus } from 'react-icons/fa6';
 import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
@@ -14,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
+import parse from 'html-react-parser';
 import useExpand from '../hooks/useExpand';
 import ownerShape from '../types/Owner';
 import { formatDate, postedAt } from '../utils/date';
@@ -117,16 +111,14 @@ function DetailPost(props) {
         <Typography
           fontWeight="bold"
           color="softbrown"
-          textTransform="capitalize"
-        >
+          textTransform="capitalize">
           Absent Event
         </Typography>
       ) : (
         <Typography
           fontWeight="bold"
           color="softbrown"
-          textTransform="capitalize"
-        >
+          textTransform="capitalize">
           {category}
         </Typography>
       )}
@@ -135,8 +127,7 @@ function DetailPost(props) {
         display="flex"
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         gap={2}
-        color="textPrimary"
-      >
+        color="textPrimary">
         <Typography variant="h4" fontWeight="bold" flex={1}>
           {title}
         </Typography>
@@ -160,8 +151,7 @@ function DetailPost(props) {
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
         gap={2.5}
-        alignItems="center"
-      >
+        alignItems="center">
         <Link to={`/users/${owner?.id}`}>
           <Avatar
             srcSet={owner?.profile?.photo}
@@ -175,8 +165,7 @@ function DetailPost(props) {
             flexDirection="column"
             flex={1}
             justifyContent="center"
-            py={1}
-          >
+            py={1}>
             <Typography variant="h5" fontWeight="bold">
               {owner?.profile?.name}
             </Typography>
@@ -189,8 +178,7 @@ function DetailPost(props) {
           variant="body1"
           color="textSecondary"
           alignSelf="flex-start"
-          sx={{ marginLeft: 'auto' }}
-        >
+          sx={{ marginLeft: 'auto' }}>
           {postedAt(createdAt)}
         </Typography>
       </Box>
@@ -200,8 +188,7 @@ function DetailPost(props) {
           display="flex"
           flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           gap={2}
-          color="textPrimary"
-        >
+          color="textPrimary">
           <Typography fontWeight="600" flex={1}>
             {formatDate(startDate)} - {formatDate(endDate)}
           </Typography>
@@ -227,13 +214,9 @@ function DetailPost(props) {
           boxShadow: 1,
           flexDirection: 'column',
           borderRadius: '10px',
-        }}
-      >
+        }}>
         <Typography variant="body1" color="textSecondary">
-          {isExpanded ? description : `${description?.substring(0, 100)}...`}
-          <Button onClick={handleExpand} color="primary">
-            {isExpanded ? 'Show less' : 'Show more'}
-          </Button>
+          {description && parse(description)}
         </Typography>
 
         {category === 'Event' && lastPath !== 'absent' && (
@@ -242,8 +225,7 @@ function DetailPost(props) {
             display="flex"
             flexWrap={{ xs: 'wrap', md: 'nowrap' }}
             justifyContent="space-between"
-            gap={5}
-          >
+            gap={5}>
             <Box display="flex" alignItems="center" gap={2}>
               <FaUserPlus />
               <Typography>
@@ -259,8 +241,7 @@ function DetailPost(props) {
                 }
                 disabled={
                   !isUserParticipating && (isEventFull || isEventEnded)
-                }
-              >
+                }>
                 {isUserParticipating ? 'Leave Event' : 'Join Event'}
               </Button>
             )}
@@ -268,12 +249,7 @@ function DetailPost(props) {
         )}
       </Card>
 
-      <Modal
-        opened={modalOpen}
-        onClose={close}
-        title="Confirm Action"
-        centered
-      >
+      <Modal opened={modalOpen} onClose={close} title="Confirm Action" centered>
         <Typography>
           {actionType === 'join'
             ? 'Are you sure you want to join this event?'
