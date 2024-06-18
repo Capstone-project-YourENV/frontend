@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../utils/date';
 import Bookmark from './forumapp/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
+import parse from 'html-react-parser';
 import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../states/posts/thunk';
 import { URL_APP_FILE } from '../utils/api';
 
@@ -119,7 +120,7 @@ function PostByCategory(props) {
               whiteSpace: 'nowrap',
             }}
           >
-            {description}
+            {description && parse(description)}
           </Typography>
           <div className="flex gap-5 pr-20 mt-4 text-base text-gray-700 max-md:flex-wrap max-md:pr-5">
             {category === 'Event' && (

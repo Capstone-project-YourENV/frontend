@@ -26,6 +26,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import parse from 'html-react-parser';
 import useModal from '../../hooks/useModal';
 import { BookmarkBorder, BookmarkOutlined } from '@mui/icons-material';
 
@@ -44,7 +45,7 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
     mode: 'uncontrolled',
     initialValues: {
       title: event?.title,
-      description: event?.description,
+      description: parse(event?.description),
       image: event?.image,
       category: event?.category,
       startDate: startDate,
@@ -54,7 +55,6 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
 
     validate: {
       title: (value) => (value.length < 3 ? 'Title must be at least 3 letters' : null),
-      description: (value) => (value.length > 2500 ? 'Description must be at most 2500 characters' : null),
     },
   });
 

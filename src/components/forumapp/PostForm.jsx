@@ -42,10 +42,6 @@ function PostForm({ addPost }) {
     validate: {
       title: (value) =>
         value.length < 3 ? 'Title must be at least 3 letters' : null,
-      description: (value) =>
-        value.length > 2500
-          ? 'Description must be at most 2500 characters'
-          : null,
     },
   });
 
