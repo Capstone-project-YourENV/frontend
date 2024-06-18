@@ -23,7 +23,7 @@ Platform sukarelawan yang memfasilitasi partisipasi dalam kepedulian lingkungan.
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://yourcodeapp.com/assets/landingpagecomment.png)
 
 
 ## Installation

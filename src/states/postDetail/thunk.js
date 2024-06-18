@@ -59,7 +59,7 @@ const asyncEditPost = createAsyncThunk('editPost', async (data, thunkAPI) => {
       type: post.status,
       color: 'green',
     });
-    dispatch(updatePostDetail(post));
+    dispatch(updatePostDetail(post.data));
     return { error: null };
   } catch (error) {
     thunkAPI.rejectWithValue(error);
