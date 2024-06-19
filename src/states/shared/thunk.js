@@ -1,12 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { receiveUsers } from '../users/slice';
-import { receivePosts } from '../posts/slice';
+import { receivePosts, resetPosts } from '../posts/slice';
 import api from '../../utils/api';
 
 const asyncHomePostsAndUsers = createAsyncThunk(
   'asyncHomePostsAndUsers',
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getPostsHome();
       dispatch(receivePosts(response.data.posts));
@@ -40,6 +41,7 @@ const asyncForumPostsAndUsersByTrends = createAsyncThunk(
   'asyncForumPostsAndUsersByTrends',
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getPostsTrends();
       dispatch(receivePosts(response));
@@ -54,6 +56,7 @@ const asyncForumPostsAndUsersByUpcoming = createAsyncThunk(
   'asyncForumPostsAndUsersByUpcoming',
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getPostsUpcoming();
       dispatch(receivePosts(response));
@@ -68,6 +71,7 @@ const asyncForumPostsAndUsersBookmark = createAsyncThunk(
   'asyncForumPostsAndUsersBookmark',
   async (userId, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getPostsBookmarks(userId);
       dispatch(receivePosts(response));
@@ -82,6 +86,7 @@ const asyncForumMyPosts = createAsyncThunk(
   'asyncForumMyPosts',
   async (userId, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getMyPosts(userId);
       dispatch(receivePosts(response));
@@ -96,6 +101,7 @@ const asyncForumRecentEvents = createAsyncThunk(
   'asyncForumRecentEvents',
   async (eventId, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    dispatch(resetPosts());
     try {
       const response = await api.getRecentEvents(eventId);
       dispatch(receivePosts(response));
