@@ -39,19 +39,19 @@ function OurTeams() {
             <p className="text-gray-200">UI/UX</p>
             <div className="flex justify-center space-x-4 mt-4">
               <a
-                href="https://www.linkedin.com/in/satria-abimanyu"
+                href="https://www.linkedin.com/in/satriaabimanyu/"
                 target="_blank"
                 rel="noopener noreferrer">
                 <LinkedInIcon className="text-white" />
               </a>
               <a
-                href="https://github.com/satria-abimanyu"
+                href="https://github.com/Bima595"
                 target="_blank"
                 rel="noopener noreferrer">
                 <GitHubIcon className="text-white" />
               </a>
               <a
-                href="https://www.instagram.com/satria_abimanyu"
+                href="https://www.instagram.com/bima_pensi"
                 target="_blank"
                 rel="noopener noreferrer">
                 <InstagramIcon className="text-white" />
@@ -107,19 +107,19 @@ function OurTeams() {
             <p className="text-gray-200">Back-End Developer</p>
             <div className="flex justify-center space-x-4 mt-4">
               <a
-                href="https://www.linkedin.com/in/salman-akbar"
+                href="https://www.linkedin.com/in/salman-akbar-hasbullah/"
                 target="_blank"
                 rel="noopener noreferrer">
                 <LinkedInIcon className="text-white" />
               </a>
               <a
-                href="https://github.com/salman-akbar"
+                href="https://github.com/AkbarHasballah"
                 target="_blank"
                 rel="noopener noreferrer">
                 <GitHubIcon className="text-white" />
               </a>
               <a
-                href="https://www.instagram.com/salman_akbar"
+                href="https://www.instagram.com/salmanak_h/"
                 target="_blank"
                 rel="noopener noreferrer">
                 <InstagramIcon className="text-white" />
