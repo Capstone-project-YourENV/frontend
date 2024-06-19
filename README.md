@@ -18,9 +18,6 @@ Platform sukarelawan yang memfasilitasi partisipasi dalam kepedulian lingkungan.
 
 **Client:** React, Redux, TailwindCSS, MaterialUI, Mantine
 
-
-
-
 ## Screenshots
 
 ![App Screenshot](https://yourcodeapp.com/assets/landingpagecomment.png)
