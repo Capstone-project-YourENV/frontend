@@ -41,16 +41,17 @@ function ForumPage() {
           dataLength={posts?.length}
           next={loadMorePosts}
           hasMore={hasMore}
-          loader={
+          loader={(
             <CircularProgress
               sx={{ display: 'block', margin: 'auto', marginY: 2 }}
             />
-          }
-          endMessage={
+          )}
+          endMessage={(
             <p style={{ textAlign: 'center' }}>
               {status === 'loading' ? 'Loading...' : 'No more data'}
             </p>
-          }>
+          )}
+        >
           {posts?.map((post, index) => (
             <CardPost
               key={index}

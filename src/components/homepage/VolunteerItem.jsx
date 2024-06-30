@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import {
-  faCheckCircle,
-  faMapMarkerAlt,
-  faCalendarAlt,
   faBuilding,
   faPhone,
 } from '@fortawesome/free-solid-svg-icons';
@@ -12,15 +9,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function VolunteerItem(props) {
-  const { id, photo, name, headTitle, phone } = props;
-  const [imageLoaded, setImageLoaded] = useState(true); // State to track image load status
-
-  const handleImageError = () => {
-    setImageLoaded(false); // Set state to false if image fails to load
-  };
+  const {
+    id,
+    photo,
+    name,
+    headTitle,
+    phone,
+  } = props;
 
   return (
-    <Link to={`/users/${id}`}>
+    <Link to={`/users/${id}`} style={{ textDecoration: 'none' }}>
       <Card
         sx={{
           marginY: 1,
@@ -28,52 +26,43 @@ function VolunteerItem(props) {
           borderRadius: 2,
           border: '1px solid',
           borderColor: 'grey.200',
-          height: '100%',
+          height: '340px',
           display: 'flex',
           flexDirection: 'column',
-        }}>
-        {imageLoaded && photo ? (
-          <CardMedia
-            component="img"
-            loading="lazy"
-            src={photo}
-            alt={name}
-            sx={{ objectFit: 'cover', height: 200 }}
-            onError={handleImageError} // Handle image load error
-          />
-        ) : (
-          <Box
-            sx={{
-              height: 200,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'grey.200', // Background color when image is not loaded
-            }}>
-            <Typography variant="h6" color="text.secondary">
-              {name}
-            </Typography>
-          </Box>
-        )}
+          justifyContent: 'space-between',
+        }}
+      >
+        <CardMedia
+          component="img"
+          loading="lazy"
+          src={photo}
+          alt={name}
+          sx={{ objectFit: 'cover', height: 200 }}
+        />
         <CardContent
           sx={{
             p: 2,
             flexGrow: 1,
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'flex-start',
             gap: 1,
-          }}>
-          <Typography
-            variant="h6"
-            component="h3"
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              fontWeight: 'bold',
-            }}>
-            {headTitle}
-          </Typography>
+          }}
+        >
+          {headTitle && (
+            <Typography
+              variant="h6"
+              component="h3"
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                fontWeight: 'bold',
+              }}
+            >
+              {headTitle}
+            </Typography>
+          )}
           <Box
             sx={{
               display: 'flex',
@@ -81,7 +70,8 @@ function VolunteerItem(props) {
               color: 'text.secondary',
               mb: 1,
               gap: 1,
-            }}>
+            }}
+          >
             <FontAwesomeIcon icon={faBuilding} />
             <Typography variant="body2" fontWeight="bold">
               {name}
@@ -93,10 +83,11 @@ function VolunteerItem(props) {
                 display: 'flex',
                 alignItems: 'center',
                 color: 'text.secondary',
-              }}>
+              }}
+            >
               <FontAwesomeIcon icon={faPhone} style={{ color: 'gray' }} />
               <Typography variant="body2" sx={{ ml: 1 }}>
-                {phone}
+                {phone || 'N/A'}
               </Typography>
             </Box>
           </Box>
@@ -110,12 +101,14 @@ VolunteerItem.propTypes = {
   id: PropTypes.string.isRequired,
   photo: PropTypes.string,
   name: PropTypes.string.isRequired,
-  headTitle: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  headTitle: PropTypes.string,
+  phone: PropTypes.string,
 };
 
 VolunteerItem.defaultProps = {
   photo: '',
+  headTitle: '',
+  phone: '',
 };
 
 export default VolunteerItem;

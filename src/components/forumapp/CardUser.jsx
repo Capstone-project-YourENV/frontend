@@ -1,4 +1,10 @@
-import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -11,7 +17,8 @@ function CardUser(props) {
         sx={{
           borderRadius: '12px',
         }}
-        className="w-full xl:w-[256px] mx-auto">
+        className="w-full xl:w-[256px] mx-auto"
+      >
         <Avatar
           loading="lazy"
           sx={{

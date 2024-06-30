@@ -1,4 +1,4 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,8 @@ function MainbarForum({ children }) {
       display="flex"
       flexDirection="column"
       gap="15px"
-      width="100%">
+      width="100%"
+    >
       {children}
     </Grid>
   );

@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  asyncForumPostsAndUsers,
-  asyncHomePostsAndUsers,
-} from '../shared/thunk';
+import { asyncForumPostsAndUsers } from '../shared/thunk';
 
 const initialState = {
   data: [],
@@ -17,30 +14,40 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     incrementPage: (state) => {
-      state.page += 1;
+      const newState = { ...state };
+      newState.page += 1;
+      return newState;
     },
     resetPosts: (state) => {
-      state.data = [];
-      state.page = 1;
-      state.hasMore = true;
+      const newState = { ...state };
+      newState.data = [];
+      newState.page = 1;
+      newState.hasMore = true;
+      return newState;
     },
     receivePosts: (state, action) => {
-      state.page = 1;
-      state.status = 'idle';
-      state.data = action.payload;
+      const newState = { ...state };
+      newState.page = 1;
+      newState.status = 'idle';
+      newState.data = action.payload;
+      return newState;
     },
     addPost: (state, action) => {
-      state.data.unshift(action.payload);
+      const newState = { ...state };
+      newState.data.unshift(action.payload);
+      return newState;
     },
     deletePost: (state, action) => {
-      const updatedPosts = state.data.filter(
+      const newState = { ...state };
+      newState.data = state.data.filter(
         (post) => post.id !== action.payload,
       );
-      state.data = updatedPosts;
+      return newState;
     },
     addBookmarkPost: {
       reducer(state, action) {
-        const updatedPosts = state.data.map((post) => {
+        const newState = { ...state };
+        newState.data = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
@@ -49,7 +56,7 @@ const postSlice = createSlice({
           }
           return post;
         });
-        state.data = updatedPosts;
+        return newState;
       },
       prepare(postId, user) {
         return { payload: { postId, user } };
@@ -58,7 +65,8 @@ const postSlice = createSlice({
 
     removeBookmarkPost: {
       reducer(state, action) {
-        const updatedPosts = state.data.map((post) => {
+        const newState = { ...state };
+        newState.data = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
@@ -69,7 +77,7 @@ const postSlice = createSlice({
           }
           return post;
         });
-        state.data = updatedPosts;
+        return newState;
       },
       prepare(postId, userId) {
         return { payload: { postId, userId } };
@@ -79,17 +87,23 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(asyncForumPostsAndUsers.pending, (state) => {
-        state.status = 'loading';
+        const newState = { ...state };
+        newState.status = 'loading';
+        return newState;
       })
       .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.data = [...state.data, ...action.payload.data];
-        state.hasMore = action.payload.hasMore;
-        state.page = action.payload.page + 1; // Increment page for next fetch
+        const newState = { ...state };
+        newState.status = 'succeeded';
+        newState.data = [...state.data, ...action.payload.data];
+        newState.hasMore = action.payload.hasMore;
+        newState.page = action.payload.page + 1; // Increment page for next fetch
+        return newState;
       })
       .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload || action.error.message;
+        const newState = { ...state };
+        newState.status = 'failed';
+        newState.error = action.payload || action.error.message;
+        return newState;
       });
   },
 });
