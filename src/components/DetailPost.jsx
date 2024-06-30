@@ -151,7 +151,7 @@ function DetailPost(props) {
         flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         flexDirection={{ xs: 'column', md: 'row' }}
         gap={2.5}
-        alignItems="center">
+        alignItems="start">
         <Link to={`/users/${owner?.id}`}>
           <Avatar
             srcSet={owner?.profile?.photo}
@@ -178,7 +178,12 @@ function DetailPost(props) {
           variant="body1"
           color="textSecondary"
           alignSelf="flex-start"
-          sx={{ marginLeft: 'auto' }}>
+          sx={{
+            marginLeft: {
+              sm: 0,
+              md: 'auto',
+            },
+          }}>
           {postedAt(createdAt)}
         </Typography>
       </Box>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import useInput from '../../hooks/useInput';
@@ -13,6 +12,7 @@ function RegisterForm({ register, color }) {
   const location = useLocation();
   const paths = location.pathname.split('/');
   const lastPath = paths[paths.length - 1];
+
   return (
     <Box
       component="form"
@@ -26,7 +26,7 @@ function RegisterForm({ register, color }) {
       <Typography
         component="h3"
         variant="h5"
-        textAlign="left"
+        textAlign="right"
         color={color}
         fontSize="18px"
         fontWeight="semibold">
@@ -37,8 +37,27 @@ function RegisterForm({ register, color }) {
         required
         fullWidth
         InputProps={{
-          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
-          color: 'success',
+          sx: {
+            borderRadius: 2,
+            backgroundColor: 'white',
+            borderColor: '#F6F8FD',
+            color: 'black',
+            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#F6F8FD',
+              },
+              '&:hover fieldset': {
+                borderColor: '#B99470',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#B99470',
+              },
+            },
+          },
+          inputProps: {
+            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+          },
         }}
         id="username"
         label="Username"
@@ -55,8 +74,27 @@ function RegisterForm({ register, color }) {
         required
         fullWidth
         InputProps={{
-          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
-          color: 'success',
+          sx: {
+            borderRadius: 2,
+            backgroundColor: 'white',
+            borderColor: '#F6F8FD',
+            color: 'black',
+            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#F6F8FD',
+              },
+              '&:hover fieldset': {
+                borderColor: '#B99470',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#B99470',
+              },
+            },
+          },
+          inputProps: {
+            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+          },
         }}
         id="email"
         label="Email Address"
@@ -72,8 +110,27 @@ function RegisterForm({ register, color }) {
         required
         fullWidth
         InputProps={{
-          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: { color } },
-          color: 'success',
+          sx: {
+            borderRadius: 2,
+            backgroundColor: 'white',
+            borderColor: '#F6F8FD',
+            color: 'black',
+            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#F6F8FD',
+              },
+              '&:hover fieldset': {
+                borderColor: '#B99470',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#B99470',
+              },
+            },
+          },
+          inputProps: {
+            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+          },
         }}
         name="password"
         placeholder="Enter your password"
@@ -100,7 +157,7 @@ function RegisterForm({ register, color }) {
         Register
       </Button>
       <Grid container justifyContent="center">
-        <Grid item display="flex" flexDirection="rows" gap="10px">
+        <Grid item display="flex" flexDirection="row" gap="10px">
           <Typography
             component={Link}
             to="/login"

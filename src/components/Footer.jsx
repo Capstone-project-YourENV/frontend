@@ -4,29 +4,16 @@ import Logo from '../assets/logo.png';
 
 function Footer() {
   return (
-    <footer
-      className="bg-green-700 text-white py-8 mt-auto"
-      style={{
-        backgroundColor: '#75A47F',
-        position: 'relative',
-        marginTop: '50px',
-      }}>
-      <div className="container mx-auto px-4 flex flex-wrap justify-between  relative">
-        <div className="w-full sm:w-1/3 mb-6">
+    <footer className="bg-green-700 text-white py-8 mt-16 md:mt-auto" style={{ backgroundColor: '#75A47F' }}>
+      <div className="container mx-auto px-4 flex flex-wrap justify-between">
+        <div className="w-full sm:w-1/3 mb-6 relative">
           <img
             src={Logo}
             className="w-32 absolute top-3 left-10 transform -translate-x-1/2 -translate-y-full"
             alt="Logo"
           />
           <div>
-            <h1
-              style={{
-                color: 'white',
-                fontSize: '24px',
-                fontFamily: 'Plus Jakarta Sans',
-                fontWeight: '800',
-                lineHeight: '1',
-              }}>
+            <h1 className="text-white text-2xl font-bold leading-none" style={{ fontFamily: 'Plus Jakarta Sans' }}>
               Comment
             </h1>
             <p>
@@ -54,7 +41,7 @@ function Footer() {
             </li>
           </ul>
         </div>
-        <div className="w-full sm:w-1/6 mb-6 text-end">
+        <div className="w-full sm:w-1/6 mb-6 sm:text-start lg:text-end">
           <h4 className="font-bold mb-2">Make Event about Environmental</h4>
           <ul>
             <li>
@@ -62,7 +49,7 @@ function Footer() {
             </li>
           </ul>
         </div>
-        <div className="w-full sm:w-1/4 mb-6 text-end">
+        <div className="w-full sm:w-1/4 mb-6 sm:text-start lg:text-end">
           <h4 className="font-bold mb-2">Hubungi Kami</h4>
           <ul>
             <li>Jl. Batik Kumeli no 50 Bandung, Indonesia</li>
