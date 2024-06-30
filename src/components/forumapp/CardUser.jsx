@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 function CardUser(props) {
   const { name, photo, headTitle } = props;
   return (
-    <Link to="/profile">
+    <Link to="/profile" className="w-full">
       <Card
         sx={{
           borderRadius: '12px',
         }}
-        className="w-full lg:w-[256px]">
+        className="w-full xl:w-[256px] mx-auto">
         <Avatar
           loading="lazy"
           sx={{

@@ -4,11 +4,14 @@ import Logo from '../../assets/logo.png';
 
 function AboutUs() {
   return (
-    <section className="py-16 px-4  flex flex-wrap items-center ">
+    <section className="py-6 px-4  flex flex-wrap items-center ">
       <Avatar
         src={Logo}
         alt="About Us"
-        style={{ width: '400px', height: '400px' }}
+        style={{
+          width: '400px',
+          height: '400px',
+        }}
       />
       <div className="max-w-xl">
         <h1

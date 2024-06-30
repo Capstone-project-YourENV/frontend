@@ -1,5 +1,6 @@
 export const BASE_URL = 'https://comment.yourcodeapp.com/api';
 export const URL_APP_FILE = 'https://comment.yourcodeapp.com/assets/';
+// export const URL_APP_FILE = 'https://localhost:5000/assets/';
 const api = (() => {
   // const BASE_URL = 'http://localhost:5000/api';
 

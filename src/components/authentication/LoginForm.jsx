@@ -51,7 +51,7 @@ function LoginForm({ login }) {
         component="h3"
         variant="h5"
         textAlign="right"
-        color="softwhite"
+        color="white"
         fontSize="18px"
         fontWeight="semibold">
         Login to Join Our Community.
@@ -61,8 +61,27 @@ function LoginForm({ login }) {
         required
         fullWidth
         InputProps={{
-          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
-          color: 'success',
+          sx: {
+            borderRadius: 2,
+            backgroundColor: 'white',
+            borderColor: '#F6F8FD',
+            color: 'black',
+            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#F6F8FD',
+              },
+              '&:hover fieldset': {
+                borderColor: '#B99470',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#B99470',
+              },
+            },
+          },
+          inputProps: {
+            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+          },
         }}
         id="email"
         label="Email Address"
@@ -78,8 +97,27 @@ function LoginForm({ login }) {
         required
         fullWidth
         InputProps={{
-          sx: { borderRadius: 15, borderColor: '#F6F8FD', color: 'white' },
-          color: 'success',
+          sx: {
+            borderRadius: 2,
+            backgroundColor: 'white',
+            borderColor: '#F6F8FD',
+            color: 'black',
+            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#F6F8FD',
+              },
+              '&:hover fieldset': {
+                borderColor: '#B99470',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#B99470',
+              },
+            },
+          },
+          inputProps: {
+            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+          },
         }}
         name="password"
         placeholder="Enter your password"
@@ -96,7 +134,7 @@ function LoginForm({ login }) {
           <Checkbox value="remember" color="success" inputRef={rememberCheck} />
         }
         label="Remember Password"
-        sx={{ color: 'softwhite' }}
+        sx={{ color: 'white' }}
       />
       <Button
         type="submit"
@@ -106,23 +144,23 @@ function LoginForm({ login }) {
         Login
       </Button>
       <Grid container justifyContent="center">
-        <Grid item display="flex" flexDirection="rows" gap="10px">
+        <Grid item display="flex" flexDirection="row" gap="10px">
           <Typography
             component={Link}
             to="/"
             variant="body2"
-            color="softwhite"
+            color="white"
             fontWeight="600">
             Home
           </Typography>
-          <Typography variant="body2" color="softwhite" fontWeight="600">
+          <Typography variant="body2" color="white" fontWeight="600">
             Or
           </Typography>
           <Typography
             component={Link}
             to="/register/user"
             variant="body2"
-            color="softwhite"
+            color="white"
             fontWeight="600">
             Sign Up
           </Typography>

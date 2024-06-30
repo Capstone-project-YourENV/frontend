@@ -14,7 +14,6 @@ import TrendingPage from './pages/TrendingPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import ProfilPage from './pages/ProfilePage';
 import JoinParticipantPage from './pages/JoinParticipantPage';
-import AbsentPage from './pages/AbsentPage';
 import DetailPostPage from './pages/DetailPostPage';
 import UserPage from './pages/UserPage';
 import { asyncPreloadProcess } from './states/isPreload/thunk';

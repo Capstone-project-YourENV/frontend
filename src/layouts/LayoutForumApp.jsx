@@ -6,12 +6,14 @@ import { useTheme } from '@emotion/react';
 function LayoutForumApp({ children }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   return (
     <Grid
       container
-      spacing={3}
-      paddingY="60px"
-      paddingX={5}
+      width="100%"
+      paddingX={5} // Mengatur padding untuk mobile, tablet, dan desktop
+      paddingY={5} // Mengatur padding untuk mobile, tablet, dan desktop
       sx={{ backgroundColor: 'softwhite' }}>
       {children}
     </Grid>

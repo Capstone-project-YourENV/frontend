@@ -124,19 +124,22 @@ export default function Navbar({ authUser, signOut }) {
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    to="/profile">
+                    to="/profile"
+                  >
                     Profile
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    to="/mypost">
+                    to="/mypost"
+                  >
                     My Post
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuClose}
                     component={Link}
-                    to="/bookmarks">
+                    to="/bookmarks"
+                  >
                     Bookmarks
                   </MenuItem>
                   <MenuItem onClick={signOut}>Sign Out</MenuItem>
@@ -162,7 +165,8 @@ export default function Navbar({ authUser, signOut }) {
               color="inherit"
               edge="start"
               onClick={toggleDrawer(true)}
-              className="mr-2">
+              className="mr-2"
+            >
               <MenuIcon />
             </IconButton>
           </div>
@@ -173,17 +177,21 @@ export default function Navbar({ authUser, signOut }) {
           className="w-64"
           role="presentation"
           onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}>
+          onKeyDown={toggleDrawer(false)}
+        >
           <List>
             <ListItem
               components={Typography}
               sx={{ color: 'green', fontWeight: 'bold' }}
-              className="text-2xl">
+              className="text-2xl"
+            >
               Comment
             </ListItem>
             {navItems.map((item, index) => (
               <ListItem button key={index}>
-                <ListItemText primary={item.text} />
+                <Link to={item.link}>
+                  <ListItemText primary={item.text} />
+                </Link>
               </ListItem>
             ))}
           </List>

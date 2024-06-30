@@ -8,6 +8,7 @@ import CreatePost from '../components/forumapp/CreatePost';
 import CardPost from '../components/forumapp/CardPost';
 import SidebarContent from '../components/forumapp/SidebarContent';
 import { asyncForumPostsAndUsers } from '../states/shared/thunk';
+import { resetPosts } from '../states/posts/slice';
 
 function ForumPage() {
   const authUser = useSelector((state) => state.authUser);
@@ -25,6 +26,7 @@ function ForumPage() {
 
   useEffect(() => {
     if (status === 'idle') {
+      dispatch(resetPosts());
       dispatch(asyncForumPostsAndUsers(page));
     }
   }, [status, page, dispatch]);

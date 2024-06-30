@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { useTheme } from '@emotion/react';
 
 function SidebarForum({ children }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <Grid
-      xs={isMobile ? 12 : 3}
+      xs={12}
+      sm={12}
+      md={12}
+      lg={3}
       sx={{
         display: 'flex',
         flexDirection: 'column',

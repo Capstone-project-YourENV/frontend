@@ -69,7 +69,11 @@ function HomePage() {
             sx={{
               position: 'absolute',
               top: 0,
-              width: '70%',
+              width: {
+                xs: '100%', // width for extra small screens
+                sm: '100%', // width for small screens and up
+                lg: '60%', // width for large screens and up
+              },
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -99,8 +103,8 @@ function HomePage() {
               sx={{
                 color: 'white',
                 fontSize: {
-                  xs: 16, // font size for extra small screens
-                  sm: 20, // font size for small screens and up
+                  xs: 12, // font size for extra small screens
+                  sm: 26, // font size for small screens and up
                   lg: 32, // font size for large screens and up
                 },
                 fontFamily: 'Plus Jakarta Sans',
