@@ -104,9 +104,7 @@ function ProfileDetails({ username, name, headTitle, email, phone, onUpdate }) {
         title="Update Profile"
         centered>
         <form onSubmit={formEdit.onSubmit((values) => handleUpdate(values))}>
-          <Text>Update your profile details below:</Text>
           <TextInput
-            mt="md"
             label="Username"
             withAsterisk
             {...formEdit.getInputProps('username')}
@@ -141,11 +139,11 @@ function ProfileDetails({ username, name, headTitle, email, phone, onUpdate }) {
               }
             }}
           />
-          <Group position="right" mt="md">
-            <Button variant="outline" onClick={handleClose}>
+          <Group justify="flex-end" mt="md">
+            <Button variant="outline" color="red" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" color="blue">
+            <Button type="submit" color="#75A47F">
               Update
             </Button>
           </Group>

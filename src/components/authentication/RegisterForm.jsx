@@ -1,9 +1,15 @@
 import React from 'react';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
-import useInput from '../../hooks/useInput';
 import { Link } from 'react-router-dom';
+import useInput from '../../hooks/useInput';
 
 function RegisterForm({ register, color }) {
   const [username, onUsernameChange] = useInput('');
@@ -13,23 +19,30 @@ function RegisterForm({ register, color }) {
   const paths = location.pathname.split('/');
   const lastPath = paths[paths.length - 1];
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register(e, { username, email, password });
+  };
+
   return (
     <Box
       component="form"
       width="100%"
       noValidate
-      onSubmit={(e) => register(e, { username, email, password })}
+      onSubmit={handleSubmit}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
-      gap="10px">
+      gap="10px"
+    >
       <Typography
         component="h3"
         variant="h5"
         textAlign="right"
         color={color}
         fontSize="18px"
-        fontWeight="semibold">
+        fontWeight="semibold"
+      >
         Register Your Self.
       </Typography>
       <TextField
@@ -42,7 +55,7 @@ function RegisterForm({ register, color }) {
             backgroundColor: 'white',
             borderColor: '#F6F8FD',
             color: 'black',
-            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            fontWeight: '600',
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#F6F8FD',
@@ -56,7 +69,7 @@ function RegisterForm({ register, color }) {
             },
           },
           inputProps: {
-            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+            style: { fontWeight: 600 },
           },
         }}
         id="username"
@@ -79,7 +92,7 @@ function RegisterForm({ register, color }) {
             backgroundColor: 'white',
             borderColor: '#F6F8FD',
             color: 'black',
-            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            fontWeight: '600',
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#F6F8FD',
@@ -93,7 +106,7 @@ function RegisterForm({ register, color }) {
             },
           },
           inputProps: {
-            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+            style: { fontWeight: 600 },
           },
         }}
         id="email"
@@ -115,7 +128,7 @@ function RegisterForm({ register, color }) {
             backgroundColor: 'white',
             borderColor: '#F6F8FD',
             color: 'black',
-            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            fontWeight: '600',
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#F6F8FD',
@@ -129,7 +142,7 @@ function RegisterForm({ register, color }) {
             },
           },
           inputProps: {
-            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+            style: { fontWeight: 600 },
           },
         }}
         name="password"
@@ -145,7 +158,8 @@ function RegisterForm({ register, color }) {
       <Typography
         textAlign="center"
         color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
-        fontSize="12px">
+        fontSize="12px"
+      >
         By signing up, you agree to the Terms of Service and Privacy Policy,
         including Cookie Use.
       </Typography>
@@ -153,7 +167,8 @@ function RegisterForm({ register, color }) {
         type="submit"
         fullWidth
         variant="contained"
-        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
+        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
+      >
         Register
       </Button>
       <Grid container justifyContent="center">
@@ -163,13 +178,15 @@ function RegisterForm({ register, color }) {
             to="/login"
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
-            fontWeight="600">
+            fontWeight="600"
+          >
             Sign In
           </Typography>
           <Typography
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
-            fontWeight="600">
+            fontWeight="600"
+          >
             Or
           </Typography>
           <Typography
@@ -177,7 +194,8 @@ function RegisterForm({ register, color }) {
             to={lastPath === 'user' ? '/register/company' : '/register/user'}
             variant="body2"
             color={lastPath === 'user' ? 'softwhite' : 'softbrown'}
-            fontWeight="600">
+            fontWeight="600"
+          >
             {lastPath === 'user' ? 'Join Official' : 'Join Participant'}
           </Typography>
         </Grid>

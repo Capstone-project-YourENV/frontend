@@ -9,16 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import useInput from '../../hooks/useInput';
 import { Link } from 'react-router-dom';
+import useInput from '../../hooks/useInput';
 
 function LoginForm({ login }) {
-  const [email, onEmailChange] = useInput(
-    localStorage.getItem('comment-email') || '',
-  );
-  const [password, onPasswordChange] = useInput(
-    localStorage.getItem('comment-password') || '',
-  );
+  const [email, onEmailChange] = useInput(localStorage.getItem('comment-email') || '');
+  const [password, onPasswordChange] = useInput(localStorage.getItem('comment-password') || '');
   const rememberCheck = useRef(null);
 
   function remember() {
@@ -37,23 +33,27 @@ function LoginForm({ login }) {
     login(e, { email, password });
   }
 
+  const rememberControl = <Checkbox value="remember" color="success" inputRef={rememberCheck} />;
+
   return (
     <Box
       component="form"
       width="100%"
       noValidate
-      onSubmit={handleSubmit}
+      onSubmit={(e) => handleSubmit(e)}
       sx={{ mt: 5 }}
       display="flex"
       flexDirection="column"
-      gap="10px">
+      gap="10px"
+    >
       <Typography
         component="h3"
         variant="h5"
         textAlign="right"
         color="white"
         fontSize="18px"
-        fontWeight="semibold">
+        fontWeight="semibold"
+      >
         Login to Join Our Community.
       </Typography>
       <TextField
@@ -130,9 +130,7 @@ function LoginForm({ login }) {
         autoComplete="current-password"
       />
       <FormControlLabel
-        control={
-          <Checkbox value="remember" color="success" inputRef={rememberCheck} />
-        }
+        control={rememberControl}
         label="Remember Password"
         sx={{ color: 'white' }}
       />
@@ -140,7 +138,8 @@ function LoginForm({ login }) {
         type="submit"
         fullWidth
         variant="contained"
-        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}>
+        style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
+      >
         Login
       </Button>
       <Grid container justifyContent="center">
@@ -150,7 +149,8 @@ function LoginForm({ login }) {
             to="/"
             variant="body2"
             color="white"
-            fontWeight="600">
+            fontWeight="600"
+          >
             Home
           </Typography>
           <Typography variant="body2" color="white" fontWeight="600">
@@ -161,7 +161,8 @@ function LoginForm({ login }) {
             to="/register/user"
             variant="body2"
             color="white"
-            fontWeight="600">
+            fontWeight="600"
+          >
             Sign Up
           </Typography>
         </Grid>

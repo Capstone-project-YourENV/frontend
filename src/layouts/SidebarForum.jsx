@@ -1,7 +1,6 @@
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@emotion/react';
 
 function SidebarForum({ children }) {
   return (

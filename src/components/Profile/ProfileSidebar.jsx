@@ -20,7 +20,11 @@ function ProfileSidebar({
   onSignOut,
 }) {
   return (
-    <Card>
+    <Card
+      sx={{
+        borderRadius: '12px',
+      }}
+      className="w-full xl:w-[256px] mx-auto">
       <List>
         <ListItem>
           <ListItemAvatar>
