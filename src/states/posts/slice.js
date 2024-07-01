@@ -14,40 +14,29 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     incrementPage: (state) => {
-      const newState = { ...state };
-      newState.page += 1;
-      return newState;
+      state.page += 1;
     },
     resetPosts: (state) => {
-      const newState = { ...state };
-      newState.data = [];
-      newState.page = 1;
-      newState.hasMore = true;
-      return newState;
+      state.data = [];
+      state.page = 1;
+      state.hasMore = true;
     },
     receivePosts: (state, action) => {
-      const newState = { ...state };
-      newState.page = 1;
-      newState.status = 'idle';
-      newState.data = action.payload;
-      return newState;
+      state.page = 1;
+      state.status = 'idle';
+      state.data = action.payload;
     },
     addPost: (state, action) => {
-      const newState = { ...state };
-      newState.data.unshift(action.payload);
-      return newState;
+      state.data.unshift(action.payload);
     },
     deletePost: (state, action) => {
-      const newState = { ...state };
-      newState.data = state.data.filter(
+      state.data = state.data.filter(
         (post) => post.id !== action.payload,
       );
-      return newState;
     },
     addBookmarkPost: {
       reducer(state, action) {
-        const newState = { ...state };
-        newState.data = state.data.map((post) => {
+        state.data = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
@@ -56,17 +45,14 @@ const postSlice = createSlice({
           }
           return post;
         });
-        return newState;
       },
       prepare(postId, user) {
         return { payload: { postId, user } };
       },
     },
-
     removeBookmarkPost: {
       reducer(state, action) {
-        const newState = { ...state };
-        newState.data = state.data.map((post) => {
+        state.data = state.data.map((post) => {
           if (post.id === action.payload.postId) {
             return {
               ...post,
@@ -77,7 +63,6 @@ const postSlice = createSlice({
           }
           return post;
         });
-        return newState;
       },
       prepare(postId, userId) {
         return { payload: { postId, userId } };
@@ -87,23 +72,17 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(asyncForumPostsAndUsers.pending, (state) => {
-        const newState = { ...state };
-        newState.status = 'loading';
-        return newState;
+        state.status = 'loading';
       })
       .addCase(asyncForumPostsAndUsers.fulfilled, (state, action) => {
-        const newState = { ...state };
-        newState.status = 'succeeded';
-        newState.data = [...state.data, ...action.payload.data];
-        newState.hasMore = action.payload.hasMore;
-        newState.page = action.payload.page + 1; // Increment page for next fetch
-        return newState;
+        state.status = 'succeeded';
+        state.data = [...state.data, ...action.payload.data];
+        state.hasMore = action.payload.hasMore;
+        state.page = action.payload.page + 1; // Increment page for next fetch
       })
       .addCase(asyncForumPostsAndUsers.rejected, (state, action) => {
-        const newState = { ...state };
-        newState.status = 'failed';
-        newState.error = action.payload || action.error.message;
-        return newState;
+        state.status = 'failed';
+        state.error = action.payload || action.error.message;
       });
   },
 });
