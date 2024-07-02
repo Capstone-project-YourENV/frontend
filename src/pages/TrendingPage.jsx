@@ -50,7 +50,23 @@ function TrendPage() {
   return (
     <>
       <Navbar />
-      <Container>
+      <Container
+        sx={{
+          mb: {
+            xs: 2,
+            sm: 4,
+            md: 6,
+            lg: 8,
+            xl: 10,
+          },
+          mx: {
+            xs: 0,
+            sm: 0,
+            md: 0,
+            lg: 2,
+            xl: 4,
+          }
+        }}>
         <Box
           sx={{
             display: 'flex',

@@ -82,14 +82,14 @@ export default function Navbar({ authUser, signOut }) {
   return (
     <>
       <AppBar position="sticky" color="softwhite" style={{ zIndex: 200 }}>
-        <Toolbar className="justify-between px-4 max-md:px-2">
+        <Toolbar className="justify-between">
           <Link to="/">
             <Typography
               variant="h6"
               color="green"
               fontWeight="bold"
               className="text-2xl"
-              paddingLeft={isMobile ? '0' : '56px'}>
+            >
               Comment
             </Typography>
           </Link>
@@ -108,7 +108,7 @@ export default function Navbar({ authUser, signOut }) {
           <Grid
             gap="8px"
             className="justify-end hidden md:flex"
-            paddingRight={isTablet ? '0' : '56px'}>
+          >
             {authUser ? (
               <>
                 <IconButton onClick={handleMenuOpen} color="inherit">
