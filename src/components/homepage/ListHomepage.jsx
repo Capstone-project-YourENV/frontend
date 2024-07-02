@@ -24,7 +24,7 @@ function ListHomepage({ title, children }) {
           Lihat Semua
         </Typography>
       </Grid>
-      <Box width="100%">{children}</Box>
+      <Box width="100%" height="400px">{children}</Box>
     </Grid>
   );
 }

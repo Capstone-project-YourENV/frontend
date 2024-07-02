@@ -35,7 +35,7 @@ export default function LoginPage() {
       component="main"
       backgroundColor="softwhite">
       {!isMobile && (
-        <Grid item xs={false} sm={4} md={7} alignContent="center">
+        <Grid item xs={false} sm={false} md={7} alignContent="center">
           <Box
             component="img"
             loading="lazy"
