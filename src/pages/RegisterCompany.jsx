@@ -7,6 +7,7 @@ import Copyright from '../components/Copyright';
 import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 import { asyncRegisterUser } from '../states/users/thunk';
+import registerPicture from '../assets/register-company.svg';
 
 function RegisterCompany() {
   const theme = useTheme();
@@ -51,11 +52,10 @@ function RegisterCompany() {
         <Grid
           item
           xs={false}
-          sm={4}
+          sm={7}
           md={7}
-          alignContent="center"
           sx={{
-            backgroundImage: 'url(https://wallpaperaccess.com/full/643401.jpg)',
+            backgroundImage: `url(${registerPicture})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPosition: 'center',

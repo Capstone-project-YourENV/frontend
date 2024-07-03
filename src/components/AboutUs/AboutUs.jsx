@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar } from '@mui/material';
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/logo.svg';
 
 function AboutUs() {
   return (

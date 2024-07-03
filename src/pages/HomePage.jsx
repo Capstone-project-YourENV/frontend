@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import 'swiper/swiper.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Grid, Typography, Skeleton, useMediaQuery } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Grid, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import homeImage from '../assets/home.png';
+import homeImage from '../assets/home.svg';
 import LayoutHomepage from '../layouts/LayoutHomepage';
 import ListHomepage from '../components/homepage/ListHomepage';
 import VolunteerItem from '../components/homepage/VolunteerItem';
@@ -11,7 +12,6 @@ import EventItem from '../components/homepage/EventItem';
 import NewsItem from '../components/homepage/NewsItem';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useDispatch, useSelector } from 'react-redux';
 import { asyncHomePostsAndUsers } from '../states/shared/thunk';
 
 function HomePage() {
