@@ -7,7 +7,7 @@ import Copyright from '../components/Copyright';
 import RegisterForm from '../components/authentication/RegisterForm';
 import LayoutAuthentication from '../layouts/LayoutAuthentication';
 import { asyncRegisterUser } from '../states/users/thunk';
-import registerPicture from '../assets/register-picture.png';
+import registerPicture from '../assets/register-picture.svg';
 
 function RegisterUser() {
   const theme = useTheme();
