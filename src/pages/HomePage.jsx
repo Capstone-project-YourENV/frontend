@@ -74,7 +74,6 @@ function HomePage() {
           }}>
           <Box
             component="img"
-            loading="lazy"
             src={homeImage}
             alt="Background"
             sx={{

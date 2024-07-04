@@ -5,24 +5,37 @@ import { setAuthUser, unsetAuthUser } from '../authentication/slice';
 
 const asyncRegisterUser = createAsyncThunk(
   'registerUser',
-  async (data, thunkAPI) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await api.register(data);
       notifications.show({
-        title: response.message,
-        description: response.message,
-        type: response.status,
+        title: 'Registration Success',
+        description: 'You have successfully registered',
+        type: 'success',
         color: 'green',
       });
-      return { error: null };
+      return response; // Assuming response contains useful data on success
     } catch (error) {
-      notifications.show({
-        title: error.message,
-        description: error.message,
-        type: error.status,
-        color: 'red',
-      });
-      throw error;
+      if (error.errors && Array.isArray(error.errors)) {
+        // Display a notification for each error message
+        error.errors.forEach((err) => {
+          notifications.show({
+            title: err.msg,
+            description: err.msg,
+            type: 'error',
+            color: 'red',
+          });
+        });
+      } else {
+        // Fallback for unexpected errors
+        notifications.show({
+          title: 'Registration Failed',
+          description: 'An unexpected error occurred during registration.',
+          type: 'error',
+          color: 'red',
+        });
+      }
+      return rejectWithValue(error);
     }
   },
 );

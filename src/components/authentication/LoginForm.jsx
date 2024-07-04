@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Grid,
   TextField,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -16,6 +17,7 @@ function LoginForm({ login }) {
   const [email, onEmailChange] = useInput(localStorage.getItem('comment-email') || '');
   const [password, onPasswordChange] = useInput(localStorage.getItem('comment-password') || '');
   const rememberCheck = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   function remember() {
     if (rememberCheck.current.checked) {
@@ -27,10 +29,12 @@ function LoginForm({ login }) {
     }
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     remember();
-    login(e, { email, password });
+    await login(e, { email, password });
+    setLoading(false);
   }
 
   const rememberControl = <Checkbox value="remember" color="success" inputRef={rememberCheck} />;
@@ -66,7 +70,7 @@ function LoginForm({ login }) {
             backgroundColor: 'white',
             borderColor: '#F6F8FD',
             color: 'black',
-            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            fontWeight: '600',
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#F6F8FD',
@@ -80,7 +84,7 @@ function LoginForm({ login }) {
             },
           },
           inputProps: {
-            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+            style: { fontWeight: 600 },
           },
         }}
         id="email"
@@ -102,7 +106,7 @@ function LoginForm({ login }) {
             backgroundColor: 'white',
             borderColor: '#F6F8FD',
             color: 'black',
-            fontWeight: '600', // Menambahkan font weight 600 pada teks input
+            fontWeight: '600',
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#F6F8FD',
@@ -116,7 +120,7 @@ function LoginForm({ login }) {
             },
           },
           inputProps: {
-            style: { fontWeight: 600 }, // Menambahkan font weight 600 pada teks input
+            style: { fontWeight: 600 },
           },
         }}
         name="password"
@@ -139,8 +143,9 @@ function LoginForm({ login }) {
         fullWidth
         variant="contained"
         style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
+        disabled={loading}
       >
-        Login
+        {loading ? <CircularProgress color="softwhite" size={24} /> : 'Login'}
       </Button>
       <Grid container justifyContent="center">
         <Grid item display="flex" flexDirection="row" gap="10px">

@@ -19,7 +19,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const { error } = await dispatch(asyncSetAuthUser(data));
-      console.log(error);
       if (!error) {
         navigate('/');
       }
