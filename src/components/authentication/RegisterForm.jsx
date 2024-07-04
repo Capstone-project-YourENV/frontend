@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   Grid,
   TextField,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
@@ -18,10 +19,13 @@ function RegisterForm({ register, color }) {
   const location = useLocation();
   const paths = location.pathname.split('/');
   const lastPath = paths[paths.length - 1];
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    register(e, { username, email, password });
+    setLoading(true);
+    await register(e, { username, email, password });
+    setLoading(false);
   };
 
   return (
@@ -168,8 +172,9 @@ function RegisterForm({ register, color }) {
         fullWidth
         variant="contained"
         style={{ borderRadius: 15, height: 56, backgroundColor: '#B99470' }}
+        disabled={loading}
       >
-        Register
+        {loading ? <CircularProgress size={24} /> : 'Register'}
       </Button>
       <Grid container justifyContent="center">
         <Grid item display="flex" flexDirection="row" gap="10px">

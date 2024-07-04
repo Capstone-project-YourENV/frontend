@@ -37,10 +37,8 @@ const api = (() => {
     });
     const responseJson = await response.json();
 
-    const { errors } = responseJson;
-    if (errors) {
-      const errorMessage = errors.map((error) => error.msg).join('\n');
-      throw new Error(errorMessage);
+    if (!response.ok) {
+      throw responseJson;
     }
 
     return responseJson;
@@ -59,10 +57,8 @@ const api = (() => {
     });
     const responseJson = await response.json();
 
-    const { errors } = responseJson;
-    if (errors) {
-      const errorMessage = errors.map((error) => error.msg).join('\n');
-      throw new Error(errorMessage);
+    if (!response.ok) {
+      throw responseJson;
     }
     return responseJson;
   }

@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { notifications } from '@mantine/notifications';
 import api from '../../utils/api';
 import { setAuthUser, unsetAuthUser } from './slice';
-import { notifications } from '@mantine/notifications';
 
 const asyncSetAuthUser = createAsyncThunk(
   'asyncSetAuthUser',
   async (data, thunkAPI) => {
     const { email, password } = data;
-    const { dispatch } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     try {
       const response = await api.login({ email, password });
       api.putAcessToken(response.token);
@@ -18,15 +18,28 @@ const asyncSetAuthUser = createAsyncThunk(
         status: 'success',
         color: 'green',
       });
-      dispatch(setAuthUser(authUser));
+      return dispatch(setAuthUser(authUser));
     } catch (error) {
-      notifications.show({
-        title: error.message,
-        description: error.message,
-        status: 'error',
-        color: 'red',
-      });
-      throw error;
+      if (error.errors && Array.isArray(error.errors)) {
+        // Display a notification for each error message
+        error.errors.forEach((err) => {
+          notifications.show({
+            title: err.msg,
+            description: err.msg,
+            type: 'error',
+            color: 'red',
+          });
+        });
+      } else {
+        // Fallback for unexpected errors
+        notifications.show({
+          title: 'Login Failed',
+          description: 'An unexpected error occurred during registration.',
+          type: 'error',
+          color: 'red',
+        });
+      }
+      return rejectWithValue(error);
     }
   },
 );
