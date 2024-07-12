@@ -12,7 +12,6 @@ import {
   Switch,
   Text,
   TextInput,
-  Textarea,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
@@ -20,6 +19,7 @@ import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { useToggle } from '@mantine/hooks';
 import { useSelector } from 'react-redux';
+import ReactQuill from 'react-quill';
 
 function PostForm({ addPost }) {
   const [category, toggleCategory] = useToggle(['News', 'Event']);
@@ -106,13 +106,17 @@ function PostForm({ addPost }) {
             {...form.getInputProps('title')}
           />
 
-          <Textarea
-            placeholder="Description..."
-            label="Description"
-            autosize
-            minRows={4}
-            {...form.getInputProps('description')}
-          />
+          <div className="description">
+            <Text fs="14px">
+              Description
+            </Text>
+            <ReactQuill
+              theme="snow"
+              placeholder="Description..."
+              value={form.getInputProps('description').value}
+              onChange={form.getInputProps('description').onChange}
+            />
+          </div>
 
           {authUser?.role === 'company' && (
             <Switch
