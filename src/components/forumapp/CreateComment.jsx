@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from '@mantine/form';
-import { Textarea } from '@mantine/core';
+import ReactQuill from 'react-quill';
 
 function CreateComment({ addComment }) {
   const formComment = useForm({
@@ -24,13 +24,10 @@ function CreateComment({ addComment }) {
 
   return (
     <>
-      <Textarea
-        label="Create Comment"
-        autosize
-        minRows={3}
-        placeholder="Write your comment here..."
-        error={formComment.errors.content}
-        {...formComment.getInputProps('content')}
+      <ReactQuill
+        theme="snow"
+        value={formComment.getInputProps('content').value}
+        onChange={formComment.getInputProps('content').onChange}
       />
       <Button variant="contained" color="primary" onClick={handleComment}>
         Submit
