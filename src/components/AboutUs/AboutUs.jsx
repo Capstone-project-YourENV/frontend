@@ -4,7 +4,7 @@ import Logo from '../../assets/logo.svg';
 
 function AboutUs() {
   return (
-    <section className="py-6 px-4  flex flex-wrap items-center ">
+    <section className="py-6 px-4 place-content-center flex flex-wrap items-center ">
       <Avatar
         src={Logo}
         alt="About Us"

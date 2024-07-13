@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from '@mantine/form';
 import ReactQuill from 'react-quill';
+import { Text } from '@mantine/core';
 
 function CreateComment({ addComment }) {
   const formComment = useForm({
@@ -24,12 +25,21 @@ function CreateComment({ addComment }) {
 
   return (
     <>
+      <Text fw={700} size="lg">
+        Comment
+      </Text>
       <ReactQuill
-        theme="snow"
+        theme="bubble"
         value={formComment.getInputProps('content').value}
         onChange={formComment.getInputProps('content').onChange}
+        className="bg-white custom-quill"
       />
-      <Button variant="contained" color="primary" onClick={handleComment}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleComment}
+        sx={{ mt: 2 }}
+      >
         Submit
       </Button>
     </>

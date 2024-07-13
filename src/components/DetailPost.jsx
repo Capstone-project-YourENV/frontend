@@ -29,6 +29,7 @@ import {
   asyncRemoveBookmarkPostDetail,
 } from '../states/postDetail/thunk';
 import { URL_APP_FILE } from '../utils/api';
+import ReactQuill from 'react-quill';
 
 function DetailPost(props) {
   const {
@@ -211,9 +212,7 @@ function DetailPost(props) {
           borderRadius: '10px',
         }}
       >
-        <Typography variant="body1" color="textSecondary">
-          {description && parse(description)}
-        </Typography>
+        <ReactQuill theme="bubble" value={description} readOnly />
 
         {category === 'Event' && lastPath !== 'absent' && (
           <Grid mt={2} display="flex" flexWrap={{ xs: 'wrap', md: 'nowrap' }} justifyContent="space-between" gap={5}>

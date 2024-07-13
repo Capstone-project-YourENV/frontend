@@ -66,7 +66,7 @@ function DetailForumPage() {
             )}
           </>
         ) : (
-          <>
+          <div>
             {postDetail?.owner?.id === authUser?.id &&
               postDetail?.participants?.length > 0 && (
                 <TableParticipant
@@ -74,7 +74,7 @@ function DetailForumPage() {
                   data={postDetail?.participants}
                 />
               )}
-          </>
+          </div>
         )}
       </MainbarForum>
     </LayoutForumApp>
