@@ -11,6 +11,8 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
 import '@mantine/notifications/styles.css';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 import App from './App';
 import './styles/index.css';
 import theme from './styles/ConfigurationMUI';

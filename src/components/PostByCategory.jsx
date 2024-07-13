@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import parse from 'html-react-parser';
 import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../states/posts/thunk';
 import { URL_APP_FILE } from '../utils/api';
+import ReactQuill from 'react-quill';
 
 function AuthorDetails({ name }) {
   return (
@@ -110,18 +111,7 @@ function PostByCategory(props) {
               {formatDate(startDate)} - {formatDate(endDate)}
             </Typography>
           )}
-          <Typography
-            variant="body2"
-            component="p"
-            className="mt-4 font-medium max-md:max-w-full"
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {description && parse(description)}
-          </Typography>
+          <ReactQuill theme="bubble" value={description} readOnly />
           <div className="flex gap-5 pr-20 mt-4 text-base text-gray-700 max-md:flex-wrap max-md:pr-5">
             {category === 'Event' && (
               <Stats registeredCount={participants?.length} maxParticipants={maxParticipants} />

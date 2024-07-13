@@ -5,27 +5,21 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FaUserPlus } from 'react-icons/fa6';
 import parse from 'html-react-parser';
-import { asyncAddBookmarkPost, asyncRemoveBookmarkPost } from '../../states/posts/thunk';
+import {
+  asyncAddBookmarkPost,
+  asyncRemoveBookmarkPost,
+} from '../../states/posts/thunk';
 import ProfileOwner from '../ProfileOwner';
 import ownerShape from '../../types/Owner';
 import { formatDate, postedAt } from '../../utils/date';
 import Bookmark from './Bookmark';
 import { URL_APP_FILE } from '../../utils/api';
+import ReactQuill from 'react-quill';
 
 function Details({ description }) {
   return (
     <Box mt={2}>
-      <Typography
-        variant="body1"
-        color="textSecondary"
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {description && parse(description)}
-      </Typography>
+      <ReactQuill theme="bubble" value={description} readOnly />
     </Box>
   );
 }
@@ -55,7 +49,9 @@ function CardPost(props) {
   const handleBookmark = async (e) => {
     e.preventDefault();
     if (isBookmarkPost) {
-      await dispatch(asyncRemoveBookmarkPost({ postId: id, userId: authUser.id }));
+      await dispatch(
+        asyncRemoveBookmarkPost({ postId: id, userId: authUser.id }),
+      );
     } else {
       await dispatch(asyncAddBookmarkPost(id));
     }
@@ -70,14 +66,12 @@ function CardPost(props) {
             flexDirection="row"
             gap="20px"
             justifyContent="space-between"
-            alignItems="center"
-          >
+            alignItems="center">
             <Typography
               variant="h5"
               fontWeight="bold"
               color="textPrimary"
-              alignSelf="start"
-            >
+              alignSelf="start">
               {title}
             </Typography>
             <Typography variant="body2" color="textSecondary">
@@ -90,8 +84,7 @@ function CardPost(props) {
               variant="body2"
               color="textSecondary"
               mt={1.5}
-              alignSelf="start"
-            >
+              alignSelf="start">
               {formatDate(startDate)} - {formatDate(endDate)}
             </Typography>
           )}
@@ -120,8 +113,7 @@ function CardPost(props) {
             pr={{ xs: 5, md: 20 }}
             mt={2}
             flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-            color="textSecondary"
-          >
+            color="textSecondary">
             {category === 'Event' && (
               <Box display="flex" gap={2} alignItems="center">
                 <FaUserPlus />

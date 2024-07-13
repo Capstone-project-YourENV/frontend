@@ -27,10 +27,17 @@ import { randomId } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import parse from 'html-react-parser';
+import { BookmarkBorder } from '@mui/icons-material';
+import ReactQuill from 'react-quill';
 import useModal from '../../hooks/useModal';
-import { BookmarkBorder, BookmarkOutlined } from '@mui/icons-material';
 
-function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark }) {
+function ButtonMenu({
+  event,
+  editPost,
+  deletePost,
+  handleBookmark,
+  isBookmark,
+}) {
   const [editModal, actionEditModal, setEditModal] = useModal(false);
   const [deleteModal, actionDeleteModal, setDeleteModal] = useModal(false);
   const [loading, setLoading] = useState(false);
@@ -54,7 +61,8 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
     },
 
     validate: {
-      title: (value) => (value.length < 3 ? 'Title must be at least 3 letters' : null),
+      title: (value) =>
+        value.length < 3 ? 'Title must be at least 3 letters' : null,
     },
   });
 
@@ -121,21 +129,22 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
               ) : (
                 <BookmarkBorder style={{ width: '14px', height: '14px' }} />
               )
-            }
-          >
+            }>
             Bookmark
           </Menu.Item>
           <Menu.Item
             onClick={actionEditModal}
-            leftSection={<IconEdit style={{ width: '14px', height: '14px' }} />}
-          >
+            leftSection={
+              <IconEdit style={{ width: '14px', height: '14px' }} />
+            }>
             Edit Post
           </Menu.Item>
           <Menu.Item
             color="red"
             onClick={actionDeleteModal}
-            leftSection={<IconTrash style={{ width: '14px', height: '14px' }} />}
-          >
+            leftSection={
+              <IconTrash style={{ width: '14px', height: '14px' }} />
+            }>
             Delete Post
           </Menu.Item>
         </Menu.Dropdown>
@@ -145,12 +154,10 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
         opened={editModal}
         onClose={actionEditModal}
         title="Edit Post"
-        centered
-      >
+        centered>
         <form
           onSubmit={form.onSubmit((values) => handleSubmit(values))}
-          style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
-        >
+          style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <TextInput
             label="Post Title"
             placeholder="Enter post title"
@@ -158,13 +165,17 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
             key={form.key('title')}
             {...form.getInputProps('title')}
           />
-          <Textarea
-            label="Post Description"
-            placeholder="Enter post description"
-            required
-            key={form.key('description')}
-            {...form.getInputProps('description')}
-          />
+          <div className="description">
+            <Text size="14px" fw={500} mb={5}>
+              Post Description
+            </Text>
+            <ReactQuill
+              value={event.description}
+              onChange={form.getInputProps('description').onChange}
+              theme="snow"
+              placeholder="Enter post description"
+            />
+          </div>
           {event?.category === 'Event' && (
             <>
               <DateInput
@@ -202,9 +213,12 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
             {...form.getInputProps('image')}
             style={{
               borderColor: form.errors.image ? 'red' : undefined,
-            }}
-          >
-            <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+            }}>
+            <Group
+              justify="center"
+              gap="xl"
+              mih={220}
+              style={{ pointerEvents: 'none' }}>
               <Dropzone.Accept>
                 <IconUpload
                   style={{
@@ -241,14 +255,19 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
                   Drag images here or click to select files
                 </Text>
                 <Text size="sm" color="dimmed" inline mt={7}>
-                  Attach as many files as you like, each file should not exceed 5MB
+                  Attach as many files as you like, each file should not exceed
+                  5MB
                 </Text>
               </div>
             </Group>
           </Dropzone>
 
           {form.errors.image && (
-            <Notification color="red" title="Upload Error" disallowClose mt="md">
+            <Notification
+              color="red"
+              title="Upload Error"
+              disallowClose
+              mt="md">
               {form.errors.image}
             </Notification>
           )}
@@ -262,10 +281,14 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
                 borderRadius: '10px',
                 cursor: 'pointer',
               }}
-              boxShadow="xs"
-            >
+              boxShadow="xs">
               <Group>
-                <Avatar src={preview} alt="Profile of Darlene Robertson" size="xl" radius="xl" />
+                <Avatar
+                  src={preview}
+                  alt="Profile of Darlene Robertson"
+                  size="xl"
+                  radius="xl"
+                />
                 <div>
                   <Text size="xl" weight={500}>
                     {fileName}
@@ -275,7 +298,9 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
             </Box>
           )}
           <Group position="center" mt="md">
-            <Button type="submit" style={{ width: '100%', backgroundColor: '#75A47F' }}>
+            <Button
+              type="submit"
+              style={{ width: '100%', backgroundColor: '#75A47F' }}>
               Edit
             </Button>
           </Group>
@@ -286,8 +311,7 @@ function ButtonMenu({ event, editPost, deletePost, handleBookmark, isBookmark })
         opened={deleteModal}
         onClose={actionDeleteModal}
         title="Confirm Deletion"
-        centered
-      >
+        centered>
         <Text>Are you sure you want to delete this post?</Text>
         <Group justify="end" mt="md">
           <Button variant="outline" color="green" onClick={actionDeleteModal}>
