@@ -1,8 +1,8 @@
-// export const URL_APP_FILE = 'https://comment.yourcodeapp.com/assets/';
-export const URL_APP_FILE = 'http://localhost:5000/assets/';
+export const URL_APP_FILE = 'https://comment.yourcodeapp.com/assets/';
+// export const URL_APP_FILE = 'http://localhost:5000/assets/';
 const api = (() => {
-  // export const BASE_URL = 'https://comment.yourcodeapp.com/api';
-  const BASE_URL = 'http://localhost:5000/api';
+  export const BASE_URL = 'https://comment.yourcodeapp.com/api';
+  // const BASE_URL = 'http://localhost:5000/api';
 
   function putAcessToken(token) {
     localStorage.setItem('accessToken', token);
